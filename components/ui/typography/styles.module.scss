@@ -1,0 +1,109 @@
+$fontFamily: 'Rubik';
+
+@mixin fontSettings($size, $weight) {
+  font-size: $size + px;
+  font-weight: $weight;
+}
+
+.base {
+  color: var(--secondary-secondary-dark, #333);
+  font-family: $fontFamily;
+  font-style: normal;
+  line-height: normal;
+}
+
+.RegularReg {
+  @include fontSettings(53, 400);
+  &43 {
+    @include fontSettings(43, 400);
+  }
+  &34 {
+    @include fontSettings(34, 400);
+  }
+  &30 {
+    @include fontSettings(30, 400);
+  }
+  &28 {
+    @include fontSettings(28, 400);
+  }
+  &24 {
+    @include fontSettings(24, 400);
+  }
+  &22 {
+    @include fontSettings(22, 400);
+  }
+  &20 {
+    @include fontSettings(20, 400);
+  }
+  &18 {
+    @include fontSettings(18, 400);
+  }
+  &16 {
+    @include fontSettings(16, 400);
+  }
+  &14 {
+    @include fontSettings(14, 400);
+  }
+  &12 {
+    @include fontSettings(12, 400);
+  }
+  &10 {
+    @include fontSettings(10, 400);
+  }
+  &8 {
+    @include fontSettings(8, 400);
+  }
+}
+
+.MediumMed {
+  &53 {
+    @include fontSettings(53, 500);
+  }
+  &43 {
+    @include fontSettings(43, 500);
+  }
+  &34 {
+    @include fontSettings(34, 500);
+  }
+  &30 {
+    @include fontSettings(30, 500);
+  }
+  &28 {
+    @include fontSettings(28, 500);
+  }
+  &24 {
+    @include fontSettings(24, 500);
+  }
+  &22 {
+    @include fontSettings(22, 500);
+  }
+  &20 {
+    @include fontSettings(20, 500);
+  }
+  &18 {
+    @include fontSettings(18, 500);
+  }
+  &16 {
+    @include fontSettings(16, 500);
+  }
+  &14 {
+    @include fontSettings(14, 500);
+  }
+  &12 {
+    @include fontSettings(12, 500);
+  }
+  &10 {
+    @include fontSettings(10, 500);
+  }
+  &8 {
+    @include fontSettings(8, 500);
+  }
+}
+
+.Body1 {
+  @include fontSettings(14, 300);
+}
+
+.Caption2 {
+  @include fontSettings(10, 300);
+}

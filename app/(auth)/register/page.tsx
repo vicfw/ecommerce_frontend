@@ -11,65 +11,100 @@ import {
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { useRegister } from "./_hook/useRegister";
+import UI_Typography from "@/components/ui/typography/UI_Typography";
 
 const RegisterPage = () => {
   const { get, on } = useRegister();
   return (
     <div className={cn("grid gap-6")}>
       <div className="flex flex-col space-y-2 text-center">
-        <h1 className="text-2xl font-semibold tracking-tight">ساخت اکانت</h1>
-        <p className="text-sm text-muted-foreground">
-          ایمیل خود را برای ساخت اگانت وارد نمایید
-        </p>
+        <UI_Typography variant="Medium/Med18" component="h1">
+          {get.codeView ? "کد تایید را وارد کنید" : "ورود | ثبت‌ نام"}
+        </UI_Typography>
+        <UI_Typography
+          variant="Regular/Reg16"
+          component="p"
+          className="text-sm text-muted-foreground"
+        >
+          {get.codeView
+            ? `کد تایید برای شماره ${get.registerForm.watch(
+                "phoneNumber"
+              )} پیامک شد`
+            : "لطفا شماره موبایل یا ایمیل خود را وارد کنید"}
+        </UI_Typography>
       </div>
-      <Form {...get.form}>
-        <form onSubmit={get.form.handleSubmit(on.onSubmit)}>
-          <div className="grid gap-2">
-            <FormField
-              control={get.form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input placeholder="نام خود را وارد کنید" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={get.form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input placeholder="ایمیل خود را وارد کنید" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={get.form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      type="password"
-                      placeholder="رمز عبور خود را وارد کنید"
-                      {...field}
-                    />
-                  </FormControl>
+      {get.codeView ? (
+        <Form {...get.loginForm} key="login">
+          <form onSubmit={get.loginForm.handleSubmit(on.loginOnSubmit)}>
+            <div className="grid gap-2">
+              <FormField
+                control={get.loginForm.control}
+                name="code"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        className="placeholder:text-lg text-lg"
+                        {...field}
+                        onChange={(e) => {
+                          const value = e.target.value
+                            .replace(/[^0-9]/g, "")
+                            .slice(0, 4);
+                          field.onChange(value);
+                        }}
+                        value={field.value || ""}
+                      />
+                    </FormControl>
 
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type="submit">ثبت نام با ایمیل</Button>
-          </div>
-        </form>
-      </Form>
+                    <FormMessage className="text-base" />
+                  </FormItem>
+                )}
+              />
+
+              <Button type="submit" loading={get.registerUserLoading}>
+                <UI_Typography variant="Regular/Reg16">تایید</UI_Typography>
+              </Button>
+            </div>
+          </form>
+        </Form>
+      ) : (
+        <Form {...get.registerForm} key="register">
+          <form onSubmit={get.registerForm.handleSubmit(on.registerOnSubmit)}>
+            <div className="grid gap-2">
+              <FormField
+                control={get.registerForm.control}
+                name="phoneNumber"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        placeholder="09122222222"
+                        className="placeholder:text-lg text-lg"
+                        {...field}
+                        onChange={(e) => {
+                          const value = e.target.value.replace(/[^0-9]/g, "");
+                          field.onChange(value);
+                        }}
+                        value={field.value || ""}
+                      />
+                    </FormControl>
+
+                    <FormMessage className="text-base" />
+                  </FormItem>
+                )}
+              />
+
+              <Button type="submit" loading={get.registerUserLoading}>
+                <UI_Typography variant="Regular/Reg16">
+                  ثبت نام با ایمیل
+                </UI_Typography>
+              </Button>
+            </div>
+          </form>
+        </Form>
+      )}
     </div>
   );
 };

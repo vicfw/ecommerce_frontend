@@ -1,9 +1,9 @@
-import type { Metadata } from "next";
-import "./globals.css";
-import localFont from "next/font/local";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
+import type { Metadata } from "next";
+import localFont from "next/font/local";
+import "./globals.css";
 
-const yekan = localFont({ src: "./dirooz.ttf" });
+const vazir = localFont({ src: "./Vazir.ttf" });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={yekan.className}>
+      <body className={vazir.className}>
         <ReactQueryProvider>{children}</ReactQueryProvider>
       </body>
     </html>

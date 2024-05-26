@@ -5,15 +5,24 @@ import {
   registerFormSchema,
 } from "@/lib/formSchemas";
 import { UserService } from "@/services/userService";
+import { useGlobalStore } from "@/store/globalStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AxiosError } from "axios";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 
-export const useRegister = () => {
+export const useAuth = () => {
+  // globalStore
+  const { handleUpdateToken, handleUpdateUser } = useGlobalStore();
   const [codeView, setCodeView] = useState(false);
+  const [counterKey, setCounterKey] = useState(0);
+  const [counterFinishedMessage, setCounterFinishedMessage] = useState({
+    message: "",
+    status: "",
+  });
+
   const router = useRouter();
 
   const registerForm = useForm<RegisterFormData>({
@@ -65,16 +74,55 @@ export const useRegister = () => {
     try {
       const {
         data: {
-          data: { token },
+          data: { token, id, phoneNumber },
         },
       } = await loginUser(data);
+
+      // globalState
+      handleUpdateToken(token);
+      handleUpdateUser({ id, phoneNumber });
+
       document.cookie = "jwt" + "=" + (token || "") + "; path=/";
       router.replace("/");
     } catch (e) {}
   };
 
+  const onCountDownComplete = () => {
+    setCounterFinishedMessage({
+      message: "ارسال دوباره کد",
+      status: "pending",
+    });
+  };
+
+  const onCodeResend = async () => {
+    await registerOnSubmit({ phoneNumber: registerForm.watch("phoneNumber") });
+    setCounterFinishedMessage({
+      message: "کد با موفقیت ارسال شد",
+      status: "success",
+    });
+    setCounterKey((prev) => prev + 1);
+  };
+
+  const countDownChildren = ({ remainingTime }: { remainingTime: number }) => {
+    const minutes = Math.floor(remainingTime / 60);
+    const seconds = remainingTime % 60;
+
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`;
+    const formattedSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`;
+
+    return `${formattedMinutes}:${formattedSeconds}`;
+  };
+
   return {
-    get: { registerForm, registerUserLoading, codeView, loginForm },
-    on: { registerOnSubmit, loginOnSubmit },
+    get: {
+      registerForm,
+      registerUserLoading,
+      codeView,
+      loginForm,
+      counterKey,
+      countDownChildren,
+      counterFinishedMessage,
+    },
+    on: { registerOnSubmit, loginOnSubmit, onCountDownComplete, onCodeResend },
   };
 };

@@ -1,12 +1,19 @@
 import UI_Typography from "@/components/ui/typography/UI_Typography";
 import Link from "next/link";
 import { ReactNode } from "react";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 type AuthLayoutProps = {
   children: ReactNode;
 };
 
 const AuthLayout = ({ children }: AuthLayoutProps) => {
+  const jwtCookie = cookies().get("jwt");
+  if (jwtCookie) {
+    redirect("/");
+  }
+
   return (
     <>
       <div className="container relative grid  h-[100dvh] flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">

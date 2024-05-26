@@ -1,11 +1,7 @@
-import {
-  LoginFormBody,
-  LoginFormData,
-  RegisterFormData,
-} from "@/lib/formSchemas";
+import { LoginFormBody, RegisterFormData } from "@/lib/formSchemas";
 import axiosInstance from "./axios";
-import { LoginUserResponse, registerUserResponse } from "./types/userService";
 import { Response } from "./types/config";
+import { LoginUserResponse, registerUserResponse } from "./types/userService";
 
 export class UserService {
   private endpoint = "/users";

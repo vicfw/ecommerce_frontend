@@ -5,6 +5,7 @@ const config = {
   content: [
     "./pages/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
+    "./containers/**/*.{ts,tsx}",
     "./app/**/*.{ts,tsx}",
     "./src/**/*.{ts,tsx}",
   ],
@@ -51,6 +52,12 @@ const config = {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
+        },
+        main: {
+          DEFAULT: "#3f4064",
+        },
+        minor: {
+          DEFAULT: "#81858b",
         },
       },
       borderRadius: {

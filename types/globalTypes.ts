@@ -16,6 +16,9 @@ export type Product = {
   createdAt: string;
   updatedAt: string;
   badges: Badge[];
+  prName: string;
+  enName: string;
+  slug: string;
 };
 
 export type Badge = {

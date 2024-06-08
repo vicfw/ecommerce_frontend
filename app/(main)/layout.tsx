@@ -1,3 +1,4 @@
+import { Container } from "@/components/container/Container";
 import { Header } from "@/components/header/Header";
 import { ReactNode } from "react";
 
@@ -7,7 +8,7 @@ export default function MainLayout({
   return (
     <>
       <Header />
-      {children}
+      <Container component="section">{children}</Container>
     </>
   );
 }

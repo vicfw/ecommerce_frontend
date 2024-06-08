@@ -1,22 +1,10 @@
-import { ProductCard } from "@/components/product-card/ProductCard";
-import { ProductService } from "@/services/productService";
-import React from "react";
-import { ProductList } from "./ProductList";
-import { Container } from "@/components/container/Container";
+import { Product } from "@/types/globalTypes";
+import { ProductListContainer } from "./ProductList";
 
-export const HomeContainer = async () => {
-  const productService = new ProductService();
-  async function getData() {
-    return await productService.getProducts();
-  }
+type HomeContainerProps = {
+  products: Product[];
+};
 
-  const data = await getData();
-
-  console.log(data, "data");
-
-  return (
-    <Container component="section">
-      <ProductList products={data.products} />
-    </Container>
-  );
+export const HomeContainer = async ({ products }: HomeContainerProps) => {
+  return <ProductListContainer products={products} />;
 };

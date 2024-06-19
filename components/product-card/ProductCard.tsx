@@ -1,47 +1,53 @@
+import { Discount } from "@/components/discount/Discount";
+import UI_Typography from "@/components/ui/typography/UI_Typography";
 import { Product } from "@/types/globalTypes";
 import Image from "next/image";
 import { Button } from "../ui/button";
-import UI_Typography from "../ui/typography/UI_Typography";
+import { Price } from "../price/Price";
+import { cn } from "@/lib/utils";
 
 type ProductCardProps = Product;
 
 export const ProductCard = ({
-  name,
+  prName,
   images,
   price,
   discount,
 }: ProductCardProps) => {
   return (
-    <article className="flex flex-col gap-10 border py-3 px-4 rounded-md">
+    <article className="flex flex-col gap-5 border py-3 px-4 rounded-md">
       <div className="flex justify-center items-center">
         <Image src={images[0]} alt="" width={200} height={200} />
       </div>
       <div>
         <UI_Typography
-          className="text-main"
-          variant="Medium/Med16"
+          className="text-main whitespace-nowrap overflow-hidden text-ellipsis"
+          variant="Medium/Med14"
           component="h3"
         >
-          {name}
+          {prName}
         </UI_Typography>
       </div>
-      <div className="flex justify-between items-center">
+      <div
+        className={cn(
+          "flex items-center",
+          discount ? "justify-between" : "justify-end"
+        )}
+      >
+        {discount ? <Discount discount={discount} /> : null}
+        <Price price={price} variant="Medium/Med16" />
+      </div>
+      <div className="flex justify-end">
         {discount ? (
           <UI_Typography
-            variant="Medium/Med12"
-            className="bg-destructive px-2  py-1 rounded-xl text-white"
+            className={cn("text-neutral-400", discount && "line-through")}
+            variant="Regular/Reg14"
           >
-            %{discount}
+            {price.toLocaleString()}
           </UI_Typography>
-        ) : null}
-
-        <UI_Typography
-          className="text-main w-full text-left"
-          variant="Medium/Med16"
-          component="p"
-        >
-          {price.toLocaleString()} تومان
-        </UI_Typography>
+        ) : (
+          <div className="h-[21px]"></div>
+        )}
       </div>
       <div className="flex justify-center items-center">
         <Button>

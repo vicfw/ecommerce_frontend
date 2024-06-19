@@ -4,6 +4,9 @@ import * as Lib from "./lib";
 import UI_Typography from "@/components/ui/typography/UI_Typography";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, Info } from "lucide-react";
+import { Discount } from "@/components/discount/Discount";
+import { calculateDiscountedPrice, cn } from "@/lib/utils";
+import { Price } from "@/components/price/Price";
 
 type ProductDetailProps = {
   product: Product;
@@ -55,7 +58,7 @@ const ProductDetailContainer = async ({ product }: ProductDetailProps) => {
               variant="Regular/Reg14"
               component="p"
             >
-              سر گل
+              سوپر نگین
             </UI_Typography>
           </div>
           {/* specialty */}
@@ -84,7 +87,41 @@ const ProductDetailContainer = async ({ product }: ProductDetailProps) => {
         </div>
         {/* price section */}
         <div className="border border-solid border-1 border-neutral-200 bg-neutral-100 rounded-lg px-[20px] py-[16px]">
-          price
+          <div className="flex flex-col w-full items-end gap-2">
+            <div className="flex gap-3 items-center">
+              {product.discount ? (
+                <>
+                  <UI_Typography
+                    className={cn(
+                      "text-neutral-400",
+                      product.discount && "line-through"
+                    )}
+                    variant="Regular/Reg14"
+                  >
+                    {product.price.toLocaleString()}
+                  </UI_Typography>
+                  <Discount discount={product.discount} />
+                </>
+              ) : null}
+            </div>
+
+            <div>
+              <Price
+                price={calculateDiscountedPrice(
+                  product.price,
+                  product.discount
+                )}
+                variant="Medium/Med18"
+              />
+            </div>
+
+            {/* buy Button */}
+            <Button className="w-full mt-3">
+              <UI_Typography variant="Medium/Med14">
+                افزودن به سبد خرید
+              </UI_Typography>
+            </Button>
+          </div>
         </div>
       </section>
     </main>

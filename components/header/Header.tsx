@@ -1,17 +1,24 @@
 "use client";
+
 import { CART_PAGE_LINK, REGISTER_PAGE_LINK } from "@/constants";
-import { LogIn, PersonStanding, ShoppingBasketIcon } from "lucide-react";
+import {
+  LogIn,
+  PersonStanding,
+  ShoppingBasketIcon,
+  ShoppingCart,
+} from "lucide-react";
 import Link from "next/link";
 import { SearchInput } from "../ui/searchInput";
 import UI_Typography from "../ui/typography/UI_Typography";
 import { useHeader } from "./useHeader";
 import { Container } from "../container/Container";
 
-export const Header = () => {
+const Header = () => {
   const { get, on } = useHeader();
+
   return (
     <Container component="header">
-      <div className="w-full py-3 flex relative z-2">
+      <section className="w-full py-3 flex relative z-2">
         <div className="flex flex-1 items-center grow gap-5">
           <Link href="/">
             <svg
@@ -34,7 +41,7 @@ export const Header = () => {
           </div>
         </div>
         <div className="flex items-center justify-end">
-          {get.token ? (
+          {!get.token ? (
             <div className="flex items-center gap-5">
               <Link
                 href={REGISTER_PAGE_LINK}
@@ -57,13 +64,20 @@ export const Header = () => {
                   خوش آمدید
                 </UI_Typography>
               </div>
-              <Link href={CART_PAGE_LINK} className=" border-r-2 pr-5">
-                <ShoppingBasketIcon className="text-main" />
+              <Link href={CART_PAGE_LINK} className=" border-r-2 pr-5 relative">
+                <ShoppingCart className="text-main" size={30} />
+                <div className="absolute bottom-[-1px] bg-destructive rounded-md w-[15px] h-[15px] flex justify-center items-center p-2">
+                  <span className="text-[12px] text-white">
+                    {get.cartLength}
+                  </span>
+                </div>
               </Link>
             </div>
           )}
         </div>
-      </div>
+      </section>
     </Container>
   );
 };
+
+export default Header;

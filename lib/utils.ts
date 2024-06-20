@@ -22,3 +22,37 @@ export function calculateDiscountedPrice(
 
   return discountedPrice;
 }
+
+const expireDateForCookies = () => {
+  // Set expiration date to 5 years from now
+  const expirationDate = new Date();
+  expirationDate.setFullYear(expirationDate.getFullYear() + 5);
+  return expirationDate;
+};
+
+export const setClientSideCookie = (
+  name: string,
+  value: string | number
+): void => {
+  // Set expiration date to 5 years from now
+  const expirationDate = expireDateForCookies();
+
+  const cookieString = `${encodeURIComponent(name)}=${encodeURIComponent(
+    value
+  )}; expires=${expirationDate.toUTCString()}; path=/`;
+  document.cookie = cookieString;
+};
+
+export const removeClientSideCookie = (name: string): void => {
+  const expirationDate = new Date(0); // Set to epoch time (Thu, 01 Jan 1970 00:00:00 GMT)
+  const cookieString = `${encodeURIComponent(
+    name
+  )}=; expires=${expirationDate.toUTCString()}; path=/`;
+  document.cookie = cookieString;
+};
+
+export function getClientSideCookie(cookieName: string): string | undefined {
+  if (typeof window === "undefined") return;
+  const matches = document.cookie.match(new RegExp(`${cookieName}=([^;]+)`));
+  return matches?.pop();
+}

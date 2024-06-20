@@ -1,3 +1,5 @@
+"use client";
+
 import { Discount } from "@/components/discount/Discount";
 import UI_Typography from "@/components/ui/typography/UI_Typography";
 import { Product } from "@/types/globalTypes";
@@ -5,15 +7,18 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 import { Price } from "../price/Price";
 import { cn } from "@/lib/utils";
+import { useProductCard } from "./useProductCard";
 
 type ProductCardProps = Product;
 
 export const ProductCard = ({
+  id,
   prName,
   images,
   price,
   discount,
 }: ProductCardProps) => {
+  const { get, on } = useProductCard();
   return (
     <article className="flex flex-col gap-5 border py-3 px-4 rounded-md">
       <div className="flex justify-center items-center">
@@ -50,7 +55,12 @@ export const ProductCard = ({
         )}
       </div>
       <div className="flex justify-center items-center">
-        <Button>
+        <Button
+          onClick={(e) => {
+            e.preventDefault();
+            on.handleAddToCart(id);
+          }}
+        >
           <UI_Typography variant="Medium/Med14">
             افزودن به سبد خرید
           </UI_Typography>

@@ -8,6 +8,7 @@ const axiosInstance = (token?: string | undefined) => {
     timeout: 10000,
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
   });
 };

@@ -4,6 +4,7 @@ import {
   loginFormSchema,
   registerFormSchema,
 } from "@/lib/formSchemas";
+import { setClientSideCookie } from "@/lib/utils";
 import { UserService } from "@/services/userService";
 import { useGlobalStore } from "@/store/globalStore";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -82,7 +83,7 @@ export const useAuth = () => {
       handleUpdateToken(token);
       handleUpdateUser({ id, phoneNumber });
 
-      document.cookie = "jwt" + "=" + (token || "") + "; path=/";
+      setClientSideCookie("jwt", token);
       router.replace("/");
     } catch (e) {}
   };

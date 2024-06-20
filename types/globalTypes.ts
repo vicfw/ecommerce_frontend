@@ -28,3 +28,20 @@ export type Badge = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type CartType = {
+  id: number;
+  userId: number;
+  price: number;
+  createdAt: string;
+  updatedAt: string;
+  cartItems: CartItemType[];
+};
+
+export type CartItemType = {
+  id: number;
+  quantity: number;
+  productId: number;
+  cartId: number;
+  product: Product;
+};

@@ -2,6 +2,7 @@ import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { CompositionRoot } from "@/components/composition-root/CompositionRoot";
 
 const vazir = localFont({ src: "./Vazir.ttf" });
 
@@ -18,7 +19,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={vazir.className}>
-        <ReactQueryProvider>{children}</ReactQueryProvider>
+        <ReactQueryProvider>
+          <CompositionRoot />
+          {children}
+        </ReactQueryProvider>
       </body>
     </html>
   );

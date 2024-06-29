@@ -1,24 +1,36 @@
-import { getClientSideCookie } from "@/lib/utils";
 import axiosInstance from "./axios";
-import { CreateCartBody, CreateCartResponse } from "./types/cartService";
+import {
+  CreateAnonCartBody,
+  CreateAnonCartResponse,
+  CreateCartBody,
+  CreateCartResponse,
+} from "./types/cartService";
 import { Response } from "./types/config";
 
 export class CartService {
-  private token;
   private endpoint = "/cart";
   private length = "/length";
-
-  constructor() {
-    this.token = getClientSideCookie("jwt");
-  }
+  private anon = "/anon";
 
   createOrUpdateCart(
     data: CreateCartBody
   ): Promise<Response<CreateCartResponse>> {
-    return axiosInstance(this.token).post(this.endpoint, data);
+    return axiosInstance().post(this.endpoint, data);
   }
 
   getCartLength(): Promise<Response<number>> {
-    return axiosInstance(this.token).get(this.endpoint.concat(this.length));
+    return axiosInstance().get(this.endpoint.concat(this.length));
+  }
+
+  createOrUpdateAnonCart(
+    data: CreateAnonCartBody
+  ): Promise<Response<CreateAnonCartResponse>> {
+    return axiosInstance().post(this.endpoint.concat(this.anon), data);
+  }
+
+  getAnonCartLength(): Promise<Response<number>> {
+    return axiosInstance().get(
+      this.endpoint.concat(this.anon).concat(this.length)
+    );
   }
 }

@@ -8,15 +8,28 @@ import { useQuery } from "react-query";
 
 export const CompositionRoot = () => {
   const token = getClientSideCookie("jwt");
+
   const cartService = new CartService();
   const { handleUpdateCartLength, handleUpdateToken } = useGlobalStore();
 
-  const { data } = useQuery({ queryFn: () => cartService.getCartLength() });
+  useQuery({
+    queryFn: () => cartService.getCartLength(),
+    enabled: Boolean(token),
+    onSuccess: ({ data }) => {
+      handleUpdateCartLength(data.data ?? 0);
+    },
+  });
+  useQuery({
+    queryFn: () => cartService.getAnonCartLength(),
+    enabled: !Boolean(token),
+    onSuccess: ({ data }) => {
+      handleUpdateCartLength(data.data ?? 0);
+    },
+  });
 
   useEffect(() => {
-    handleUpdateCartLength(data?.data.data ?? 0);
     handleUpdateToken(token ?? "");
-  }, [data]);
+  }, [token]);
 
   return null;
 };

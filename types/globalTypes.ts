@@ -38,6 +38,12 @@ export type CartType = {
   cartItems: CartItemType[];
 };
 
+export type AnonCartType = {
+  [P in keyof CartType as Exclude<P, "userId">]: P extends "id"
+    ? string
+    : CartType[P];
+};
+
 export type CartItemType = {
   id: number;
   quantity: number;

@@ -4,7 +4,7 @@ import {
   loginFormSchema,
   registerFormSchema,
 } from "@/lib/formSchemas";
-import { setClientSideCookie } from "@/lib/utils";
+import { removeClientSideCookie, setClientSideCookie } from "@/lib/utils";
 import { UserService } from "@/services/userService";
 import { useGlobalStore } from "@/store/globalStore";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -84,6 +84,8 @@ export const useAuth = () => {
       handleUpdateUser({ id, phoneNumber });
 
       setClientSideCookie("jwt", token);
+      // remove uuid because this user is not anonyms anymore
+      removeClientSideCookie("uuid");
       router.replace("/");
     } catch (e) {}
   };

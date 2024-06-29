@@ -1,4 +1,4 @@
-import { CartType } from "@/types/globalTypes";
+import { AnonCartType, CartType } from "@/types/globalTypes";
 
 export type CreateCartBody = {
   quantity: number;
@@ -6,3 +6,11 @@ export type CreateCartBody = {
 };
 
 export type CreateCartResponse = CartType;
+
+export type CreateAnonCartBody = {
+  quantity: number;
+  productId: number;
+  uuid?: string;
+};
+
+export type CreateAnonCartResponse = AnonCartType;

@@ -1,8 +1,6 @@
 import { GoToCartModal } from "@/components/go-to-cart-modal/GoToCartModal";
 import { ProductCard } from "@/components/product-card/ProductCard";
 import { Product } from "@/types/globalTypes";
-import Link from "next/link";
-import React from "react";
 
 type ProductListProps = {
   products: Product[];

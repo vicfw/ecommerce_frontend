@@ -8,6 +8,7 @@ export default function MainLayout({
   return (
     <>
       <Header />
+      <div className="h-[10px]" />
       <Container component="section">{children}</Container>
     </>
   );

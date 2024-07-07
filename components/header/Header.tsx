@@ -40,7 +40,7 @@ const Header = () => {
             </div>
           </div>
         </div>
-        <div className="flex items-center justify-end">
+        <div className="flex items-center justify-end gap-3">
           {!get.token ? (
             <div className="flex items-center gap-5">
               <Link
@@ -65,8 +65,8 @@ const Header = () => {
           )}
           <Link href={CART_PAGE_LINK} className=" border-r-2 pr-5 relative">
             <ShoppingCart className="text-main" size={30} />
-            <div className="absolute bottom-[-1px] bg-destructive rounded-md w-[15px] h-[15px] flex justify-center items-center p-2">
-              <span className="text-[12px] text-white">{get.cartLength}</span>
+            <div className="absolute bottom-[-1px] bg-destructive rounded-md w-[19px] h-[19px] flex justify-center items-center p-2">
+              <span className="text-[11px] text-white">{get.cartLength}</span>
             </div>
           </Link>
         </div>

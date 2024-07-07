@@ -4,23 +4,30 @@ import { useGlobalStore } from "@/store/globalStore";
 import { X } from "lucide-react";
 import { useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import Image from "next/image";
+import UI_Typography from "../ui/typography/UI_Typography";
+import { Button } from "../ui/button";
+import Link from "next/link";
 
 type GoToCartModalProps = {};
 
 export const GoToCartModal = (props: GoToCartModalProps) => {
   const {} = props;
-  const { goToCartModal, handleUpdateGoToCartModal } = useGlobalStore();
+  const {
+    goToCartModal: { data: cartData, open: openModal },
+    handleUpdateGoToCartModal,
+  } = useGlobalStore();
 
   useEffect(() => {
-    // const timeout = setTimeout(() => {
-    //   handleUpdateGoToCartModal(false, undefined);
-    // }, 5000);
-    // return () => clearTimeout(timeout);
-  }, [goToCartModal.open]);
+    const timeout = setTimeout(() => {
+      handleUpdateGoToCartModal(false, undefined);
+    }, 5000);
+    return () => clearTimeout(timeout);
+  }, [openModal]);
 
   return (
     <Dialog
-      open={goToCartModal.open}
+      open={openModal}
       onOpenChange={() => handleUpdateGoToCartModal(false, undefined)}
     >
       <DialogContent>
@@ -28,18 +35,28 @@ export const GoToCartModal = (props: GoToCartModalProps) => {
           <DialogTitle className="flex">
             این کالا به سبد خرید شما اضافه شد
           </DialogTitle>
-          <X style={{ margin: 0 }} size={20} />
+          <X className="cursor-pointer" style={{ margin: 0 }} size={20} />
         </DialogHeader>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          x="0px"
-          y="0px"
-          width="100"
-          height="100"
-          viewBox="0 0 24 24"
-        >
-          <path d="M12 2A10 10 0 1 0 12 22A10 10 0 1 0 12 2Z"></path>
-        </svg>
+        <hr className="bg-neutral-500" />
+        <section className="mt-2 flex items-center gap-2">
+          <Image
+            src={cartData?.product.images[0]!}
+            alt={cartData?.product.name!}
+            width={120}
+            height={120}
+            className="rounded-full"
+          />
+          <UI_Typography variant="Medium/Med14">
+            {cartData?.product.prName}
+          </UI_Typography>
+        </section>
+        <Link href="/cart" className="w-full block">
+          <Button className="w-full">
+            <UI_Typography variant="Medium/Med14">
+              برو به سبد خرید
+            </UI_Typography>
+          </Button>
+        </Link>
       </DialogContent>
     </Dialog>
   );

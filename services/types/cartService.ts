@@ -10,7 +10,8 @@ export type CreateCartResponse = CartType;
 export type CreateAnonCartBody = {
   quantity: number;
   productId: number;
-  uuid?: string;
 };
 
 export type CreateAnonCartResponse = AnonCartType;
+
+export type GetAnonCartResponse = AnonCartType;

@@ -1,21 +1,24 @@
-import UI_Typography from "@/components/ui/typography/UI_Typography";
+"use client";
+
+import { useGlobalStore } from "@/store/globalStore";
 import * as Lib from "./lib";
 
 const CartContainer = () => {
+  const { cartLength } = useGlobalStore();
+  const { get, on } = Lib.useCart();
+
+  if (!cartLength || !get.cartData?.cartItems.length)
+    return <Lib.C.EmptyCart />;
+
   return (
-    <section className="w-full">
-      {/* empty cart */}
-      <div className="w-full flex flex-col items-center gap-4 border-1 border-neutral-200 border rounded-md py-3 pb-12">
-        <div>
-          <Lib.I.EmptyBasket />
-        </div>
-        <UI_Typography variant="Medium/Med18" className="text-neutral-800">
-          سبد خرید شما خالی است!
-        </UI_Typography>
-        <UI_Typography variant="Regular/Reg14" className="text-neutral-600">
-          می‌توانید برای مشاهده محصولات بیشتر به صفحات زیر بروید:
-        </UI_Typography>
-      </div>
+    <section className="w-full flex flex-col">
+      {get.cartData?.cartItems.map((cartItem, index) => (
+        <Lib.C.CartItem
+          cartItem={cartItem}
+          isFirstItem={!index}
+          totalPrice={get.cartData?.price!}
+        />
+      ))}
     </section>
   );
 };

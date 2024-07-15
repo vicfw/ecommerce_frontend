@@ -4,6 +4,7 @@ import {
   CreateAnonCartResponse,
   CreateCartBody,
   CreateCartResponse,
+  GetAnonCartResponse,
 } from "./types/cartService";
 import { Response } from "./types/config";
 
@@ -11,6 +12,10 @@ export class CartService {
   private endpoint = "/cart";
   private length = "/length";
   private anon = "/anon";
+
+  getAnonCart(): Promise<Response<GetAnonCartResponse>> {
+    return axiosInstance().get(this.endpoint.concat(this.anon));
+  }
 
   createOrUpdateCart(
     data: CreateCartBody

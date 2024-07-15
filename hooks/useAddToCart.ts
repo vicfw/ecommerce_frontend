@@ -54,7 +54,6 @@ export const useAddToCart = () => {
     const { data } = await addToAnonCart({
       quantity: 1,
       productId,
-      uuid,
     });
     const cartItems = data.data.cartItems;
     if (!uuid) {

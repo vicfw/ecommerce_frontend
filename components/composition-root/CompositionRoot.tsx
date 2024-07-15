@@ -8,20 +8,24 @@ import { useQuery } from "react-query";
 
 export const CompositionRoot = () => {
   const token = getClientSideCookie("jwt");
+  const uuid = getClientSideCookie("uuid");
 
   const cartService = new CartService();
   const { handleUpdateCartLength, handleUpdateToken } = useGlobalStore();
 
   useQuery({
     queryFn: () => cartService.getCartLength(),
+    queryKey: ["cart-length"],
     enabled: Boolean(token),
     onSuccess: ({ data }) => {
       handleUpdateCartLength(data.data ?? 0);
     },
   });
+
   useQuery({
     queryFn: () => cartService.getAnonCartLength(),
-    enabled: !Boolean(token),
+    queryKey: ["anon-cart-length"],
+    enabled: Boolean(uuid),
     onSuccess: ({ data }) => {
       handleUpdateCartLength(data.data ?? 0);
     },

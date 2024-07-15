@@ -9,27 +9,25 @@ import UI_Typography from "../ui/typography/UI_Typography";
 import { Button } from "../ui/button";
 import Link from "next/link";
 
-type GoToCartModalProps = {};
-
-export const GoToCartModal = (props: GoToCartModalProps) => {
-  const {} = props;
+export const GoToCartModal = () => {
   const {
     goToCartModal: { data: cartData, open: openModal },
     handleUpdateGoToCartModal,
   } = useGlobalStore();
 
+  const handleCloseModal = () => {
+    handleUpdateGoToCartModal(false, undefined);
+  };
+
   useEffect(() => {
     const timeout = setTimeout(() => {
-      handleUpdateGoToCartModal(false, undefined);
+      handleCloseModal();
     }, 5000);
     return () => clearTimeout(timeout);
   }, [openModal]);
 
   return (
-    <Dialog
-      open={openModal}
-      onOpenChange={() => handleUpdateGoToCartModal(false, undefined)}
-    >
+    <Dialog open={openModal} onOpenChange={handleCloseModal}>
       <DialogContent>
         <DialogHeader className="flex flex-row justify-between items-center">
           <DialogTitle className="flex">
@@ -50,7 +48,7 @@ export const GoToCartModal = (props: GoToCartModalProps) => {
             {cartData?.product.prName}
           </UI_Typography>
         </section>
-        <Link href="/cart" className="w-full block">
+        <Link href="/cart" className="w-full block" onClick={handleCloseModal}>
           <Button className="w-full">
             <UI_Typography variant="Medium/Med14">
               برو به سبد خرید

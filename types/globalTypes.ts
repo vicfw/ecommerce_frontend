@@ -35,6 +35,7 @@ export type CartType = {
   price: number;
   createdAt: string;
   updatedAt: string;
+  profitFromDiscount: number;
   cartItems: CartItemType[];
 };
 

@@ -97,7 +97,7 @@ export const CartItem = (props: TCartItem) => {
 
         <div className="flex flex-[0.5]">
           <UI_Typography variant="Medium/Med16" className="text-neutral-800">
-            {cartItem.itemPrice.toLocaleString()} ریال
+            {cartItem.itemPrice.toLocaleString()} تومان
           </UI_Typography>
         </div>
         <div>

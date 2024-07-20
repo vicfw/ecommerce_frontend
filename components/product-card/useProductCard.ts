@@ -8,6 +8,7 @@ import {
 } from "@/services/types/cartService";
 import { useGlobalStore } from "@/store/globalStore";
 import { CartItemType } from "@/types/globalTypes";
+import { AxiosError } from "axios";
 import { MouseEvent } from "react";
 import { useMutation } from "react-query";
 
@@ -15,14 +16,39 @@ export const useProductCard = () => {
   const isLoggedIn = Boolean(getClientSideCookie("jwt"));
   const cartService = new CartService();
 
-  const { handleUpdateCartLength, handleUpdateGoToCartModal } =
-    useGlobalStore();
-  const { mutateAsync: addToCart } = useMutation((data: CreateCartBody) =>
-    cartService.createOrUpdateCart(data)
+  const {
+    handleUpdateCartLength,
+    handleUpdateGoToCartModal,
+    handleUpdateAlertModal,
+  } = useGlobalStore();
+  const { mutateAsync: addToCart } = useMutation(
+    (data: CreateCartBody) => cartService.createOrUpdateCart(data),
+    {
+      onError: (err: unknown) => {
+        if (err instanceof AxiosError) {
+          const { cause } = err.response?.data;
+
+          if (cause === "quantity limit") {
+            handleUpdateAlertModal(true, "موجودی این محصول تمام شده است .");
+          }
+        }
+      },
+    }
   );
 
   const { mutateAsync: addToAnonCart } = useMutation(
-    (data: CreateAnonCartBody) => cartService.createOrUpdateAnonCart(data)
+    (data: CreateAnonCartBody) => cartService.createOrUpdateAnonCart(data),
+    {
+      onError: (err: unknown) => {
+        if (err instanceof AxiosError) {
+          const { cause } = err.response?.data;
+
+          if (cause === "quantity limit") {
+            handleUpdateAlertModal(true, "موجودی این محصول تمام شده است .");
+          }
+        }
+      },
+    }
   );
 
   // util functions

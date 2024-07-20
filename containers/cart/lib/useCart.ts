@@ -9,11 +9,20 @@ export const useCart = () => {
 
   const cartService = new CartService();
 
-  const { data: cartData } = useQuery({
+  const { data: anonCartData } = useQuery({
     queryKey: ["get-anon-cart"],
     queryFn: () => cartService.getAnonCart(),
     enabled: !Boolean(token),
   });
 
-  return { get: { cartData: cartData?.data.data }, on: {} };
+  const { data: cartData } = useQuery({
+    queryKey: ["get-cart"],
+    queryFn: () => cartService.getCart(),
+    enabled: Boolean(token),
+  });
+
+  return {
+    get: { cartData: cartData?.data.data ?? anonCartData?.data.data },
+    on: {},
+  };
 };

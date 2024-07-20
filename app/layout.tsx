@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { CompositionRoot } from "@/components/composition-root/CompositionRoot";
+import { AlertModal } from "@/components/alert-modal/AlertModal";
 
 const vazir = localFont({ src: "./Vazir.ttf" });
 
@@ -21,6 +22,7 @@ export default function RootLayout({
       <body className={vazir.className}>
         <ReactQueryProvider>
           <CompositionRoot />
+          <AlertModal />
           {children}
         </ReactQueryProvider>
       </body>

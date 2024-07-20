@@ -5,6 +5,7 @@ import {
   CreateCartBody,
   CreateCartResponse,
   GetAnonCartResponse,
+  GetCartResponse,
 } from "./types/cartService";
 import { Response } from "./types/config";
 
@@ -12,6 +13,10 @@ export class CartService {
   private endpoint = "/cart";
   private length = "/length";
   private anon = "/anon";
+
+  getCart(): Promise<Response<GetCartResponse>> {
+    return axiosInstance().get(this.endpoint);
+  }
 
   getAnonCart(): Promise<Response<GetAnonCartResponse>> {
     return axiosInstance().get(this.endpoint.concat(this.anon));
@@ -36,6 +41,21 @@ export class CartService {
   getAnonCartLength(): Promise<Response<number>> {
     return axiosInstance().get(
       this.endpoint.concat(this.anon).concat(this.length)
+    );
+  }
+
+  deleteCartItem(cartItemId: number): Promise<Response> {
+    return axiosInstance().delete(
+      this.endpoint.concat("/cartItem").concat("/" + cartItemId.toString())
+    );
+  }
+
+  deleteAnonCartItem(cartItemId: number): Promise<Response> {
+    return axiosInstance().delete(
+      this.endpoint
+        .concat(this.anon)
+        .concat("/cartItem")
+        .concat("/" + cartItemId.toString())
     );
   }
 }

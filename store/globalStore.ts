@@ -9,6 +9,10 @@ interface GlobalState {
     open: boolean;
     data: CartItemType | undefined;
   };
+  alertModal: {
+    text: string;
+    open: boolean;
+  };
   handleUpdateUser: (user: User) => void;
   handleUpdateToken: (token: string) => void;
   handleUpdateCartLength: (cartLength: number) => void;
@@ -16,6 +20,7 @@ interface GlobalState {
     state: boolean,
     data: CartItemType | undefined
   ) => void;
+  handleUpdateAlertModal: (state: boolean, text: string) => void;
 }
 
 export const useGlobalStore = create<GlobalState>()((set) => ({
@@ -23,9 +28,12 @@ export const useGlobalStore = create<GlobalState>()((set) => ({
   token: undefined,
   cartLength: 0,
   goToCartModal: { open: false, data: undefined },
+  alertModal: { open: false, text: "" },
   handleUpdateUser: (user) => set(() => ({ user })),
   handleUpdateToken: (token) => set(() => ({ token })),
   handleUpdateCartLength: (cartLength) => set(() => ({ cartLength })),
   handleUpdateGoToCartModal: (state, data) =>
     set(() => ({ goToCartModal: { open: state, data } })),
+  handleUpdateAlertModal: (state, text) =>
+    set(() => ({ alertModal: { open: state, text } })),
 }));

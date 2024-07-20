@@ -2,12 +2,12 @@
 
 import { useGlobalStore } from "@/store/globalStore";
 import { X } from "lucide-react";
-import { useEffect } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 import Image from "next/image";
-import UI_Typography from "../ui/typography/UI_Typography";
-import { Button } from "../ui/button";
 import Link from "next/link";
+import { useEffect } from "react";
+import { Button } from "../ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import UI_Typography from "../ui/typography/UI_Typography";
 
 export const GoToCartModal = () => {
   const {
@@ -33,7 +33,12 @@ export const GoToCartModal = () => {
           <DialogTitle className="flex">
             این کالا به سبد خرید شما اضافه شد
           </DialogTitle>
-          <X className="cursor-pointer" style={{ margin: 0 }} size={20} />
+          <X
+            className="cursor-pointer"
+            style={{ margin: 0 }}
+            size={20}
+            onClick={handleCloseModal}
+          />
         </DialogHeader>
         <hr className="bg-neutral-500" />
         <section className="mt-2 flex items-center gap-2">

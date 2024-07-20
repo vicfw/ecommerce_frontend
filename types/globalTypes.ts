@@ -50,4 +50,5 @@ export type CartItemType = {
   productId: number;
   cartId: number;
   product: Product;
+  itemPrice: number;
 };

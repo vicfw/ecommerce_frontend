@@ -7,6 +7,7 @@ import { ChevronLeft, Info } from "lucide-react";
 import { Discount } from "@/components/discount/Discount";
 import { calculateDiscountedPrice, cn } from "@/lib/utils";
 import { Price } from "@/components/price/Price";
+import { WarrantyText } from "@/components/warranty-text/WarrantyText";
 
 type ProductDetailProps = {
   product: Product;
@@ -121,6 +122,9 @@ const ProductDetailContainer = async ({ product }: ProductDetailProps) => {
                 افزودن به سبد خرید
               </UI_Typography>
             </Button>
+            <div className="w-full mt-2">
+              <WarrantyText />
+            </div>
           </div>
         </div>
       </section>

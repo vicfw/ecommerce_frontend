@@ -1,30 +1,23 @@
 "use-client";
 
 import UI_Typography from "@/components/ui/typography/UI_Typography";
+import { WarrantyText } from "@/components/warranty-text/WarrantyText";
 import { cn } from "@/lib/utils";
 import { useGlobalStore } from "@/store/globalStore";
 import { CartItemType } from "@/types/globalTypes";
-import {
-  GripVertical,
-  Loader,
-  Minus,
-  Plus,
-  ShieldCheck,
-  Trash2,
-} from "lucide-react";
+import { GripVertical, Loader, Minus, Plus, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { useCartItem } from "./useCartItem";
 
 type TCartItem = {
   isFirstItem: boolean;
   cartItem: CartItemType;
-  totalPrice: number;
 };
 
 export const CartItem = (props: TCartItem) => {
-  const { isFirstItem, cartItem, totalPrice } = props;
+  const { isFirstItem, cartItem } = props;
   const { cartLength } = useGlobalStore();
-  const { get, on } = useCartItem();
+  const { get, on } = useCartItem(cartItem.quantity);
   return (
     <div
       className={cn(
@@ -60,15 +53,7 @@ export const CartItem = (props: TCartItem) => {
             <UI_Typography variant="Regular/Reg14" className="text-neutral-800">
               {cartItem.product.prName}
             </UI_Typography>
-            <div className="flex items-center gap-2">
-              <ShieldCheck size="20" className="text-neutral-500" />
-              <UI_Typography
-                variant="Regular/Reg14"
-                className="text-neutral-500"
-              >
-                گارانتی اصالت و سلامت فیزیکی کالا
-              </UI_Typography>
-            </div>
+            <WarrantyText />
           </div>
         </div>
         <div className="flex flex-1  items-center px-2 py-2 border border-neutral-200 h-[40px] rounded-md justify-between max-w-[100px]">
@@ -76,9 +61,9 @@ export const CartItem = (props: TCartItem) => {
             size={18}
             className="text-destructive cursor-pointer"
             onClick={() =>
-              on.handleUpdateCart({
+              on.updateOrCreateCartHandler({
                 productId: cartItem.productId,
-                quantity: cartItem.quantity + 1,
+                increment: true,
               })
             }
           />
@@ -91,15 +76,19 @@ export const CartItem = (props: TCartItem) => {
             </UI_Typography>
           )}
           {cartItem.quantity <= 1 ? (
-            <Trash2 size={18} className="text-destructive cursor-pointer" />
+            <Trash2
+              size={18}
+              className="text-destructive cursor-pointer"
+              onClick={() => on.deleteCartItemHandler(cartItem.id)}
+            />
           ) : (
             <Minus
               size={18}
               className="text-destructive cursor-pointer"
               onClick={() =>
-                on.handleUpdateCart({
+                on.updateOrCreateCartHandler({
                   productId: cartItem.productId,
-                  quantity: cartItem.quantity - 1,
+                  increment: false,
                 })
               }
             />
@@ -108,11 +97,14 @@ export const CartItem = (props: TCartItem) => {
 
         <div className="flex flex-[0.5]">
           <UI_Typography variant="Medium/Med16" className="text-neutral-800">
-            {totalPrice} ریال
+            {cartItem.itemPrice.toLocaleString()} ریال
           </UI_Typography>
         </div>
         <div>
-          <Trash2 className="text-destructive cursor-pointer" />
+          <Trash2
+            className="text-destructive cursor-pointer"
+            onClick={() => on.deleteCartItemHandler(cartItem.id)}
+          />
         </div>
       </section>
     </div>

@@ -13,11 +13,7 @@ const CartContainer = () => {
   return (
     <section className="w-full flex flex-col">
       {get.cartData?.cartItems.map((cartItem, index) => (
-        <Lib.C.CartItem
-          cartItem={cartItem}
-          isFirstItem={!index}
-          totalPrice={get.cartData?.price!}
-        />
+        <Lib.C.CartItem cartItem={cartItem} isFirstItem={!index} />
       ))}
     </section>
   );

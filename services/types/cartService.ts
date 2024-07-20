@@ -1,17 +1,19 @@
 import { AnonCartType, CartType } from "@/types/globalTypes";
 
 export type CreateCartBody = {
-  quantity: number;
+  increment: boolean;
   productId: number;
 };
 
 export type CreateCartResponse = CartType;
 
 export type CreateAnonCartBody = {
-  quantity: number;
+  increment: boolean;
   productId: number;
 };
 
 export type CreateAnonCartResponse = AnonCartType;
+
+export type GetCartResponse = CartType;
 
 export type GetAnonCartResponse = AnonCartType;

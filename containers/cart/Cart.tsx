@@ -33,7 +33,7 @@ const CartContainer = () => {
             جمع سبد خرید
           </UI_Typography>
           <UI_Typography variant="Medium/Med14" className="text-neutral-600">
-            {get.cartData.price.toLocaleString()} تومان
+            {get.cartData.discountPrice.toLocaleString()} تومان
           </UI_Typography>
         </div>
 
@@ -42,10 +42,11 @@ const CartContainer = () => {
             سود شما از خرید
           </UI_Typography>
           <UI_Typography variant="Medium/Med14" className="text-destructive">
-            (28%) {get.cartData.profitFromDiscount.toLocaleString()} تومان
+            {/* (28%) */} {get.cartData.profitFromDiscount.toLocaleString()}{" "}
+            تومان
           </UI_Typography>
         </div>
-        <Button>
+        <Button onClick={on.onConfirmCart}>
           <UI_Typography variant="Medium/Med14">
             تایید و تکمیل سفارش
           </UI_Typography>

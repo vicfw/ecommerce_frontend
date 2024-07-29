@@ -92,7 +92,7 @@ const AuthContainer = () => {
                   {get.counterFinishedMessage.message}
                 </UI_Typography>
               )}
-              <Button type="submit" loading={get.registerUserLoading}>
+              <Button type="submit" loading={get.loginUserLoading}>
                 <UI_Typography variant="Regular/Reg16">تایید</UI_Typography>
               </Button>
             </div>

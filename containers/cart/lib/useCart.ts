@@ -2,10 +2,12 @@
 
 import { getClientSideCookie } from "@/lib/utils";
 import { CartService } from "@/services/cartService";
+import { useRouter } from "next/navigation";
 import { useQuery } from "react-query";
 
 export const useCart = () => {
   const token = getClientSideCookie("jwt");
+  const router = useRouter();
 
   const cartService = new CartService();
 
@@ -21,8 +23,20 @@ export const useCart = () => {
     enabled: Boolean(token),
   });
 
+  const handleConfirmCart = () => {
+    router.push("/shipping");
+  };
+
+  const handleConfirmAnonCart = () => {
+    router.push("/register");
+  };
+
+  const onConfirmCart = () => {
+    token ? handleConfirmCart() : handleConfirmAnonCart();
+  };
+
   return {
     get: { cartData: cartData?.data.data ?? anonCartData?.data.data },
-    on: {},
+    on: { onConfirmCart },
   };
 };

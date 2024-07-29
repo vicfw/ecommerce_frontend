@@ -5,6 +5,8 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+type cookieNames = "jwt" | "uuid";
+
 export function calculateDiscountedPrice(
   originalPrice: number,
   discount: number
@@ -31,7 +33,7 @@ const expireDateForCookies = () => {
 };
 
 export const setClientSideCookie = (
-  name: string,
+  name: cookieNames,
   value: string | number
 ): void => {
   // Set expiration date to 5 years from now
@@ -51,7 +53,9 @@ export const removeClientSideCookie = (name: string): void => {
   document.cookie = cookieString;
 };
 
-export function getClientSideCookie(cookieName: string): string | undefined {
+export function getClientSideCookie(
+  cookieName: cookieNames
+): string | undefined {
   if (typeof window === "undefined") return;
   const matches = document.cookie.match(new RegExp(`${cookieName}=([^;]+)`));
   return matches?.pop();

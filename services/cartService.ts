@@ -58,4 +58,11 @@ export class CartService {
         .concat("/" + cartItemId.toString())
     );
   }
+
+  matchAnonCart(userId: number): Promise<Response<GetCartResponse>> {
+    return axiosInstance().post(
+      this.endpoint.concat(this.anon).concat("/" + "match"),
+      { userId }
+    );
+  }
 }

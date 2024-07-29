@@ -21,6 +21,12 @@ interface GlobalState {
     data: CartItemType | undefined
   ) => void;
   handleUpdateAlertModal: (state: boolean, text: string) => void;
+  // Address
+  address: {
+    openModal: boolean;
+  };
+
+  handleUpdateAddress: ({ openModal }: { openModal: boolean }) => void;
 }
 
 export const useGlobalStore = create<GlobalState>()((set) => ({
@@ -36,4 +42,15 @@ export const useGlobalStore = create<GlobalState>()((set) => ({
     set(() => ({ goToCartModal: { open: state, data } })),
   handleUpdateAlertModal: (state, text) =>
     set(() => ({ alertModal: { open: state, text } })),
+  // Address
+  address: {
+    openModal: false,
+  },
+  handleUpdateAddress: ({ openModal }: { openModal: boolean }) =>
+    set((state) => ({
+      address: {
+        ...state.address,
+        openModal,
+      },
+    })),
 }));

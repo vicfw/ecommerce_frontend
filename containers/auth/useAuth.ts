@@ -4,7 +4,12 @@ import {
   loginFormSchema,
   registerFormSchema,
 } from "@/lib/formSchemas";
-import { removeClientSideCookie, setClientSideCookie } from "@/lib/utils";
+import {
+  getClientSideCookie,
+  removeClientSideCookie,
+  setClientSideCookie,
+} from "@/lib/utils";
+import { CartService } from "@/services/cartService";
 import { UserService } from "@/services/userService";
 import { useGlobalStore } from "@/store/globalStore";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,6 +20,7 @@ import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 
 export const useAuth = () => {
+  const uuid = getClientSideCookie("uuid");
   // globalStore
   const { handleUpdateToken, handleUpdateUser } = useGlobalStore();
   const [codeView, setCodeView] = useState(false);
@@ -35,6 +41,7 @@ export const useAuth = () => {
   });
 
   const userService = new UserService();
+  const cartService = new CartService();
 
   const { mutateAsync: registerUser, isLoading: registerUserLoading } =
     useMutation((data: RegisterFormData) => userService.registerUser(data), {
@@ -64,6 +71,10 @@ export const useAuth = () => {
     }
   );
 
+  const { mutateAsync: matchAnonCart } = useMutation(
+    (data: { userId: number }) => cartService.matchAnonCart(data.userId)
+  );
+
   const registerOnSubmit = async (data: RegisterFormData) => {
     try {
       await registerUser(data);
@@ -83,11 +94,19 @@ export const useAuth = () => {
       handleUpdateToken(token);
       handleUpdateUser({ id, phoneNumber });
 
+      if (uuid) {
+        await handleMatchAnonCart(id);
+      }
+
       setClientSideCookie("jwt", token);
       // remove uuid because this user is not anonyms anymore
       removeClientSideCookie("uuid");
       router.replace("/");
     } catch (e) {}
+  };
+
+  const handleMatchAnonCart = async (userId: number) => {
+    await matchAnonCart({ userId });
   };
 
   const onCountDownComplete = () => {
@@ -99,6 +118,7 @@ export const useAuth = () => {
 
   const onCodeResend = async () => {
     await registerOnSubmit({ phoneNumber: registerForm.watch("phoneNumber") });
+    loginForm.reset();
     setCounterFinishedMessage({
       message: "کد با موفقیت ارسال شد",
       status: "success",
@@ -120,6 +140,7 @@ export const useAuth = () => {
     get: {
       registerForm,
       registerUserLoading,
+      loginUserLoading,
       codeView,
       loginForm,
       counterKey,

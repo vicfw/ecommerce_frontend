@@ -24,9 +24,15 @@ interface GlobalState {
   // Address
   address: {
     openModal: boolean;
+    openCreateModal: boolean;
   };
 
-  handleUpdateAddress: ({ openModal }: { openModal: boolean }) => void;
+  handleOpenAddressModal: ({ openModal }: { openModal: boolean }) => void;
+  handleOpenCreateAddressModal: ({
+    openCreateModal,
+  }: {
+    openCreateModal: boolean;
+  }) => void;
 }
 
 export const useGlobalStore = create<GlobalState>()((set) => ({
@@ -45,12 +51,24 @@ export const useGlobalStore = create<GlobalState>()((set) => ({
   // Address
   address: {
     openModal: false,
+    openCreateModal: false,
   },
-  handleUpdateAddress: ({ openModal }: { openModal: boolean }) =>
+  handleOpenAddressModal: ({ openModal }: { openModal: boolean }) =>
     set((state) => ({
       address: {
         ...state.address,
         openModal,
+      },
+    })),
+  handleOpenCreateAddressModal: ({
+    openCreateModal,
+  }: {
+    openCreateModal: boolean;
+  }) =>
+    set((state) => ({
+      address: {
+        ...state.address,
+        openCreateModal,
       },
     })),
 }));

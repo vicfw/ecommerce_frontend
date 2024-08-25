@@ -1,11 +1,12 @@
 "use client";
 
-import { AddressModal } from "@/components/address-modal/AddressModal";
+import { AddressModal } from "@/components/address-modal/components/AddressModal";
 import { Button } from "@/components/ui/button";
 import UI_Typography from "@/components/ui/typography/UI_Typography";
 import { ChevronLeft, MapPin } from "lucide-react";
 import React from "react";
 import { useShipping } from "./useShipping";
+import CreateAddressModal from "@/components/address-modal/components/CreateAddressModal";
 
 const Shipping = () => {
   const { get, on } = useShipping();
@@ -65,6 +66,7 @@ const Shipping = () => {
       </aside>
 
       {get.openModal && <AddressModal />}
+      {get.openCreateModal && <CreateAddressModal />}
     </section>
   );
 };

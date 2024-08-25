@@ -3,12 +3,12 @@ import { useShallow } from "zustand/react/shallow";
 
 export const useShipping = () => {
   const {
-    address: { openModal },
+    address: { openModal, openCreateModal },
     handleUpdateAddress,
   } = useGlobalStore(
     useShallow((state) => ({
       address: state.address,
-      handleUpdateAddress: state.handleUpdateAddress,
+      handleUpdateAddress: state.handleOpenAddressModal,
     }))
   );
 
@@ -16,5 +16,8 @@ export const useShipping = () => {
     handleUpdateAddress({ openModal: true });
   };
 
-  return { get: { openModal }, on: { handleOpenAddressModal } };
+  return {
+    get: { openModal, openCreateModal },
+    on: { handleOpenAddressModal },
+  };
 };

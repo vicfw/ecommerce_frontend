@@ -19,6 +19,20 @@ const config = {
       },
     },
     extend: {
+      height: {
+        "10dvh": "10dvh",
+        "20dvh": "20dvh",
+        "25dvh": "25dvh",
+        "30dvh": "30dvh",
+        "40dvh": "40dvh",
+        "50dvh": "50dvh",
+        "60dvh": "60dvh",
+        "70dvh": "70dvh",
+        "75dvh": "75dvh",
+        "80dvh": "80dvh",
+        "90dvh": "90dvh",
+        "100dvh": "100dvh",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

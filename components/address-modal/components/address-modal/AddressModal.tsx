@@ -7,10 +7,10 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "../../ui/dialog";
+} from "../../../ui/dialog";
 import Address from "./Address";
-import { useAddressModal } from "../hooks/useAddressModal";
-import UI_Typography from "../../ui/typography/UI_Typography";
+import { useAddressModal } from "../../hooks/useAddressModal";
+import UI_Typography from "../../../ui/typography/UI_Typography";
 
 export const AddressModal = () => {
   const { get, on } = useAddressModal();

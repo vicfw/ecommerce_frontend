@@ -1,6 +1,6 @@
 import { Mail, Smartphone, User, Milestone, ChevronLeft } from "lucide-react";
 import React from "react";
-import UI_Typography from "../../ui/typography/UI_Typography";
+import UI_Typography from "../../../ui/typography/UI_Typography";
 import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
 

@@ -18,9 +18,16 @@ type ComboboxProps = {
   value: string;
   onChange: (value: string) => void;
   data: { value: string; label: string }[];
+  defaultValue?: string;
 };
 
-const Combobox = ({ placeholder, onChange, value, data }: ComboboxProps) => {
+const Combobox = ({
+  placeholder,
+  onChange,
+  value,
+  data,
+  defaultValue,
+}: ComboboxProps) => {
   const [open, setOpen] = React.useState(false);
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -32,9 +39,13 @@ const Combobox = ({ placeholder, onChange, value, data }: ComboboxProps) => {
           className="justify-between w-full"
         >
           {value ? (
-            data.find((dt) => dt.value === value)?.label
+            <UI_Typography variant="Regular/Reg14">
+              {data.find((dt) => dt.value === value)?.label}
+            </UI_Typography>
           ) : (
-            <UI_Typography variant="Regular/Reg14">{placeholder}</UI_Typography>
+            <UI_Typography variant="Regular/Reg14">
+              {defaultValue || placeholder}
+            </UI_Typography>
           )}
           <ChevronsUpDown className="mr-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>

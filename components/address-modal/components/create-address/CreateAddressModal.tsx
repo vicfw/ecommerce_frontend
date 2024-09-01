@@ -11,6 +11,7 @@ import {
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormMessage,
@@ -22,7 +23,9 @@ import UI_Typography from "@/components/ui/typography/UI_Typography";
 import { X } from "lucide-react";
 import { useCreateAddressModal } from "../../hooks/useCreateAddressModal";
 import FieldLabel from "./FieldLabel";
-import { provincesStaticData } from "@/lib/staticData";
+import { citiesStaticData, provincesStaticData } from "@/lib/staticData";
+import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const CreateAddressModal = () => {
   const { get, on } = useCreateAddressModal();
@@ -35,7 +38,9 @@ const CreateAddressModal = () => {
     >
       <DialogContent>
         <DialogHeader className="flex flex-row justify-between items-center">
-          <DialogTitle className="flex">انتخاب آدرس</DialogTitle>
+          <DialogTitle className="flex text-[16px] font-bold">
+            انتخاب آدرس
+          </DialogTitle>
           <X
             className="cursor-pointer"
             style={{ margin: 0 }}
@@ -47,7 +52,7 @@ const CreateAddressModal = () => {
         <Form {...get.form}>
           <form
             onSubmit={get.form.handleSubmit(on.onSubmit)}
-            className="flex flex-col gap-3"
+            className="flex flex-col gap-5"
           >
             {/* Address */}
             <FormField
@@ -75,11 +80,14 @@ const CreateAddressModal = () => {
                 control={get.form.control}
                 name="province"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="w-full">
                     <FieldLabel title="استان" htmlFor="province" />
                     <FormControl>
                       <Combobox
-                        onChange={field.onChange}
+                        onChange={(value: string) => {
+                          field.onChange(value);
+                          get.form.setValue("city", "");
+                        }}
                         value={field.value}
                         placeholder="انتخاب کنید"
                         data={provincesStaticData}
@@ -90,7 +98,161 @@ const CreateAddressModal = () => {
                 )}
               />
               {/* Province end */}
+              {/* City */}
+              <FormField
+                control={get.form.control}
+                name="city"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FieldLabel title="شهر" htmlFor="city" />
+                    <FormControl>
+                      <Combobox
+                        onChange={field.onChange}
+                        value={field.value}
+                        placeholder="انتخاب کنید"
+                        defaultValue={
+                          citiesStaticData[
+                            get.form.watch(
+                              "province"
+                            ) as keyof typeof citiesStaticData
+                          ][0].label
+                        }
+                        data={
+                          citiesStaticData[
+                            get.form.watch(
+                              "province"
+                            ) as keyof typeof citiesStaticData
+                          ] || []
+                        }
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {/* City */}
             </div>
+
+            <div className="flex gap-3">
+              <div className="flex gap-3 flex-1">
+                <FormField
+                  control={get.form.control}
+                  name="plate"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FieldLabel title="پلاک" htmlFor="plate" />
+
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={get.form.control}
+                  name="floor"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FieldLabel title="واحد" htmlFor="floor" />
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="flex-1">
+                <FormField
+                  control={get.form.control}
+                  name="zipCode"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FieldLabel title="کد پستی" htmlFor="zipCode" />
+
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormDescription>
+                        <UI_Typography
+                          className="text-neutral-300"
+                          variant="Regular/Reg12"
+                        >
+                          کد‌پستی باید ۱۰ رقم و بدون خط تیره باشد.
+                        </UI_Typography>
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
+
+            <Separator />
+
+            <div className="flex gap-2 items-center">
+              <Checkbox id="receiver" />
+              <UI_Typography
+                variant="Regular/Reg14"
+                component="label"
+                htmlFor="receiver"
+              >
+                گیرنده سفارش خودم هستم.
+              </UI_Typography>
+            </div>
+
+            <div className="flex items-center gap-3 mt-5">
+              <FormField
+                control={get.form.control}
+                name="receiverName"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FieldLabel title="نام گیرنده" htmlFor="receiverName" />
+
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={get.form.control}
+                name="receiverLastName"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FieldLabel title="نام‌خانوادگی گیرنده" htmlFor="zipCode" />
+
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="flex items-center gap-3">
+              <FormField
+                control={get.form.control}
+                name="receiverPhoneNumber"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FieldLabel
+                      title="شماره موبایل"
+                      htmlFor="receiverPhoneNumber"
+                    />
+
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className="w-full" />
+            </div>
+
             <Button type="submit">
               <UI_Typography variant="Regular/Reg16">ثبت آدرس</UI_Typography>
             </Button>

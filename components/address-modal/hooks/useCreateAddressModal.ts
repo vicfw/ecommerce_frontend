@@ -20,6 +20,20 @@ export const useCreateAddressModal = () => {
 
   const form = useForm<CreateAddressSchemaType>({
     resolver: zodResolver(createAddressSchema),
+    defaultValues: {
+      address: "",
+      street: "",
+      city: "تهران",
+      zipCode: "",
+      province: "تهران",
+      plate: "",
+      floor: "",
+      receiverName: "",
+      receiverLastName: "",
+      receiverPhoneNumber: "",
+      neighborhood: "",
+      isDefault: false,
+    },
   });
 
   console.log(form.formState.errors, "errors");

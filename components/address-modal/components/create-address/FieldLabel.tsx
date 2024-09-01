@@ -2,13 +2,23 @@ import { Label } from "@/components/ui/label";
 import UI_Typography from "@/components/ui/typography/UI_Typography";
 import React from "react";
 
-const FieldLabel = ({ title, htmlFor }: { title: string; htmlFor: string }) => {
+const FieldLabel = ({
+  title,
+  htmlFor,
+  removeStar,
+}: {
+  title: string;
+  htmlFor: string;
+  removeStar?: boolean;
+}) => {
   return (
     <Label htmlFor={htmlFor}>
       <UI_Typography variant="Regular/Reg16">{title}</UI_Typography>
-      <UI_Typography variant="Medium/Med14" className="text-destructive">
-        *
-      </UI_Typography>
+      {!removeStar && (
+        <UI_Typography variant="Regular/Reg16" className="text-destructive">
+          *
+        </UI_Typography>
+      )}
     </Label>
   );
 };

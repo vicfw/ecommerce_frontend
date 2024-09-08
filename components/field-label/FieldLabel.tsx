@@ -13,9 +13,9 @@ const FieldLabel = ({
 }) => {
   return (
     <Label htmlFor={htmlFor}>
-      <UI_Typography variant="Regular/Reg16">{title}</UI_Typography>
+      <UI_Typography variant="Regular/Reg14">{title}</UI_Typography>
       {!removeStar && (
-        <UI_Typography variant="Regular/Reg16" className="text-destructive">
+        <UI_Typography variant="Regular/Reg14" className="text-destructive">
           *
         </UI_Typography>
       )}

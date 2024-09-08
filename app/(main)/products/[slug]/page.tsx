@@ -1,6 +1,5 @@
 import ProductDetailContainer from "@/containers/product-detail/ProductDetail";
 import { ProductService } from "@/services/productService";
-import React from "react";
 
 const productService = new ProductService();
 

@@ -18,3 +18,12 @@ export const createAddressSchema = z.object({
   neighborhood: z.string().min(1, { message: "اینجا را خالی نگذارید" }),
   isDefault: z.boolean().default(false),
 });
+
+export const createUserInfo = z.object({
+  name: z
+    .string({ message: "اینجا را خالی نگذارید" })
+    .min(1, { message: "اینجا را خالی نگذارید" }),
+  lastName: z
+    .string({ message: "اینجا را خالی نگذارید" })
+    .min(1, { message: "اینجا را خالی نگذارید" }),
+});

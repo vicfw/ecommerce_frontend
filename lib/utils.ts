@@ -5,7 +5,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-type cookieNames = "jwt" | "uuid";
+type cookieNames = "jwt" | "uuid" | "userInfo";
 
 export function calculateDiscountedPrice(
   originalPrice: number,

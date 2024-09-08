@@ -22,7 +22,7 @@ import UI_Typography from "@/components/ui/typography/UI_Typography";
 
 import { X } from "lucide-react";
 import { useCreateAddressModal } from "../../hooks/useCreateAddressModal";
-import FieldLabel from "./FieldLabel";
+import FieldLabel from "@/components/field-label/FieldLabel";
 import { citiesStaticData, provincesStaticData } from "@/lib/staticData";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";

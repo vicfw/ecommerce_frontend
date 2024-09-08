@@ -8,3 +8,8 @@ export type LoginUserResponse = {
   phoneNumber: string;
   token: string;
 };
+
+export type UpdateUserBody = {
+  name: string;
+  lastName: string;
+};

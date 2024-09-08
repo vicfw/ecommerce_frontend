@@ -1,7 +1,8 @@
 "use client";
 
-import { getClientSideCookie } from "@/lib/utils";
+import { getClientSideCookie, setClientSideCookie } from "@/lib/utils";
 import { CartService } from "@/services/cartService";
+import { UserService } from "@/services/userService";
 import { useGlobalStore } from "@/store/globalStore";
 import { useEffect } from "react";
 import { useQuery } from "react-query";
@@ -11,6 +12,7 @@ export const CompositionRoot = () => {
   const uuid = getClientSideCookie("uuid");
 
   const cartService = new CartService();
+  const userService = new UserService();
   const { handleUpdateCartLength, handleUpdateToken } = useGlobalStore();
 
   useQuery({
@@ -28,6 +30,15 @@ export const CompositionRoot = () => {
     enabled: Boolean(uuid),
     onSuccess: ({ data }) => {
       handleUpdateCartLength(data.data ?? 0);
+    },
+  });
+
+  useQuery({
+    queryFn: () => userService.getMe(),
+    queryKey: ["me"],
+    enabled: Boolean(token),
+    onSuccess: ({ data }) => {
+      setClientSideCookie("userInfo", JSON.stringify(data.data));
     },
   });
 

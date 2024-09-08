@@ -39,7 +39,7 @@ export const ProductCard = ({
           </div>
           <div
             className={cn(
-              "flex items-center",
+              "flex items-center h-[34.03px]",
               discount ? "justify-between" : "justify-end"
             )}
           >
@@ -55,7 +55,7 @@ export const ProductCard = ({
                 {price.toLocaleString()}
               </UI_Typography>
             ) : (
-              <div className="h-[21px]"></div>
+              <div className="h-[26.03px]"></div>
             )}
           </div>
         </div>

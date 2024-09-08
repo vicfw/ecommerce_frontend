@@ -92,7 +92,7 @@ export const useAuth = () => {
 
       // globalState
       handleUpdateToken(token);
-      handleUpdateUser({ id, phoneNumber });
+      handleUpdateUser({ id, phoneNumber, lastName: "", name: "" });
 
       if (uuid) {
         await handleMatchAnonCart(id);

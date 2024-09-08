@@ -1,6 +1,8 @@
 export type User = {
   id: number;
   phoneNumber: string;
+  name: string;
+  lastName: string;
 };
 
 export type Product = {

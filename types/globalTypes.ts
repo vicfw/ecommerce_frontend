@@ -56,3 +56,19 @@ export type CartItemType = {
   product: Product;
   itemPrice: number;
 };
+
+export type Address = {
+  id: number;
+  address: string;
+  street: string;
+  city: string;
+  province: string;
+  plate: string;
+  floor: string;
+  zipCode: string;
+  isDefault: boolean;
+  receiverName: string;
+  receiverLastName: string;
+  receiverPhoneNumber: string;
+  userId: number;
+};

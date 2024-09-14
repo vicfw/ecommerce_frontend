@@ -6,7 +6,7 @@ import UI_Typography from "@/components/ui/typography/UI_Typography";
 import { ChevronLeft, MapPin } from "lucide-react";
 import React from "react";
 import { useShipping } from "./useShipping";
-import CreateAddressModal from "@/components/address-modal/components/create-address/CreateAddressModal";
+import CreateEditAddressModal from "@/components/address-modal/components/create-edit-address/CreateEditAddressModal";
 
 const Shipping = () => {
   const { get, on } = useShipping();
@@ -66,7 +66,7 @@ const Shipping = () => {
       </aside>
 
       {get.openModal && <AddressModal />}
-      {get.openCreateModal && <CreateAddressModal />}
+      {get.openCreateModal && <CreateEditAddressModal />}
     </section>
   );
 };

@@ -15,7 +15,6 @@ export const createAddressSchema = z.object({
   receiverName: z.string().min(1, { message: "اینجا را خالی نگذارید" }),
   receiverLastName: z.string().min(1, { message: "اینجا را خالی نگذارید" }),
   receiverPhoneNumber: z.string().min(1, { message: "اینجا را خالی نگذارید" }),
-  neighborhood: z.string().min(1, { message: "اینجا را خالی نگذارید" }),
   isDefault: z.boolean().default(false),
 });
 

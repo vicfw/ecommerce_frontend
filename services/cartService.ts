@@ -6,7 +6,7 @@ import {
   CreateCartResponse,
   GetAnonCartResponse,
   GetCartResponse,
-} from "./types/cartService";
+} from "./types/cartService.types";
 import { Response } from "./types/config";
 
 export class CartService {

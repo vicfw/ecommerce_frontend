@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { CompositionRoot } from "@/components/composition-root/CompositionRoot";
 import { AlertModal } from "@/components/alert-modal/AlertModal";
+import { Toaster } from "@/components/ui/toaster";
 
 const vazir = localFont({ src: "./Vazir.ttf" });
 
@@ -23,6 +24,7 @@ export default function RootLayout({
         <ReactQueryProvider>
           <CompositionRoot />
           <AlertModal />
+          <Toaster />
           {children}
         </ReactQueryProvider>
       </body>

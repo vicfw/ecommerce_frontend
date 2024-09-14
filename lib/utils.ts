@@ -1,3 +1,4 @@
+import { User } from "@/types/globalTypes";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -60,3 +61,13 @@ export function getClientSideCookie(
   const matches = document.cookie.match(new RegExp(`${cookieName}=([^;]+)`));
   return matches?.pop();
 }
+
+export const getUserInfoFromCookies = (): Partial<User> | undefined => {
+  const rawUserInfo = getClientSideCookie("userInfo") || "";
+
+  if (!rawUserInfo) return undefined;
+
+  return JSON.parse(
+    decodeURIComponent(rawUserInfo)
+  ) as unknown as Partial<User>;
+};

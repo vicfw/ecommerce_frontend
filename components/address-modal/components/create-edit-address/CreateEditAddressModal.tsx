@@ -21,14 +21,14 @@ import { Textarea } from "@/components/ui/textarea";
 import UI_Typography from "@/components/ui/typography/UI_Typography";
 
 import { X } from "lucide-react";
-import { useCreateAddressModal } from "../../hooks/useCreateAddressModal";
 import FieldLabel from "@/components/field-label/FieldLabel";
 import { citiesStaticData, provincesStaticData } from "@/lib/staticData";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useCreateEditAddressModal } from "../../hooks/useCreateEditAddressModal";
 
-const CreateAddressModal = () => {
-  const { get, on } = useCreateAddressModal();
+const CreateEditAddressModal = () => {
+  const { get, on } = useCreateEditAddressModal();
 
   return (
     <Dialog
@@ -132,7 +132,22 @@ const CreateAddressModal = () => {
               />
               {/* City */}
             </div>
+            <div className="flex">
+              <FormField
+                control={get.form.control}
+                name="street"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FieldLabel title="محله" htmlFor="street" />
 
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
             <div className="flex gap-3">
               <div className="flex gap-3 flex-1">
                 <FormField
@@ -154,7 +169,7 @@ const CreateAddressModal = () => {
                   name="floor"
                   render={({ field }) => (
                     <FormItem>
-                      <FieldLabel title="واحد" htmlFor="floor" />
+                      <FieldLabel title="واحد" htmlFor="floor" removeStar />
                       <FormControl>
                         <Input {...field} />
                       </FormControl>
@@ -192,7 +207,11 @@ const CreateAddressModal = () => {
             <Separator />
 
             <div className="flex gap-2 items-center">
-              <Checkbox id="receiver" />
+              <Checkbox
+                id="receiver"
+                checked={get.isForHimSelf}
+                onCheckedChange={on.handleChangeIsForHimSelf}
+              />
               <UI_Typography
                 variant="Regular/Reg14"
                 component="label"
@@ -263,4 +282,4 @@ const CreateAddressModal = () => {
   );
 };
 
-export default CreateAddressModal;
+export default CreateEditAddressModal;

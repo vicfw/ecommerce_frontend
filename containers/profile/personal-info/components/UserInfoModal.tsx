@@ -91,6 +91,7 @@ export const UserInfoModal = ({
                     get.form.formState.isSubmitting
                   }
                   loading={get.form.formState.isSubmitting}
+                  type="submit"
                 >
                   بررسی اطلاعات
                 </Button>

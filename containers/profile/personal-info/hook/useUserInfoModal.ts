@@ -1,6 +1,6 @@
-import { setClientSideCookie } from "@/lib/utils";
+import { getUserInfoFromCookies, setClientSideCookie } from "@/lib/utils";
 import { createUserInfo } from "@/lib/validations/index.";
-import { UpdateUserBody } from "@/services/types/userService";
+import { UpdateUserBody } from "@/services/types/userService.types";
 import { UserService } from "@/services/userService";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -11,6 +11,8 @@ import { z } from "zod";
 type CreateAddressSchemaType = z.infer<typeof createUserInfo>;
 
 export const useUserInfoModal = () => {
+  const userInfo = getUserInfoFromCookies();
+
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -19,8 +21,8 @@ export const useUserInfoModal = () => {
   const form = useForm<CreateAddressSchemaType>({
     resolver: zodResolver(createUserInfo),
     defaultValues: {
-      name: "",
-      lastName: "",
+      name: userInfo?.name,
+      lastName: userInfo?.lastName,
     },
   });
 

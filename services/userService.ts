@@ -5,7 +5,7 @@ import {
   LoginUserResponse,
   registerUserResponse,
   UpdateUserBody,
-} from "./types/userService";
+} from "./types/userService.types";
 import { User } from "@/types/globalTypes";
 
 export class UserService {

@@ -11,8 +11,13 @@ import {
 import Address from "./Address";
 import { useAddressModal } from "../../hooks/useAddressModal";
 import UI_Typography from "../../../ui/typography/UI_Typography";
+import { Address as AddressType } from "@/types/globalTypes";
 
-export const AddressModal = () => {
+type AddressModalProps = {
+  addresses: AddressType[];
+};
+
+export const AddressModal = ({ addresses }: AddressModalProps) => {
   const { get, on } = useAddressModal();
 
   return (
@@ -49,8 +54,9 @@ export const AddressModal = () => {
           </div>
           {/* address loop */}
           <div className="overflow-y-auto h-[36dvh]">
-            <Address />
-            <Address />
+            {addresses.map((address) => (
+              <Address key={address.id} address={address} />
+            ))}
           </div>
         </section>
       </DialogContent>

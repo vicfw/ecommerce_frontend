@@ -4,6 +4,7 @@ import { useGlobalStore } from "@/store/globalStore";
 import * as Lib from "./lib";
 import UI_Typography from "@/components/ui/typography/UI_Typography";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const CartContainer = () => {
   const { cartLength } = useGlobalStore();
@@ -46,11 +47,13 @@ const CartContainer = () => {
             تومان
           </UI_Typography>
         </div>
-        <Button onClick={on.onConfirmCart}>
-          <UI_Typography variant="Medium/Med14">
-            تایید و تکمیل سفارش
-          </UI_Typography>
-        </Button>
+        <Link href={on.onConfirmCartHref}>
+          <Button>
+            <UI_Typography variant="Medium/Med14">
+              تایید و تکمیل سفارش
+            </UI_Typography>
+          </Button>
+        </Link>
       </aside>
     </section>
   );

@@ -1,13 +1,12 @@
 "use client";
 
-import { getClientSideCookie } from "@/lib/utils";
+import { getClientSideCookie, getUserInfoFromCookies } from "@/lib/utils";
 import { CartService } from "@/services/cartService";
-import { useRouter } from "next/navigation";
 import { useQuery } from "react-query";
 
 export const useCart = () => {
   const token = getClientSideCookie("jwt");
-  const router = useRouter();
+  const userInfo = getUserInfoFromCookies();
 
   const cartService = new CartService();
 
@@ -23,20 +22,15 @@ export const useCart = () => {
     enabled: Boolean(token),
   });
 
-  const handleConfirmCart = () => {
-    router.push("/shipping");
-  };
-
-  const handleConfirmAnonCart = () => {
-    router.push("/register");
-  };
-
-  const onConfirmCart = () => {
-    token ? handleConfirmCart() : handleConfirmAnonCart();
-  };
+  const onConfirmCartHref =
+    token && userInfo?.name && userInfo.lastName
+      ? "/shipping"
+      : !userInfo?.name && !userInfo?.lastName && token
+      ? "/profile/personal-info?identificationForm=true&redirectUrl=/shipping"
+      : "register";
 
   return {
     get: { cartData: cartData?.data.data ?? anonCartData?.data.data },
-    on: { onConfirmCart },
+    on: { onConfirmCartHref },
   };
 };

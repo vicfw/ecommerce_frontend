@@ -6,10 +6,10 @@ import { CreateAddressBody } from "@/services/types/addressService.types";
 import { useGlobalStore } from "@/store/globalStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckedState } from "@radix-ui/react-checkbox";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { z } from "zod";
 import { useShallow } from "zustand/react/shallow";
 
@@ -17,8 +17,8 @@ type CreateAddressSchemaType = z.infer<typeof createAddressSchema>;
 
 export const useCreateEditAddressModal = () => {
   const userInfo = getUserInfoFromCookies();
-  const router = useRouter();
   const { toast } = useToast();
+  const queryClient = useQueryClient();
 
   const {
     address: { openCreateModal },
@@ -54,6 +54,9 @@ export const useCreateEditAddressModal = () => {
       const addressService = new AddressService();
       return addressService.createAddress(data);
     },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["address"] });
+    },
   });
 
   console.log(form.formState.errors, "errors");
@@ -62,7 +65,7 @@ export const useCreateEditAddressModal = () => {
   const onSubmit: SubmitHandler<CreateAddressSchemaType> = async (data) => {
     try {
       await createAddress(data);
-      router.replace("/profile/personal-info");
+      handleOpenCreateAddressModal({ openCreateModal: false });
       toast({
         title: "آدرس جدید با موفقیت ایجاد شد",
         variant: "success",
@@ -98,7 +101,7 @@ export const useCreateEditAddressModal = () => {
    *   which assumes these properties are always defined when isForSelf is true.
    *
    * @example
-   * // Usage within another function
+   *  Usage within another function
    * const handleOrderRecipientChange = (isForSelf: CheckedState) => {
    *   updateReceiverInfo(isForSelf);
    *   // Other logic...
@@ -134,7 +137,7 @@ export const useCreateEditAddressModal = () => {
    *   the receiver status and whether the order is for the user are directly related.
    *
    * @example
-   * // Usage with a toggle component
+   *  Usage with a toggle component
    * <Toggle onCheckedChange={handleChangeIsForHimSelf} />
    */
   const handleChangeIsForHimSelf = (checked: CheckedState) => {

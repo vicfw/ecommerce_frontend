@@ -16,7 +16,7 @@ export const useUserInfoModal = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const redirectUrl = searchParams.get("redirect_url");
+  const redirectUrl = searchParams.get("redirectUrl");
 
   const form = useForm<CreateAddressSchemaType>({
     resolver: zodResolver(createUserInfo),

@@ -6,11 +6,21 @@ import { Response } from "./types/config";
 export class AddressService {
   private endpoint = "/address";
 
-  //   async getAddresses() {
-  //     return fetchData<Product[]>(this.endpoint);
-  //   }
+  async getAddresses(): Promise<Response<Address[]>> {
+    return axiosInstance().get(this.endpoint);
+  }
 
   async createAddress(data: CreateAddressBody): Promise<Response<Address>> {
     return axiosInstance().post(this.endpoint, data);
+  }
+
+  async updateAddress(
+    addressId: number,
+    data: Partial<CreateAddressBody>
+  ): Promise<Response<Address>> {
+    return axiosInstance().patch(
+      this.endpoint.concat("/" + addressId.toString()),
+      data
+    );
   }
 }

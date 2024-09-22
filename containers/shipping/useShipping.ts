@@ -1,10 +1,15 @@
+import { getClientSideCookie } from "@/lib/utils";
 import { AddressService } from "@/services/addressService";
+import { CartService } from "@/services/cartService";
+import { OrderService } from "@/services/oderService";
 import { useGlobalStore } from "@/store/globalStore";
 import { useMemo } from "react";
 import { useQuery } from "react-query";
 import { useShallow } from "zustand/react/shallow";
 
 export const useShipping = () => {
+  const token = getClientSideCookie("jwt");
+
   const {
     address: { openModal, openCreateModal },
     handleUpdateAddress,
@@ -30,6 +35,24 @@ export const useShipping = () => {
     },
   });
 
+  const { data: cartData } = useQuery({
+    queryKey: ["get-cart"],
+    queryFn: () => {
+      const cartService = new CartService();
+      return cartService.getCart();
+    },
+    enabled: Boolean(token),
+  });
+
+  const { data: deliveryCostData } = useQuery({
+    queryKey: ["delivery-cost"],
+    queryFn: () => {
+      const orderService = new OrderService();
+      return orderService.getDeliveryCost();
+    },
+    enabled: Boolean(token),
+  });
+
   const defaultAddress = useMemo(() => {
     return addresses?.data.data.find((address) => address.isDefault);
   }, [addresses]);
@@ -49,6 +72,8 @@ export const useShipping = () => {
       addresses: addresses?.data.data,
       defaultAddress,
       addressLoading,
+      cartData: cartData?.data.data!,
+      deliveryCostData: deliveryCostData?.data.data,
     },
     on: { handleOpenAddressModal, openCreateAddressModalHandler },
   };

@@ -22,7 +22,7 @@ export const useCart = () => {
     enabled: Boolean(token),
   });
 
-  const onConfirmCartHref =
+  const confirmCartHref =
     token && userInfo?.name && userInfo.lastName
       ? "/shipping"
       : !userInfo?.name && !userInfo?.lastName && token
@@ -30,7 +30,10 @@ export const useCart = () => {
       : "register";
 
   return {
-    get: { cartData: cartData?.data.data ?? anonCartData?.data.data },
-    on: { onConfirmCartHref },
+    get: {
+      cartData: cartData?.data.data ?? anonCartData?.data.data,
+      confirmCartHref,
+    },
+    on: {},
   };
 };

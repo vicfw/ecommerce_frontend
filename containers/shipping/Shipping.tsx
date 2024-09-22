@@ -7,6 +7,7 @@ import { ChevronLeft, LoaderPinwheel, MapPin } from "lucide-react";
 import React from "react";
 import { useShipping } from "./useShipping";
 import CreateEditAddressModal from "@/components/address-modal/components/create-edit-address/CreateEditAddressModal";
+import { PriceDetailAside } from "@/components/price-detail-aside/PriceDetailAside";
 
 const Shipping = () => {
   const { get, on } = useShipping();
@@ -93,9 +94,12 @@ const Shipping = () => {
           </div>
         )}
       </div>
-      <aside className="border border-neutral-200 rounded-md w-[300px] px-[20px] py-[10px] flex flex-col gap-6">
-        asd
-      </aside>
+      <PriceDetailAside
+        cartPrice={get.cartData.price}
+        discountPrice={get.cartData.discountPrice}
+        profitFromDiscount={get.cartData.profitFromDiscount}
+        deliveryCost={get.deliveryCostData?.cost}
+      />
 
       {get.openModal && get.addresses?.length && (
         <AddressModal addresses={get.addresses} />

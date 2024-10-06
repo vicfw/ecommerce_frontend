@@ -9,6 +9,7 @@ import { useShallow } from "zustand/react/shallow";
 
 export const useShipping = () => {
   const token = getClientSideCookie("jwt");
+  console.log(token, "token");
 
   const {
     address: { openModal, openCreateModal },
@@ -33,6 +34,7 @@ export const useShipping = () => {
         handleOpenCreateAddressModal({ openCreateModal: true });
       }
     },
+    select: (data) => data,
   });
 
   const { data: cartData } = useQuery({
@@ -42,6 +44,7 @@ export const useShipping = () => {
       return cartService.getCart();
     },
     enabled: Boolean(token),
+    select: (data) => data.data.data,
   });
 
   const { data: deliveryCostData } = useQuery({
@@ -51,6 +54,7 @@ export const useShipping = () => {
       return orderService.getDeliveryCost();
     },
     enabled: Boolean(token),
+    select: (data) => data.data.data,
   });
 
   const defaultAddress = useMemo(() => {
@@ -72,8 +76,8 @@ export const useShipping = () => {
       addresses: addresses?.data.data,
       defaultAddress,
       addressLoading,
-      cartData: cartData?.data.data!,
-      deliveryCostData: deliveryCostData?.data.data,
+      cartData,
+      deliveryCostData,
     },
     on: { handleOpenAddressModal, openCreateAddressModalHandler },
   };

@@ -7,7 +7,16 @@ import { QueryClient, QueryClientProvider } from "react-query";
 
 const queryClient = new QueryClient({
   defaultOptions: {
-    mutations: {},
+    mutations: {
+      onError: (error) => {
+        console.log("error", error);
+        if (error instanceof AxiosError) {
+          if (error.response?.status === 403) {
+            removeClientSideCookie("jwt");
+          }
+        }
+      },
+    },
     queries: {
       retry: false,
       refetchOnWindowFocus: false,

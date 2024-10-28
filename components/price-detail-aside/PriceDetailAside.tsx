@@ -5,6 +5,16 @@ import { Button } from "../ui/button";
 import UI_Typography from "../ui/typography/UI_Typography";
 import { useGlobalStore } from "@/store/globalStore";
 
+type PriceDetailAsideProps = {
+  cartPrice: number;
+  discountPrice: number;
+  profitFromDiscount?: number;
+  deliveryCost?: number;
+  href?: string;
+  onSubmit?: () => void;
+  submitButtonText: string;
+};
+
 export const PriceDetailAside = ({
   cartPrice,
   discountPrice,
@@ -12,19 +22,13 @@ export const PriceDetailAside = ({
   deliveryCost,
   onSubmit,
   href,
-}: {
-  cartPrice: number;
-  discountPrice: number;
-  profitFromDiscount?: number;
-  deliveryCost?: number;
-  href?: string;
-  onSubmit?: () => void;
-}) => {
+  submitButtonText,
+}: PriceDetailAsideProps) => {
   const { cartLength } = useGlobalStore();
 
   const buttonContent = (
     <Button onClick={onSubmit}>
-      <UI_Typography variant="Medium/Med14">تایید و تکمیل سفارش</UI_Typography>
+      <UI_Typography variant="Medium/Med14">{submitButtonText}</UI_Typography>
     </Button>
   );
 

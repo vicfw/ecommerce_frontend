@@ -111,6 +111,8 @@ const Shipping = () => {
           discountPrice={get.cartData.discountPrice}
           profitFromDiscount={get.cartData.profitFromDiscount}
           deliveryCost={get.deliveryCostData?.cost}
+          href="/payment"
+          submitButtonText="تایید و تکمیل سفارش"
         />
       )}
 

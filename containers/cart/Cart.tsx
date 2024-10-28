@@ -27,6 +27,7 @@ const CartContainer = () => {
         discountPrice={get.cartData.discountPrice}
         profitFromDiscount={get.cartData.profitFromDiscount}
         href={get.confirmCartHref}
+        submitButtonText="ثبت"
       />
     </section>
   );

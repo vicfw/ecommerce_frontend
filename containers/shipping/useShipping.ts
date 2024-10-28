@@ -9,7 +9,6 @@ import { useShallow } from "zustand/react/shallow";
 
 export const useShipping = () => {
   const token = getClientSideCookie("jwt");
-  console.log(token, "token");
 
   const {
     address: { openModal, openCreateModal },

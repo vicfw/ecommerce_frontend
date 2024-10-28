@@ -5,7 +5,7 @@ import { CartService } from "@/services/cartService";
 import {
   CreateAnonCartBody,
   CreateCartBody,
-} from "@/services/types/cartService";
+} from "@/services/types/cartService.types";
 import { useGlobalStore } from "@/store/globalStore";
 import { CartItemType } from "@/types/globalTypes";
 import { AxiosError } from "axios";
@@ -21,6 +21,7 @@ export const useProductCard = () => {
     handleUpdateGoToCartModal,
     handleUpdateAlertModal,
   } = useGlobalStore();
+
   const { mutateAsync: addToCart } = useMutation(
     (data: CreateCartBody) => cartService.createOrUpdateCart(data),
     {

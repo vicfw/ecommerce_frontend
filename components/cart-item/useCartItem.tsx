@@ -1,6 +1,6 @@
 import { getClientSideCookie } from "@/lib/utils";
 import { CartService } from "@/services/cartService";
-import { CreateAnonCartBody } from "@/services/types/cartService";
+import { CreateAnonCartBody } from "@/services/types/cartService.types";
 import { useGlobalStore } from "@/store/globalStore";
 import { AxiosError } from "axios";
 import { useMemo } from "react";

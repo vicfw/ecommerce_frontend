@@ -1,7 +1,10 @@
 import { getClientSideCookie } from "@/lib/utils";
 import { CartService } from "@/services/cartService";
 import { OrderService } from "@/services/oderService";
+import { useMemo } from "react";
 import { useQuery } from "react-query";
+import { format } from "date-fns-jalali";
+import { addDays, parseISO } from "date-fns";
 
 export const usePayment = () => {
   const token = getClientSideCookie("jwt");
@@ -26,5 +29,12 @@ export const usePayment = () => {
     select: (data) => data.data.data,
   });
 
-  return { get: { cartData, deliveryCostData }, on: {} };
+  const formattedDeliveryDate = useMemo(() => {
+    if (!cartData) return "";
+    const add2Days = addDays(new Date(), 2);
+    const date = parseISO(add2Days.toISOString());
+    return format(date, "eeee d MMMM");
+  }, [cartData]);
+
+  return { get: { cartData, deliveryCostData, formattedDeliveryDate }, on: {} };
 };

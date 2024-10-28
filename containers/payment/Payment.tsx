@@ -5,7 +5,7 @@ import React from "react";
 import { usePayment } from "./usePayment";
 import UI_Typography from "@/components/ui/typography/UI_Typography";
 import { Checkbox } from "@/components/ui/checkbox";
-import { CreditCard, OctagonAlert } from "lucide-react";
+import { CreditCard, OctagonAlert, Truck } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
@@ -42,6 +42,29 @@ export const PaymentContainer = () => {
             </div>
           </div>
         </div>
+        {/* summary */}
+        <div className="border border-neutral-200 px-[30px] py-[18px]  rounded-md flex flex-col gap-4">
+          <UI_Typography variant="Medium/Med16" className="text-neutral-900">
+            خلاصه سفارش
+          </UI_Typography>
+          <div className="flex items-center mt-5 gap-3">
+            <Truck className="text-red-600" />
+            <UI_Typography variant="Medium/Med14">
+              {get.formattedDeliveryDate}
+            </UI_Typography>
+
+            <div className="bg-neutral-100 px-[8px] rounded-[16px]">
+              <UI_Typography>
+                {get.cartData?.cartItems.length} کالا
+              </UI_Typography>
+            </div>
+          </div>
+          <UI_Typography variant="Regular/Reg12" className="text-neutral-600">
+            ارسال عادی - هزینه ارسال :{" "}
+            {get.deliveryCostData?.cost.toLocaleString()} تومان
+          </UI_Typography>
+        </div>
+        {/* discount code */}
         <div className="border border-neutral-200 px-[30px] py-[18px]  rounded-md flex flex-col gap-4">
           <UI_Typography variant="Medium/Med16" className="text-neutral-900">
             کد تخفیف
@@ -56,12 +79,13 @@ export const PaymentContainer = () => {
               placeholder="اینجا بنویسید"
             />
             <Button>
-              <UI_Typography variant="Regular/Reg14"> ثبت</UI_Typography>
+              <UI_Typography variant="Regular/Reg14">ثبت</UI_Typography>
             </Button>
           </div>
         </div>
-        <div className="border border-neutral-200 px-[30px] py-[18px]  rounded-md flex flex gap-4">
-          <OctagonAlert />
+        {/* information */}
+        <div className="border border-neutral-200 px-[30px] py-[18px]  rounded-md flex gap-4">
+          <OctagonAlert className="text-neutral-500" />
           <UI_Typography variant="Medium/Med14" className="text-neutral-500">
             برای دریافت فاکتور، بعد از دریافت سفارش به حساب کاربری و صفحه جزئیات
             سفارش سر بزنید

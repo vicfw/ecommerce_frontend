@@ -100,6 +100,7 @@ export const PaymentContainer = () => {
           profitFromDiscount={get.cartData.profitFromDiscount}
           deliveryCost={get.deliveryCostData?.cost}
           submitButtonText="پرداخت"
+          onSubmit={on.handleCreateOrder}
           // href="/payment"
         />
       )}

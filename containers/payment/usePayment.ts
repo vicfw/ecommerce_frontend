@@ -2,7 +2,7 @@ import { getClientSideCookie } from "@/lib/utils";
 import { CartService } from "@/services/cartService";
 import { OrderService } from "@/services/oderService";
 import { useMemo } from "react";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { format } from "date-fns-jalali";
 import { addDays, parseISO } from "date-fns";
 
@@ -29,6 +29,23 @@ export const usePayment = () => {
     select: (data) => data.data.data,
   });
 
+  const { mutateAsync: createOrder } = useMutation({
+    mutationFn: () => {
+      const orderService = new OrderService();
+      return orderService.createOrder();
+    },
+    onSuccess: () => {
+      console.log("success");
+    },
+    onError: () => {
+      console.log("error");
+    },
+  });
+
+  const handleCreateOrder = async () => {
+    await createOrder();
+  };
+
   const formattedDeliveryDate = useMemo(() => {
     if (!cartData) return "";
     const add2Days = addDays(new Date(), 2);
@@ -36,5 +53,8 @@ export const usePayment = () => {
     return format(date, "eeee d MMMM");
   }, [cartData]);
 
-  return { get: { cartData, deliveryCostData, formattedDeliveryDate }, on: {} };
+  return {
+    get: { cartData, deliveryCostData, formattedDeliveryDate },
+    on: { handleCreateOrder },
+  };
 };

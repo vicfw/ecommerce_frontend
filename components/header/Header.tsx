@@ -2,6 +2,7 @@
 
 import { CART_PAGE_LINK, REGISTER_PAGE_LINK } from "@/constants";
 import {
+  Loader2,
   LogIn,
   PersonStanding,
   ShoppingBasketIcon,
@@ -41,28 +42,32 @@ const Header = () => {
           </div>
         </div>
         <div className="flex items-center justify-end gap-3">
-          {!get.token ? (
-            <div className="flex items-center gap-5">
-              <Link
-                href={REGISTER_PAGE_LINK}
-                className="border rounded-lg flex items-center py-[8px] px-[16px] gap-2"
-              >
-                <LogIn className="text-main" />
-                <UI_Typography className="text-main" variant="Medium/Med12">
-                  ورود | ثبت نام
-                </UI_Typography>
-              </Link>
+          <div className="flex items-center gap-5">
+            <div className="border rounded-lg flex items-center py-[8px] px-[16px] gap-2 min-w-[135px] min-h-[45px] justify-center">
+              {get.isLoaded ? (
+                get.token ? (
+                  <>
+                    <PersonStanding className="text-main" />
+                    <UI_Typography className="text-main" variant="Medium/Med12">
+                      خوش آمدید
+                    </UI_Typography>
+                  </>
+                ) : (
+                  <Link
+                    href={REGISTER_PAGE_LINK}
+                    className="flex items-center gap-2"
+                  >
+                    <LogIn className="text-main" />
+                    <UI_Typography className="text-main" variant="Medium/Med12">
+                      ورود | ثبت نام
+                    </UI_Typography>
+                  </Link>
+                )
+              ) : (
+                <Loader2 className="animate-spin" />
+              )}
             </div>
-          ) : (
-            <div className="flex items-center gap-5">
-              <div className="border rounded-lg flex items-center py-[8px] px-[16px] gap-2">
-                <PersonStanding className="text-main" />
-                <UI_Typography className="text-main" variant="Medium/Med12">
-                  خوش آمدید
-                </UI_Typography>
-              </div>
-            </div>
-          )}
+          </div>
           <Link href={CART_PAGE_LINK} className=" border-r-2 pr-5 relative">
             <ShoppingCart className="text-main" size={30} />
             <div className="absolute bottom-[-1px] bg-destructive rounded-md w-[19px] h-[19px] flex justify-center items-center p-2">

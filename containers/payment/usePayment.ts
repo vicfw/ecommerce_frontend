@@ -1,10 +1,12 @@
 import { getClientSideCookie } from "@/lib/utils";
 import { CartService } from "@/services/cartService";
 import { OrderService } from "@/services/oderService";
-import { useMemo } from "react";
-import { useMutation, useQuery } from "react-query";
-import { format } from "date-fns-jalali";
+import { PaymentService } from "@/services/paymentService";
+import { Order } from "@/types/globalTypes";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { addDays, parseISO } from "date-fns";
+import { format } from "date-fns-jalali";
+import { useMemo } from "react";
 
 export const usePayment = () => {
   const token = getClientSideCookie("jwt");
@@ -34,16 +36,35 @@ export const usePayment = () => {
       const orderService = new OrderService();
       return orderService.createOrder();
     },
-    onSuccess: () => {
-      console.log("success");
-    },
-    onError: () => {
-      console.log("error");
+  });
+
+  const { mutateAsync: paymentRequest } = useMutation({
+    mutationFn: ({ amount, orderId }: { orderId: number; amount: number }) => {
+      const paymentService = new PaymentService();
+      return paymentService.paymentRequest(amount, orderId);
     },
   });
 
   const handleCreateOrder = async () => {
-    await createOrder();
+    const orderResponse = await createOrder();
+    const order = orderResponse.data.data;
+
+    if (order.id && order.totalAmount) {
+      handlePayment(order);
+    }
+  };
+
+  const handlePayment = async (order: Order) => {
+    const paymentRequestResult = await paymentRequest({
+      amount: order.totalAmount,
+      orderId: order.id,
+    });
+
+    const payment = paymentRequestResult.data.data;
+
+    if (payment.message === "success" && payment.result === 100) {
+      window.location.href = `https://gateway.zibal.ir/start/${payment.trackId}`;
+    }
   };
 
   const formattedDeliveryDate = useMemo(() => {

@@ -2,7 +2,7 @@
 
 import { getClientSideCookie, getUserInfoFromCookies } from "@/lib/utils";
 import { CartService } from "@/services/cartService";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 
 export const useCart = () => {
   const token = getClientSideCookie("jwt");
@@ -14,12 +14,14 @@ export const useCart = () => {
     queryKey: ["get-anon-cart"],
     queryFn: () => cartService.getAnonCart(),
     enabled: !Boolean(token),
+    select: (data) => data.data.data,
   });
 
   const { data: cartData } = useQuery({
     queryKey: ["get-cart"],
     queryFn: () => cartService.getCart(),
     enabled: Boolean(token),
+    select: (data) => data.data.data,
   });
 
   const confirmCartHref =
@@ -31,7 +33,7 @@ export const useCart = () => {
 
   return {
     get: {
-      cartData: cartData?.data.data ?? anonCartData?.data.data,
+      cartData: cartData ?? anonCartData,
       confirmCartHref,
     },
     on: {},

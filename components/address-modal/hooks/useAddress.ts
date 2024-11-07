@@ -2,8 +2,8 @@ import { AddressService } from "@/services/addressService";
 import { Response } from "@/services/types/config";
 import { Address } from "@/types/globalTypes";
 import { CheckedState } from "@radix-ui/react-checkbox";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { useMutation, useQueryClient } from "react-query";
 
 export const useAddress = () => {
   const queryClient = useQueryClient();

@@ -13,11 +13,11 @@ import { CartService } from "@/services/cartService";
 import { UserService } from "@/services/userService";
 import { useGlobalStore } from "@/store/globalStore";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useMutation } from "react-query";
 
 export const useAuth = () => {
   const uuid = getClientSideCookie("uuid");
@@ -43,37 +43,35 @@ export const useAuth = () => {
   const userService = new UserService();
   const cartService = new CartService();
 
-  const { mutateAsync: registerUser, isLoading: registerUserLoading } =
-    useMutation((data: RegisterFormData) => userService.registerUser(data), {
+  const { mutateAsync: registerUser, isPending: registerUserLoading } =
+    useMutation({
+      mutationFn: (data: RegisterFormData) => userService.registerUser(data),
       onError: (err) => {
         if (err instanceof AxiosError) {
           const data = err.response?.data;
-
           registerForm.setError(data.cause.field, { message: data.message });
         }
       },
     });
 
-  const { mutateAsync: loginUser, isLoading: loginUserLoading } = useMutation(
-    (data: LoginFormData) =>
+  const { mutateAsync: loginUser, isPending: loginUserLoading } = useMutation({
+    mutationFn: (data: LoginFormData) =>
       userService.loginUser({
-        code: loginForm.watch("code"),
+        code: data.code,
         phoneNumber: registerForm.watch("phoneNumber"),
       }),
-    {
-      onError: (err) => {
-        if (err instanceof AxiosError) {
-          const data = err.response?.data;
+    onError: (err) => {
+      if (err instanceof AxiosError) {
+        const data = err.response?.data;
+        loginForm.setError(data.cause.field, { message: data.message });
+      }
+    },
+  });
 
-          loginForm.setError(data.cause.field, { message: data.message });
-        }
-      },
-    }
-  );
-
-  const { mutateAsync: matchAnonCart } = useMutation(
-    (data: { userId: number }) => cartService.matchAnonCart(data.userId)
-  );
+  const { mutateAsync: matchAnonCart } = useMutation({
+    mutationFn: (data: { userId: number }) =>
+      cartService.matchAnonCart(data.userId),
+  });
 
   const registerOnSubmit = async (data: RegisterFormData) => {
     try {

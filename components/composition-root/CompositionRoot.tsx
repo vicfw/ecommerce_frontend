@@ -4,8 +4,8 @@ import { getClientSideCookie, setClientSideCookie } from "@/lib/utils";
 import { CartService } from "@/services/cartService";
 import { UserService } from "@/services/userService";
 import { useGlobalStore } from "@/store/globalStore";
+import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { useQuery } from "react-query";
 
 export const CompositionRoot = () => {
   const token = getClientSideCookie("jwt");
@@ -15,32 +15,40 @@ export const CompositionRoot = () => {
   const userService = new UserService();
   const { handleUpdateCartLength, handleUpdateToken } = useGlobalStore();
 
-  useQuery({
+  const { data: cartLengthData } = useQuery({
     queryFn: () => cartService.getCartLength(),
     queryKey: ["cart-length"],
     enabled: Boolean(token),
-    onSuccess: ({ data }) => {
-      handleUpdateCartLength(data.data ?? 0);
-    },
+    select: (res) => res.data.data,
   });
 
-  useQuery({
+  const { data: anonCartLengthData } = useQuery({
     queryFn: () => cartService.getAnonCartLength(),
     queryKey: ["anon-cart-length"],
     enabled: Boolean(uuid),
-    onSuccess: ({ data }) => {
-      handleUpdateCartLength(data.data ?? 0);
-    },
+    select: (res) => res.data.data,
   });
 
-  useQuery({
+  const { data: meData } = useQuery({
     queryFn: () => userService.getMe(),
     queryKey: ["me"],
     enabled: Boolean(token),
-    onSuccess: ({ data }) => {
-      setClientSideCookie("userInfo", JSON.stringify(data.data));
-    },
+    select: (res) => res.data.data,
   });
+
+  useEffect(() => {
+    handleUpdateCartLength(cartLengthData ?? 0);
+  }, [cartLengthData, ,]);
+
+  useEffect(() => {
+    handleUpdateCartLength(anonCartLengthData ?? 0);
+  }, [anonCartLengthData]);
+
+  useEffect(() => {
+    if (meData) {
+      setClientSideCookie("userInfo", JSON.stringify(meData));
+    }
+  }, [meData]);
 
   useEffect(() => {
     handleUpdateToken(token ?? "");

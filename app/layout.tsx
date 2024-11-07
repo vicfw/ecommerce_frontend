@@ -5,6 +5,7 @@ import "./globals.css";
 import { CompositionRoot } from "@/components/composition-root/CompositionRoot";
 import { AlertModal } from "@/components/alert-modal/AlertModal";
 import { Toaster } from "@/components/ui/toaster";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const vazir = localFont({ src: "./Vazir.ttf" });
 
@@ -22,6 +23,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={vazir.className}>
         <ReactQueryProvider>
+          <ReactQueryDevtools initialIsOpen={false} />
           <CompositionRoot />
           <AlertModal />
           <Toaster />

@@ -3,9 +3,9 @@ import { createUserInfo } from "@/lib/validations/index.";
 import { UpdateUserBody } from "@/services/types/userService.types";
 import { UserService } from "@/services/userService";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useMutation } from "react-query";
 import { z } from "zod";
 
 type CreateAddressSchemaType = z.infer<typeof createUserInfo>;

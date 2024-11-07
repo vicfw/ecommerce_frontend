@@ -72,3 +72,14 @@ export type Address = {
   receiverPhoneNumber: string;
   userId: number;
 };
+
+export type Order = {
+  addressId: number;
+  cartId: number;
+  createdAt: string;
+  id: number;
+  status: string;
+  totalAmount: number;
+  updatedAt: string;
+  userId: number;
+};

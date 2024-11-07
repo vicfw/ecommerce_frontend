@@ -2,17 +2,17 @@
 
 import { getClientSideCookie } from "@/lib/utils";
 import { useGlobalStore } from "@/store/globalStore";
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 
 export const useHeader = () => {
   const token = getClientSideCookie("jwt");
-  const [tokenState, setTokenState] = useState("");
+  const [isLoaded, setIsLoaded] = useState(false);
   const { cartLength } = useGlobalStore();
 
   // this code exist because of hydration error https://nextjs.org/docs/messages/react-hydration-error#solution-1-using-useeffect-to-run-on-the-client-only
-  useEffect(() => {
-    setTokenState(token ?? "");
-  }, [token]);
+  useLayoutEffect(() => {
+    setIsLoaded(true);
+  }, []);
 
-  return { get: { token: tokenState, cartLength }, on: {} };
+  return { get: { token, isLoaded, cartLength }, on: {} };
 };

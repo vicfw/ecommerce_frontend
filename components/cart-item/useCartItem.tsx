@@ -2,9 +2,9 @@ import { getClientSideCookie } from "@/lib/utils";
 import { CartService } from "@/services/cartService";
 import { CreateAnonCartBody } from "@/services/types/cartService.types";
 import { useGlobalStore } from "@/store/globalStore";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { useMemo } from "react";
-import { useMutation, useQueryClient } from "react-query";
 
 export const useCartItem = (cartItemQuantity: number) => {
   const token = getClientSideCookie("jwt");
@@ -13,12 +13,12 @@ export const useCartItem = (cartItemQuantity: number) => {
   const { handleUpdateAlertModal, handleUpdateCartLength, cartLength } =
     useGlobalStore();
 
-  const { mutate: updateAnonCartMutation, isLoading: updateAnonCartLoading } =
+  const { mutate: updateAnonCartMutation, isPending: updateAnonCartLoading } =
     useMutation({
       mutationFn: (body: CreateAnonCartBody) =>
         cartService.createOrUpdateAnonCart(body),
       onSuccess: (_, variables) => {
-        queryClient.invalidateQueries({ queryKey: "get-anon-cart" });
+        queryClient.invalidateQueries({ queryKey: ["get-anon-cart"] });
 
         handleUpdateCartLength(
           variables.increment ? cartLength + 1 : cartLength - 1
@@ -37,12 +37,12 @@ export const useCartItem = (cartItemQuantity: number) => {
       },
     });
 
-  const { mutate: updateCartMutation, isLoading: updateCartLoading } =
+  const { mutate: updateCartMutation, isPending: updateCartLoading } =
     useMutation({
       mutationFn: (body: CreateAnonCartBody) =>
         cartService.createOrUpdateCart(body),
       onSuccess: (_, variables) => {
-        queryClient.invalidateQueries({ queryKey: "get-cart" });
+        queryClient.invalidateQueries({ queryKey: ["get-cart"] });
 
         handleUpdateCartLength(
           variables.increment ? cartLength + 1 : cartLength - 1
@@ -61,23 +61,23 @@ export const useCartItem = (cartItemQuantity: number) => {
       },
     });
 
-  const { mutate: deleteAnonCartItem, isLoading: deleteAnonCartItemLoading } =
+  const { mutate: deleteAnonCartItem, isPending: deleteAnonCartItemLoading } =
     useMutation({
       mutationFn: (cartItemId: number) =>
         cartService.deleteAnonCartItem(cartItemId),
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: "get-anon-cart" });
-        queryClient.invalidateQueries({ queryKey: "anon-cart-length" });
+        queryClient.invalidateQueries({ queryKey: ["get-anon-cart"] });
+        queryClient.invalidateQueries({ queryKey: ["anon-cart-length"] });
       },
     });
 
-  const { mutate: deleteCartItem, isLoading: deleteCartItemLoading } =
+  const { mutate: deleteCartItem, isPending: deleteCartItemLoading } =
     useMutation({
       mutationFn: (cartItemId: number) =>
         cartService.deleteCartItem(cartItemId),
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: "get-cart" });
-        queryClient.invalidateQueries({ queryKey: "cart-length" });
+        queryClient.invalidateQueries({ queryKey: ["get-cart"] });
+        queryClient.invalidateQueries({ queryKey: ["cart-length"] });
       },
     });
 

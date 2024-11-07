@@ -8,9 +8,9 @@ import {
 } from "@/services/types/cartService.types";
 import { useGlobalStore } from "@/store/globalStore";
 import { CartItemType } from "@/types/globalTypes";
+import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { MouseEvent } from "react";
-import { useMutation } from "react-query";
 
 export const useProductCard = () => {
   const isLoggedIn = Boolean(getClientSideCookie("jwt"));
@@ -22,35 +22,30 @@ export const useProductCard = () => {
     handleUpdateAlertModal,
   } = useGlobalStore();
 
-  const { mutateAsync: addToCart } = useMutation(
-    (data: CreateCartBody) => cartService.createOrUpdateCart(data),
-    {
-      onError: (err: unknown) => {
-        if (err instanceof AxiosError) {
-          const { cause } = err.response?.data;
-
-          if (cause === "quantity limit") {
-            handleUpdateAlertModal(true, "موجودی این محصول تمام شده است .");
-          }
+  const { mutateAsync: addToCart } = useMutation({
+    mutationFn: (data: CreateCartBody) => cartService.createOrUpdateCart(data),
+    onError: (err: unknown) => {
+      if (err instanceof AxiosError) {
+        const { cause } = err.response?.data;
+        if (cause === "quantity limit") {
+          handleUpdateAlertModal(true, "موجودی این محصول تمام شده است .");
         }
-      },
-    }
-  );
+      }
+    },
+  });
 
-  const { mutateAsync: addToAnonCart } = useMutation(
-    (data: CreateAnonCartBody) => cartService.createOrUpdateAnonCart(data),
-    {
-      onError: (err: unknown) => {
-        if (err instanceof AxiosError) {
-          const { cause } = err.response?.data;
-
-          if (cause === "quantity limit") {
-            handleUpdateAlertModal(true, "موجودی این محصول تمام شده است .");
-          }
+  const { mutateAsync: addToAnonCart } = useMutation({
+    mutationFn: (data: CreateAnonCartBody) =>
+      cartService.createOrUpdateAnonCart(data),
+    onError: (err: unknown) => {
+      if (err instanceof AxiosError) {
+        const { cause } = err.response?.data;
+        if (cause === "quantity limit") {
+          handleUpdateAlertModal(true, "موجودی این محصول تمام شده است .");
         }
-      },
-    }
-  );
+      }
+    },
+  });
 
   // util functions
   const findCart = (

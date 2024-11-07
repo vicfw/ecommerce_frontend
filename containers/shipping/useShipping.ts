@@ -3,8 +3,8 @@ import { AddressService } from "@/services/addressService";
 import { CartService } from "@/services/cartService";
 import { OrderService } from "@/services/oderService";
 import { useGlobalStore } from "@/store/globalStore";
-import { useMemo } from "react";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useMemo } from "react";
 import { useShallow } from "zustand/react/shallow";
 
 export const useShipping = () => {
@@ -28,12 +28,8 @@ export const useShipping = () => {
       const addressService = new AddressService();
       return addressService.getAddresses();
     },
-    onSuccess: (data) => {
-      if (data.data.data.length === 0) {
-        handleOpenCreateAddressModal({ openCreateModal: true });
-      }
-    },
-    select: (data) => data,
+
+    select: (data) => data.data.data,
   });
 
   const { data: cartData } = useQuery({
@@ -57,7 +53,7 @@ export const useShipping = () => {
   });
 
   const defaultAddress = useMemo(() => {
-    return addresses?.data.data.find((address) => address.isDefault);
+    return addresses?.find((address) => address.isDefault);
   }, [addresses]);
 
   const handleOpenAddressModal = () => {
@@ -68,11 +64,17 @@ export const useShipping = () => {
     handleOpenCreateAddressModal({ openCreateModal: true });
   };
 
+  useEffect(() => {
+    if (addresses?.length === 0) {
+      handleOpenCreateAddressModal({ openCreateModal: true });
+    }
+  }, [addresses]);
+
   return {
     get: {
       openModal,
       openCreateModal,
-      addresses: addresses?.data.data,
+      addresses,
       defaultAddress,
       addressLoading,
       cartData,

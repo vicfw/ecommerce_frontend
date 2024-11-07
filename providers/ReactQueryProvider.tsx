@@ -1,9 +1,9 @@
 "use client";
 
 import { removeClientSideCookie } from "@/lib/utils";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { ReactNode } from "react";
-import { QueryClient, QueryClientProvider } from "react-query";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -20,15 +20,15 @@ const queryClient = new QueryClient({
     queries: {
       retry: false,
       refetchOnWindowFocus: false,
-      onError: (error) => {
-        if (error instanceof AxiosError) {
-          if (error.response?.status === 403) {
-            removeClientSideCookie("jwt");
-          }
-        }
-      },
+      // onError: (error) => {
+      //   if (error instanceof AxiosError) {
+      //     if (error.response?.status === 403) {
+      //       removeClientSideCookie("jwt");
+      //     }
+      //   }
+      // },
       staleTime: 1000 * 60 * 5, // 5 minutes
-      keepPreviousData: true,
+      // keepPreviousData: true,
     },
   },
 });

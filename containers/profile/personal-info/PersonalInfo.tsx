@@ -8,6 +8,7 @@ export const PersonalInfo = () => {
 
   return (
     <div>
+      personal Info
       <UserInfoModal
         handleToggleDialog={on.handleToggleOpenUserInfoForm}
         openDialog={get.openUserInfoForm}

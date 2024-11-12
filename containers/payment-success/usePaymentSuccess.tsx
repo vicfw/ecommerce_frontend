@@ -19,5 +19,5 @@ export const usePaymentSuccess = () => {
     },
   });
 
-  return { get: { orderData }, on: {} };
+  return { get: { orderData, orderId }, on: {} };
 };

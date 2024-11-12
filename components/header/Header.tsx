@@ -1,18 +1,12 @@
 "use client";
 
 import { CART_PAGE_LINK, REGISTER_PAGE_LINK } from "@/constants";
-import {
-  Loader2,
-  LogIn,
-  PersonStanding,
-  ShoppingBasketIcon,
-  ShoppingCart,
-} from "lucide-react";
+import { Loader2, LogIn, PersonStanding, ShoppingCart } from "lucide-react";
 import Link from "next/link";
+import { Container } from "../container/Container";
 import { SearchInput } from "../ui/searchInput";
 import UI_Typography from "../ui/typography/UI_Typography";
 import { useHeader } from "./useHeader";
-import { Container } from "../container/Container";
 
 const Header = () => {
   const { get, on } = useHeader();
@@ -64,7 +58,7 @@ const Header = () => {
                   </Link>
                 )
               ) : (
-                <Loader2 className="animate-spin" />
+                <Loader2 className="animate-spin text-neutral-300" />
               )}
             </div>
           </div>

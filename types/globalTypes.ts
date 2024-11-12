@@ -74,12 +74,21 @@ export type Address = {
 };
 
 export type Order = {
-  addressId: number;
-  cartId: number;
-  createdAt: string;
   id: number;
-  status: string;
   totalAmount: number;
+  status: string;
+  createdAt: string;
   updatedAt: string;
-  userId: number;
+  orderItem: OrderItem[];
 };
+
+export type OrderItem = {
+  product: Product;
+};
+
+export enum OrderStatus {
+  PROCESSING = "PROCESSING",
+  DELIVERED = "DELIVERED",
+  RETURNED = "RETURNED",
+  CANCELLED = "CANCELLED",
+}

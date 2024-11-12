@@ -15,4 +15,9 @@ export class OrderService {
   async getOrder(orderId: number): Promise<Response<Order>> {
     return axiosInstance().get(`/order/${orderId}`);
   }
+
+  async getOrders(activeTab: string): Promise<Response<Order[]>> {
+    const searchParam = new URLSearchParams({ status: activeTab });
+    return axiosInstance().get(`/order?${searchParam.toString()}`);
+  }
 }

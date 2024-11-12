@@ -44,7 +44,7 @@ export const ProductCard = ({
             )}
           >
             {discount ? <Discount discount={discount} /> : null}
-            <Price price={price} variant="Medium/Med16" />
+            <Price price={price} discount={discount} variant="Medium/Med16" />
           </div>
           <div className="flex justify-end">
             {discount ? (

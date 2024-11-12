@@ -1,16 +1,8 @@
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 import { PropsWithChildren } from "react";
+import ProfileLayoutComponent from "@/components/layouts/profile-layout/ProfileLayout";
 
 const ProfileLayout = async ({ children }: PropsWithChildren) => {
-  const cookieStore = cookies();
-  const token = cookieStore.get("jwt");
-
-  if (!token) {
-    redirect("/register");
-  }
-
-  return children;
+  return <ProfileLayoutComponent>{children}</ProfileLayoutComponent>;
 };
 
 export default ProfileLayout;

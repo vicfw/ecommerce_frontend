@@ -8,13 +8,16 @@ import {
 } from "@/services/types/cartService.types";
 import { useGlobalStore } from "@/store/globalStore";
 import { CartItemType } from "@/types/globalTypes";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { MouseEvent } from "react";
 
+const cartService = new CartService();
+
 export const useProductCard = () => {
   const isLoggedIn = Boolean(getClientSideCookie("jwt"));
-  const cartService = new CartService();
+
+  const queryClient = useQueryClient();
 
   const {
     handleUpdateCartLength,
@@ -63,9 +66,14 @@ export const useProductCard = () => {
   const handleAddToCart = async (productId: number) => {
     try {
       const { data } = await addToCart({ increment: true, productId });
+      // invalidate cart
+
+      queryClient.invalidateQueries({ queryKey: ["get-cart"] });
+
       const cartItems = data.data.cartItems;
       const cart = findCart(cartItems, productId);
       const cartLength = sumCartItemQuantity(cartItems);
+
       // store
       handleUpdateCartLength(cartLength);
       handleUpdateGoToCartModal(true, cart);
@@ -79,6 +87,9 @@ export const useProductCard = () => {
       increment: true,
       productId,
     });
+
+    queryClient.invalidateQueries({ queryKey: ["get-anon-cart"] });
+
     const cartItems = data.data.cartItems;
     if (!uuid) {
       setClientSideCookie("uuid", data.data.id);

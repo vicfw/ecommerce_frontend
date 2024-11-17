@@ -26,7 +26,7 @@ const PaymentSuccess = () => {
           </UI_Typography>
 
           <div className="flex gap-2 items-start">
-            <Link href="/profile/orders">
+            <Link href="/profile/orders?activeTab=PROCESSING">
               <Button variant="default">
                 <UI_Typography variant="Regular/Reg16">
                   پیگیری سفارش

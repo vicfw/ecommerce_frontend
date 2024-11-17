@@ -5,7 +5,7 @@ import { calculateDiscountedPrice } from "@/lib/utils";
 type PriceProps = {
   price: number;
   variant: keyof typeof variantClasses;
-  discount: number;
+  discount?: number;
 };
 
 export const Price = (props: PriceProps) => {

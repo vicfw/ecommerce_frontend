@@ -77,6 +77,7 @@ export type Order = {
   id: number;
   totalAmount: number;
   status: string;
+  profitFromDiscount: number;
   createdAt: string;
   updatedAt: string;
   orderItem: OrderItem[];

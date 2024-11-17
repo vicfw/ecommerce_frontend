@@ -18,6 +18,7 @@ export const CartItem = (props: TCartItem) => {
   const { isFirstItem, cartItem } = props;
   const { cartLength } = useGlobalStore();
   const { get, on } = useCartItem(cartItem.quantity);
+
   return (
     <div
       className={cn(

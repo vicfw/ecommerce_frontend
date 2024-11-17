@@ -12,7 +12,7 @@ export const useProfileMenu = () => {
       {
         name: "سفارش ها",
         icon: ShoppingBag,
-        link: "/profile/orders?activeTab=in_progress",
+        link: "/profile/orders?activeTab=PROCESSING",
       },
       {
         name: "اطلاعات حساب کاربری",

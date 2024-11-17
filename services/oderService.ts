@@ -1,7 +1,10 @@
 import { Order } from "@/types/globalTypes";
 import axiosInstance from "./axios";
 import { Response } from "./types/config";
-import { CreateOrderResponse } from "./types/orderService.type";
+import {
+  CreateOrderResponse,
+  getOrderStatusCountResponse,
+} from "./types/orderService.type";
 
 export class OrderService {
   async getDeliveryCost(): Promise<Response<{ cost: number }>> {
@@ -19,5 +22,9 @@ export class OrderService {
   async getOrders(activeTab: string): Promise<Response<Order[]>> {
     const searchParam = new URLSearchParams({ status: activeTab });
     return axiosInstance().get(`/order?${searchParam.toString()}`);
+  }
+
+  async getOrderStatusCount(): Promise<Response<getOrderStatusCountResponse>> {
+    return axiosInstance().get("/order/statusCount");
   }
 }

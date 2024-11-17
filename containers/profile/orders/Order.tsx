@@ -7,6 +7,7 @@ import TabItem from "./components/tab-item/TabItem";
 import { Loader2 } from "lucide-react";
 import EmptyOrder from "./components/empty-order/EmptyOrder";
 import OrderItem from "./components/order-item/OrderItem";
+import { cn } from "@/lib/utils";
 
 const OrdersContainer = () => {
   const { get } = useOrder();
@@ -23,16 +24,27 @@ const OrdersContainer = () => {
           <TabItem
             key={tab.engTitle}
             title={tab.title}
-            count={2}
+            count={
+              get.orderStatusCountData?.find(
+                (orderStatusCount) => orderStatusCount.status === tab.engTitle
+              )?._count.status || 0
+            }
             engTitle={tab.engTitle}
           />
         ))}
       </div>
-      <div className="min-h-[400px] flex items-center  flex-col w-full gap-5 px-3 py-4">
+      <div
+        className={cn(
+          !get.orderData?.length && "min-h-[286px] justify-center ",
+          "flex items-center  flex-col w-full gap-5 px-3 pt-4"
+        )}
+      >
         {get.orderDataIsPending ? (
           <Loader2 className="animate-spin text-neutral-300" />
         ) : get.orderData?.length ? (
-          get.orderData.map((order) => <OrderItem order={order} />)
+          get.orderData.map((order) => (
+            <OrderItem order={order} key={order.id} />
+          ))
         ) : (
           <EmptyOrder />
         )}

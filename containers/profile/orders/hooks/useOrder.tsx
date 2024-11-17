@@ -37,5 +37,21 @@ export const useOrder = () => {
     select: (data) => data.data.data,
   });
 
-  return { get: { tabs, orderData, orderDataIsPending, activeTab }, on: {} };
+  const { data: orderStatusCountData, isPending: orderStatusCountPending } =
+    useQuery({
+      queryKey: ["orderStatusCount"],
+      queryFn: () => orderService.getOrderStatusCount(),
+      select: (data) => data.data.data,
+    });
+
+  return {
+    get: {
+      tabs,
+      orderData,
+      orderDataIsPending,
+      activeTab,
+      orderStatusCountData,
+    },
+    on: {},
+  };
 };

@@ -13,8 +13,6 @@ import { CartItem } from "@/components/cart-item/CartItem";
 const Shipping = () => {
   const { get, on } = useShipping();
 
-  console.log(get.cartData, "cartData");
-
   return (
     <section className="flex gap-4 w-full items-start">
       <div className="w-full flex flex-col gap-5 flex-grow flex-1">
@@ -110,7 +108,7 @@ const Shipping = () => {
           cartPrice={get.cartData.price}
           discountPrice={get.cartData.discountPrice}
           profitFromDiscount={get.cartData.profitFromDiscount}
-          deliveryCost={get.deliveryCostData?.cost}
+          deliveryCost={get.cartData.deliveryCost.cost}
           href="/payment"
           submitButtonText="تایید و تکمیل سفارش"
         />

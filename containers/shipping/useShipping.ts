@@ -42,16 +42,6 @@ export const useShipping = () => {
     select: (data) => data.data.data,
   });
 
-  const { data: deliveryCostData } = useQuery({
-    queryKey: ["delivery-cost"],
-    queryFn: () => {
-      const orderService = new OrderService();
-      return orderService.getDeliveryCost();
-    },
-    enabled: Boolean(token),
-    select: (data) => data.data.data,
-  });
-
   const defaultAddress = useMemo(() => {
     return addresses?.find((address) => address.isDefault);
   }, [addresses]);
@@ -78,7 +68,6 @@ export const useShipping = () => {
       defaultAddress,
       addressLoading,
       cartData,
-      deliveryCostData,
     },
     on: { handleOpenAddressModal, openCreateAddressModalHandler },
   };

@@ -35,6 +35,7 @@ export type CartType = {
   id: number;
   userId: number;
   price: number;
+  deliveryCost: DeliveryCost;
   createdAt: string;
   updatedAt: string;
   profitFromDiscount: number;
@@ -80,6 +81,7 @@ export type Order = {
   profitFromDiscount: number;
   createdAt: string;
   updatedAt: string;
+  deliveryAmount: number;
   orderItem: OrderItem[];
 };
 
@@ -93,3 +95,8 @@ export enum OrderStatus {
   RETURNED = "RETURNED",
   CANCELLED = "CANCELLED",
 }
+
+export type DeliveryCost = {
+  id: number;
+  cost: number;
+};

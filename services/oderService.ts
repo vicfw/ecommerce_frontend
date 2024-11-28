@@ -3,11 +3,12 @@ import axiosInstance from "./axios";
 import { Response } from "./types/config";
 import {
   CreateOrderResponse,
+  getOrderDetailResponse,
   getOrderStatusCountResponse,
 } from "./types/orderService.type";
 
 export class OrderService {
-  async getDeliveryCost(): Promise<Response<{ cost: number }>> {
+  async getDeliveryCost(): Promise<Response<{ cost: number; id: number }>> {
     return axiosInstance().get("/deliveryCost");
   }
 
@@ -15,7 +16,7 @@ export class OrderService {
     return axiosInstance().post("/order");
   }
 
-  async getOrder(orderId: number): Promise<Response<Order>> {
+  async getOrder(orderId: number): Promise<Response<getOrderDetailResponse>> {
     return axiosInstance().get(`/order/${orderId}`);
   }
 

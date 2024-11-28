@@ -3,6 +3,7 @@ import { AnonCartType, CartType } from "@/types/globalTypes";
 export type CreateCartBody = {
   increment: boolean;
   productId: number;
+  deliveryCostId: number;
 };
 
 export type CreateCartResponse = CartType;
@@ -10,6 +11,7 @@ export type CreateCartResponse = CartType;
 export type CreateAnonCartBody = {
   increment: boolean;
   productId: number;
+  deliveryCostId: number;
 };
 
 export type CreateAnonCartResponse = AnonCartType;

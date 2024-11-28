@@ -11,7 +11,7 @@ import {
   Undo2,
 } from "lucide-react";
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 
 type OrderItemProps = {
@@ -19,6 +19,8 @@ type OrderItemProps = {
 };
 
 const OrderItem = ({ order }: OrderItemProps) => {
+  const router = useRouter();
+
   const activeTab =
     useSearchParams().get("activeTab") || OrderStatus.PROCESSING;
 
@@ -43,6 +45,10 @@ const OrderItem = ({ order }: OrderItemProps) => {
     }),
     []
   );
+
+  const handleRedirectToOrderDetail = () => {
+    router.push(`/profile/orders/${order.id}`);
+  };
 
   return (
     <div className="border rounded-md w-full">
@@ -115,7 +121,10 @@ const OrderItem = ({ order }: OrderItemProps) => {
           </div>
           {/* factor */}
           <div className="flex items-center gap-1 px-3 py-5 justify-end">
-            <div className="flex items-center gap-2 cursor-pointer">
+            <div
+              className="flex items-center gap-2 cursor-pointer"
+              onClick={handleRedirectToOrderDetail}
+            >
               <ClipboardList className="text-secondary" size={22} />
               <UI_Typography variant="Regular/Reg12" className="text-secondary">
                 نمایش جزئیات

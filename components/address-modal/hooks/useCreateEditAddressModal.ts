@@ -59,9 +59,6 @@ export const useCreateEditAddressModal = () => {
     },
   });
 
-  console.log(form.formState.errors, "errors");
-  console.log(form.watch("province"));
-
   const onSubmit: SubmitHandler<CreateAddressSchemaType> = async (data) => {
     try {
       await createAddress(data);

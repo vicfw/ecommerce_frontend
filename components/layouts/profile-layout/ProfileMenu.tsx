@@ -44,7 +44,8 @@ const Menu = () => {
               >
                 {menuItem.name}
               </UI_Typography>
-              {get.pathname === menuItem.link.split("?")[0] ? (
+              {get.pathname.split("/")[2] ===
+              menuItem.link.split("/")[2].split("?")[0] ? (
                 <div className="absolute right-0 w-[4px] bg-red-600 h-[36px] rounded-sm" />
               ) : null}
             </li>

@@ -1,11 +1,11 @@
 "use client";
 
-import { CART_PAGE_LINK, REGISTER_PAGE_LINK } from "@/constants";
-import { Loader2, LogIn, PersonStanding, ShoppingCart } from "lucide-react";
+import { CART_PAGE_LINK } from "@/constants";
+import { Loader2, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { Container } from "../container/Container";
 import { SearchInput } from "../ui/searchInput";
-import UI_Typography from "../ui/typography/UI_Typography";
+import { NavigationMenu } from "./components/NavigationMenu";
 import { useHeader } from "./useHeader";
 
 const Header = () => {
@@ -37,30 +37,13 @@ const Header = () => {
         </div>
         <div className="flex items-center justify-end gap-3">
           <div className="flex items-center gap-5">
-            <div className="border rounded-lg flex items-center py-[8px] px-[16px] gap-2 min-w-[135px] min-h-[45px] justify-center">
-              {get.isLoaded ? (
-                get.token ? (
-                  <>
-                    <PersonStanding className="text-main" />
-                    <UI_Typography className="text-main" variant="Medium/Med12">
-                      خوش آمدید
-                    </UI_Typography>
-                  </>
-                ) : (
-                  <Link
-                    href={REGISTER_PAGE_LINK}
-                    className="flex items-center gap-2"
-                  >
-                    <LogIn className="text-main" />
-                    <UI_Typography className="text-main" variant="Medium/Med12">
-                      ورود | ثبت نام
-                    </UI_Typography>
-                  </Link>
-                )
-              ) : (
+            {get.isLoaded ? (
+              <NavigationMenu />
+            ) : (
+              <div className="border rounded-lg flex items-center py-[8px] px-[16px] gap-2  max-h-[40px] justify-center">
                 <Loader2 className="animate-spin text-neutral-300" />
-              )}
-            </div>
+              </div>
+            )}
           </div>
           <Link href={CART_PAGE_LINK} className=" border-r-2 pr-5 relative">
             <ShoppingCart className="text-main" size={30} />

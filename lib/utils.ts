@@ -58,8 +58,11 @@ export function getClientSideCookie(
   cookieName: cookieNames
 ): string | undefined {
   if (typeof window === "undefined") return;
-  const matches = document.cookie.match(new RegExp(`${cookieName}=([^;]+)`));
-  return matches?.pop();
+  if (typeof document !== "undefined") {
+    const matches = document.cookie.match(new RegExp(`${cookieName}=([^;]+)`));
+    return matches?.pop();
+  }
+  return "";
 }
 
 export const getUserInfoFromCookies = (): Partial<User> | undefined => {

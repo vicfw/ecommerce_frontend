@@ -2,13 +2,18 @@
 
 import { getClientSideCookie, setClientSideCookie } from "@/lib/utils";
 import { CartService } from "@/services/cartService";
+import { OrderService } from "@/services/oderService";
 import {
   CreateAnonCartBody,
   CreateCartBody,
 } from "@/services/types/cartService.types";
 import { useGlobalStore } from "@/store/globalStore";
 import { CartItemType } from "@/types/globalTypes";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { MouseEvent } from "react";
 
@@ -50,6 +55,15 @@ export const useProductCard = () => {
     },
   });
 
+  const { data: deliveryCostData } = useSuspenseQuery({
+    queryKey: ["delivery-cost"],
+    queryFn: () => {
+      const orderService = new OrderService();
+      return orderService.getDeliveryCost();
+    },
+    select: (data) => data.data.data,
+  });
+
   // util functions
   const findCart = (
     cartItems: CartItemType[],
@@ -65,7 +79,11 @@ export const useProductCard = () => {
   // http handlers
   const handleAddToCart = async (productId: number) => {
     try {
-      const { data } = await addToCart({ increment: true, productId });
+      const { data } = await addToCart({
+        increment: true,
+        productId,
+        deliveryCostId: deliveryCostData.id,
+      });
       // invalidate cart
 
       queryClient.invalidateQueries({ queryKey: ["get-cart"] });
@@ -86,6 +104,7 @@ export const useProductCard = () => {
     const { data } = await addToAnonCart({
       increment: true,
       productId,
+      deliveryCostId: deliveryCostData.id,
     });
 
     queryClient.invalidateQueries({ queryKey: ["get-anon-cart"] });

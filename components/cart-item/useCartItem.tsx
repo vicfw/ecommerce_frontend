@@ -1,8 +1,16 @@
 import { getClientSideCookie } from "@/lib/utils";
 import { CartService } from "@/services/cartService";
-import { CreateAnonCartBody } from "@/services/types/cartService.types";
+import { OrderService } from "@/services/oderService";
+import {
+  CreateAnonCartBody,
+  CreateCartBody,
+} from "@/services/types/cartService.types";
 import { useGlobalStore } from "@/store/globalStore";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { useMemo } from "react";
 
@@ -39,7 +47,7 @@ export const useCartItem = (cartItemQuantity: number) => {
 
   const { mutate: updateCartMutation, isPending: updateCartLoading } =
     useMutation({
-      mutationFn: (body: CreateAnonCartBody) =>
+      mutationFn: (body: CreateCartBody) =>
         cartService.createOrUpdateCart(body),
       onSuccess: (_, variables) => {
         queryClient.invalidateQueries({ queryKey: ["get-cart"] });
@@ -81,11 +89,20 @@ export const useCartItem = (cartItemQuantity: number) => {
       },
     });
 
+  const { data: deliveryCostData } = useSuspenseQuery({
+    queryKey: ["delivery-cost"],
+    queryFn: () => {
+      const orderService = new OrderService();
+      return orderService.getDeliveryCost();
+    },
+    select: (data) => data.data.data,
+  });
+
   const handleUpdateAnonCart = (body: CreateAnonCartBody) => {
     updateAnonCartMutation(body);
   };
 
-  const handleUpdateCart = (body: CreateAnonCartBody) => {
+  const handleUpdateCart = (body: CreateCartBody) => {
     updateCartMutation(body);
   };
 
@@ -108,7 +125,7 @@ export const useCartItem = (cartItemQuantity: number) => {
   );
 
   return {
-    get: { updateAnonCartLoading },
+    get: { updateAnonCartLoading, deliveryCostData },
     on: {
       updateOrCreateCartHandler,
       deleteCartItemHandler,

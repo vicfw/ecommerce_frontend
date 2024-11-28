@@ -1,4 +1,4 @@
-import { Order, OrderStatus } from "@/types/globalTypes";
+import { Address, Order, OrderStatus, User } from "@/types/globalTypes";
 
 export type CreateOrderResponse = Order;
 
@@ -8,3 +8,7 @@ export type getOrderStatusCountResponse = {
   };
   status: OrderStatus;
 }[];
+
+export type getOrderDetailResponse = Order & {
+  address: Pick<Address, "address">;
+} & { user: User };

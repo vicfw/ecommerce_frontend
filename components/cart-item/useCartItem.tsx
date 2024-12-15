@@ -1,4 +1,4 @@
-import { getClientSideCookie } from "@/lib/utils";
+import { getClientSideCookie, removeClientSideCookie } from "@/lib/utils";
 import { CartService } from "@/services/cartService";
 import { OrderService } from "@/services/oderService";
 import {
@@ -73,9 +73,14 @@ export const useCartItem = (cartItemQuantity: number) => {
     useMutation({
       mutationFn: (cartItemId: number) =>
         cartService.deleteAnonCartItem(cartItemId),
-      onSuccess: () => {
+      onSuccess: (data) => {
         queryClient.invalidateQueries({ queryKey: ["get-anon-cart"] });
         queryClient.invalidateQueries({ queryKey: ["anon-cart-length"] });
+        // we need to remove anonCartId from cookies if it is the last item in cart
+        // with this message cart 'deleted successfully' we know cart is deleted completely
+        if (data.data.message === "cart deleted successfully") {
+          removeClientSideCookie("anonCartId");
+        }
       },
     });
 

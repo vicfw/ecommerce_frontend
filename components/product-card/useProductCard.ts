@@ -85,7 +85,6 @@ export const useProductCard = () => {
         deliveryCostId: deliveryCostData.id,
       });
       // invalidate cart
-
       queryClient.invalidateQueries({ queryKey: ["get-cart"] });
 
       const cartItems = data.data.cartItems;
@@ -99,7 +98,7 @@ export const useProductCard = () => {
   };
 
   const handleAddToAnonCart = async (productId: number) => {
-    const uuid = getClientSideCookie("uuid");
+    const anonCartId = getClientSideCookie("anonCartId");
 
     const { data } = await addToAnonCart({
       increment: true,
@@ -110,8 +109,8 @@ export const useProductCard = () => {
     queryClient.invalidateQueries({ queryKey: ["get-anon-cart"] });
 
     const cartItems = data.data.cartItems;
-    if (!uuid) {
-      setClientSideCookie("uuid", data.data.id);
+    if (!anonCartId) {
+      setClientSideCookie("anonCartId", data.data.id);
     }
     const cart = findCart(cartItems, productId);
     const cartLength = sumCartItemQuantity(cartItems);

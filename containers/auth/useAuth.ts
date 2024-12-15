@@ -20,7 +20,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 export const useAuth = () => {
-  const uuid = getClientSideCookie("uuid");
+  const anonCartId = getClientSideCookie("anonCartId");
   // globalStore
   const { handleUpdateToken, handleUpdateUser } = useGlobalStore();
   const [codeView, setCodeView] = useState(false);
@@ -92,13 +92,13 @@ export const useAuth = () => {
       handleUpdateToken(token);
       handleUpdateUser({ id, phoneNumber, lastName: "", name: "" });
 
-      if (uuid) {
+      if (anonCartId) {
         await handleMatchAnonCart(id);
       }
 
       setClientSideCookie("jwt", token);
       // remove uuid because this user is not anonyms anymore
-      removeClientSideCookie("uuid");
+      removeClientSideCookie("anonCartId");
       router.replace("/");
     } catch (e) {}
   };

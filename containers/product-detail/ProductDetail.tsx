@@ -14,6 +14,8 @@ type ProductDetailProps = {
 };
 
 const ProductDetailContainer = async ({ product }: ProductDetailProps) => {
+  console.log(product.images, "product");
+
   return (
     <main className="grid lg:grid-cols-[1fr_2fr] md:grid-cols-1 w-full mt-8 gap-14">
       {/* image slider */}

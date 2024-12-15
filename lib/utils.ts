@@ -6,12 +6,12 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-type cookieNames = "jwt" | "uuid" | "userInfo";
+type cookieNames = "jwt" | "anonCartId" | "userInfo";
 
 export function calculateDiscountedPrice(
   originalPrice: number,
   discount: number
-): number {
+): string {
   // Validate input
   if (originalPrice <= 0 || discount < 0 || discount > 100) {
     throw new Error(
@@ -23,7 +23,7 @@ export function calculateDiscountedPrice(
   const discountAmount = originalPrice * discountRate;
   const discountedPrice = originalPrice - discountAmount;
 
-  return discountedPrice;
+  return discountedPrice.toLocaleString();
 }
 
 const expireDateForCookies = () => {
@@ -46,7 +46,7 @@ export const setClientSideCookie = (
   document.cookie = cookieString;
 };
 
-export const removeClientSideCookie = (name: string): void => {
+export const removeClientSideCookie = (name: cookieNames): void => {
   const expirationDate = new Date(0); // Set to epoch time (Thu, 01 Jan 1970 00:00:00 GMT)
   const cookieString = `${encodeURIComponent(
     name

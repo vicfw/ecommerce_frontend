@@ -9,7 +9,7 @@ import { useEffect } from "react";
 
 export const CompositionRoot = () => {
   const token = getClientSideCookie("jwt");
-  const uuid = getClientSideCookie("uuid");
+  const anonCartId = getClientSideCookie("anonCartId");
 
   const cartService = new CartService();
   const userService = new UserService();
@@ -25,7 +25,7 @@ export const CompositionRoot = () => {
   const { data: anonCartLengthData } = useQuery({
     queryFn: () => cartService.getAnonCartLength(),
     queryKey: ["anon-cart-length"],
-    enabled: Boolean(uuid),
+    enabled: Boolean(anonCartId),
     select: (res) => res.data.data,
   });
 

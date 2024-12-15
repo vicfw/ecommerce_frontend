@@ -12,7 +12,7 @@ import { REGISTER_PAGE_LINK } from "@/constants";
 import { getClientSideCookie } from "@/lib/utils";
 import { Captions, ChevronDown, LogIn, User } from "lucide-react";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 
 export function NavigationMenu() {
   const token = getClientSideCookie("jwt");
@@ -55,7 +55,7 @@ export function NavigationMenu() {
       {token && (
         <DropdownMenuContent className="w-56">
           {menuItems.map((item, index) => (
-            <>
+            <Fragment key={item.name}>
               <Link
                 href={item.href}
                 key={item.name}
@@ -73,7 +73,7 @@ export function NavigationMenu() {
                 </DropdownMenuLabel>
               </Link>
               {index !== menuItems.length - 1 && <DropdownMenuSeparator />}
-            </>
+            </Fragment>
           ))}
         </DropdownMenuContent>
       )}

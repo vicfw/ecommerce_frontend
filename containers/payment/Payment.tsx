@@ -61,7 +61,7 @@ export const PaymentContainer = () => {
           </div>
           <UI_Typography variant="Regular/Reg12" className="text-neutral-600">
             ارسال عادی - هزینه ارسال :{" "}
-            {get.deliveryCostData?.cost.toLocaleString()} تومان
+            {get.cartData?.deliveryCost.cost.toLocaleString()} تومان
           </UI_Typography>
         </div>
         {/* discount code */}

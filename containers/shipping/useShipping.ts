@@ -1,7 +1,6 @@
 import { getClientSideCookie } from "@/lib/utils";
 import { AddressService } from "@/services/addressService";
 import { CartService } from "@/services/cartService";
-import { OrderService } from "@/services/oderService";
 import { useGlobalStore } from "@/store/globalStore";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useMemo } from "react";

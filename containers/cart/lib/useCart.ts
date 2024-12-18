@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export const useCart = () => {
   const token = getClientSideCookie("jwt");
+  const anonCartId = getClientSideCookie("anonCartId");
   const userInfo = getUserInfoFromCookies();
 
   const cartService = new CartService();
@@ -13,7 +14,7 @@ export const useCart = () => {
   const { data: anonCartData } = useQuery({
     queryKey: ["get-anon-cart"],
     queryFn: () => cartService.getAnonCart(),
-    enabled: !Boolean(token),
+    enabled: !Boolean(token) && Boolean(anonCartId),
     select: (data) => data.data.data,
   });
 

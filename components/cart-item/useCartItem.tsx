@@ -119,6 +119,18 @@ export const useCartItem = (cartItemQuantity: number) => {
     deleteCartItem(cartItemId);
   };
 
+  const handleIncrementOrDecrementCartItem = (
+    productId: number,
+    increment: boolean
+  ) => {
+    if (updateCartLoading || updateAnonCartLoading) return;
+    updateOrCreateCartHandler({
+      productId: productId,
+      increment,
+      deliveryCostId: deliveryCostData.id,
+    });
+  };
+
   const deleteCartItemHandler = useMemo(
     () => (token ? handleDeleteCartItem : handleDeleteAnonCartItem),
     [token]
@@ -130,10 +142,11 @@ export const useCartItem = (cartItemQuantity: number) => {
   );
 
   return {
-    get: { updateAnonCartLoading, deliveryCostData },
+    get: { updateAnonCartLoading, deliveryCostData, updateCartLoading },
     on: {
       updateOrCreateCartHandler,
       deleteCartItemHandler,
+      handleIncrementOrDecrementCartItem,
     },
   };
 };

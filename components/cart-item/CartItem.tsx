@@ -68,17 +68,17 @@ export const CartItem = (props: TCartItem) => {
           <div className="flex flex-1  items-center px-2 py-2 border border-neutral-200 h-[40px] rounded-md justify-between max-w-[100px]">
             <Plus
               size={18}
-              className="text-destructive cursor-pointer"
+              className={cn(
+                "text-destructive cursor-pointer",
+                (get.updateCartLoading || get.updateAnonCartLoading) &&
+                  "opacity-[0.5]"
+              )}
               onClick={() =>
-                on.updateOrCreateCartHandler({
-                  productId: cartItem.productId,
-                  increment: true,
-                  deliveryCostId: get.deliveryCostData.id,
-                })
+                on.handleIncrementOrDecrementCartItem(cartItem.productId, true)
               }
             />
 
-            {get.updateAnonCartLoading ? (
+            {get.updateAnonCartLoading || get.updateCartLoading ? (
               <Loader className="text-neutral-500 animate-spin" />
             ) : (
               <UI_Typography
@@ -97,13 +97,16 @@ export const CartItem = (props: TCartItem) => {
             ) : (
               <Minus
                 size={18}
-                className="text-destructive cursor-pointer"
+                className={cn(
+                  "text-destructive cursor-pointer",
+                  (get.updateCartLoading || get.updateAnonCartLoading) &&
+                    "opacity-[0.5]"
+                )}
                 onClick={() =>
-                  on.updateOrCreateCartHandler({
-                    productId: cartItem.productId,
-                    increment: false,
-                    deliveryCostId: get.deliveryCostData.id,
-                  })
+                  on.handleIncrementOrDecrementCartItem(
+                    cartItem.productId,
+                    false
+                  )
                 }
               />
             )}

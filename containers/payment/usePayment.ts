@@ -21,16 +21,6 @@ export const usePayment = () => {
     select: (data) => data.data.data,
   });
 
-  const { data: deliveryCostData } = useQuery({
-    queryKey: ["delivery-cost"],
-    queryFn: () => {
-      const orderService = new OrderService();
-      return orderService.getDeliveryCost();
-    },
-    enabled: Boolean(token),
-    select: (data) => data.data.data,
-  });
-
   const { mutateAsync: createOrder } = useMutation({
     mutationFn: () => {
       const orderService = new OrderService();
@@ -75,7 +65,7 @@ export const usePayment = () => {
   }, [cartData]);
 
   return {
-    get: { cartData, deliveryCostData, formattedDeliveryDate },
+    get: { cartData, formattedDeliveryDate },
     on: { handleCreateOrder },
   };
 };

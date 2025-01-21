@@ -1,6 +1,6 @@
 "use client";
-const ErrorPage = () => {
-  return <div>error</div>;
+const ErrorPage = (props: any) => {
+  return <div>{JSON.stringify(props)}</div>;
 };
 
 export default ErrorPage;

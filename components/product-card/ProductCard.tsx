@@ -23,7 +23,7 @@ export const ProductCard = ({
   const { get, on } = useProductCard();
   return (
     <article className="flex flex-col  border py-3 px-4 rounded-md">
-      <Link href={`/products/${slug}`} prefetch={false}>
+      <Link href={`/products/${slug}`}>
         <div className="flex flex-col gap-5 mb-5">
           <div className="flex justify-center items-center">
             <Image src={images[0]} alt="" width={200} height={200} />

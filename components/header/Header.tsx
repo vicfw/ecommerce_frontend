@@ -1,9 +1,10 @@
 "use client";
 
 import { CART_PAGE_LINK } from "@/constants";
-import { Loader2, ShoppingCart } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { Container } from "../container/Container";
+import Loader from "../Loader/Loader";
 import { SearchInput } from "../ui/searchInput";
 import { NavigationMenu } from "./components/NavigationMenu";
 import { useHeader } from "./useHeader";
@@ -41,7 +42,7 @@ const Header = () => {
               <NavigationMenu />
             ) : (
               <div className="border rounded-lg flex items-center py-[8px] px-[16px] gap-2  max-h-[40px] justify-center">
-                <Loader2 className="animate-spin text-neutral-300" />
+                <Loader />
               </div>
             )}
           </div>

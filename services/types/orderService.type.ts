@@ -3,9 +3,7 @@ import { Address, Order, OrderStatus, User } from "@/types/globalTypes";
 export type CreateOrderResponse = Order;
 
 export type getOrderStatusCountResponse = {
-  _count: {
-    status: number;
-  };
+  count: number;
   status: OrderStatus;
 }[];
 

@@ -1,13 +1,18 @@
 import { OrderService } from "@/services/oderService";
-import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
-import { useParams } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import { useParams, useRouter } from "next/navigation";
 
 const orderService = new OrderService();
 
 export const useOrderDetail = () => {
+  const router = useRouter();
   const { id: orderId } = useParams();
 
-  const { data: orderDetailData } = useQuery({
+  function routerBack() {
+    router.back();
+  }
+
+  const { data: orderDetailData, isPending: orderDetailIsPending } = useQuery({
     queryKey: ["order-detail", orderId],
     queryFn: ({ queryKey }) => orderService.getOrder(+queryKey[1]),
     select: (data) => data.data.data,
@@ -22,5 +27,8 @@ export const useOrderDetail = () => {
     select: (data) => data.data.data,
   });
 
-  return { get: { orderDetailData, deliveryCostData }, on: {} };
+  return {
+    get: { orderDetailData, deliveryCostData, router, orderDetailIsPending },
+    on: { routerBack },
+  };
 };

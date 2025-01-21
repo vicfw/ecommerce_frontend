@@ -1,9 +1,9 @@
 "use client";
 
+import Loader from "@/components/Loader/Loader";
 import UI_Typography from "@/components/ui/typography/UI_Typography";
 import { OrderService } from "@/services/oderService";
-import { useIsFetching, useQuery } from "@tanstack/react-query";
-import { Loader2 } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 
@@ -44,7 +44,7 @@ const TabItem = ({ title, count, engTitle }: TabItemProps) => {
 
       <div className="w-5 h-5 bg-neutral-500 flex justify-center items-center rounded-md">
         {Boolean(orderStatusCountPending) ? (
-          <Loader2 className="animate-spin text-white" size={12} />
+          <Loader className="text-white" size={12} />
         ) : (
           <UI_Typography variant="Regular/Reg14" className="text-white">
             {count}

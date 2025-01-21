@@ -1,7 +1,12 @@
 import PaymentSuccessContainer from "@/containers/payment-success/PaymentSuccess";
+import { Suspense } from "react";
 
 const PaymentSuccessPage = () => {
-  return <PaymentSuccessContainer />;
+  return (
+    <Suspense>
+      <PaymentSuccessContainer />
+    </Suspense>
+  );
 };
 
 export default PaymentSuccessPage;

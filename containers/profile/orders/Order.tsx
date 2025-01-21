@@ -1,18 +1,18 @@
 "use client";
 
+import Loader from "@/components/Loader/Loader";
 import UI_Typography from "@/components/ui/typography/UI_Typography";
-import React from "react";
-import { useOrder } from "./hooks/useOrder";
-import TabItem from "./components/tab-item/TabItem";
-import { Loader2 } from "lucide-react";
+import { cn } from "@/lib/utils";
 import EmptyOrder from "./components/empty-order/EmptyOrder";
 import OrderItem from "./components/order-item/OrderItem";
-import { cn } from "@/lib/utils";
+import TabItem from "./components/tab-item/TabItem";
+import { useOrder } from "./hooks/useOrder";
 
 const OrdersContainer = () => {
   const { get } = useOrder();
+
   return (
-    <section>
+    <section className="py-4">
       <div className="px-4">
         <UI_Typography variant="Medium/Med16" className="text-neutral-900">
           تاریخچه سفارشات
@@ -27,7 +27,7 @@ const OrdersContainer = () => {
             count={
               get.orderStatusCountData?.find(
                 (orderStatusCount) => orderStatusCount.status === tab.engTitle
-              )?._count.status || 0
+              )?.count || 0
             }
             engTitle={tab.engTitle}
           />
@@ -40,7 +40,7 @@ const OrdersContainer = () => {
         )}
       >
         {get.orderDataIsPending ? (
-          <Loader2 className="animate-spin text-neutral-300" />
+          <Loader />
         ) : get.orderData?.length ? (
           get.orderData.map((order) => (
             <OrderItem order={order} key={order.id} />

@@ -1,5 +1,5 @@
 import { Container } from "@/components/container/Container";
-import { Loader2 } from "lucide-react";
+import Loader from "@/components/Loader/Loader";
 import dynamic from "next/dynamic";
 import { PropsWithChildren } from "react";
 
@@ -7,7 +7,7 @@ const ProfileMenu = dynamic(() => import("./ProfileMenu"), {
   ssr: false,
   loading: () => (
     <div className="flex justify-center items-center">
-      <Loader2 className="animate-spin text-neutral-300" />
+      <Loader />
     </div>
   ),
 });
@@ -19,7 +19,7 @@ const ProfileLayout = ({ children }: PropsWithChildren) => {
         <div className="border rounded-lg  py-4">
           <ProfileMenu />
         </div>
-        <div className="border rounded-lg py-4">{children}</div>
+        <div className="border rounded-lg">{children}</div>
       </div>
     </Container>
   );

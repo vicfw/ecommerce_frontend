@@ -1,7 +1,12 @@
 import { PersonalInfo } from "@/containers/profile/personal-info/PersonalInfo";
+import { Suspense } from "react";
 
 const PersonalInfoPage = () => {
-  return <PersonalInfo />;
+  return (
+    <Suspense>
+      <PersonalInfo />
+    </Suspense>
+  );
 };
 
 export default PersonalInfoPage;

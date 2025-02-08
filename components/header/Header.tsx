@@ -13,8 +13,11 @@ const Header = () => {
   const { get, on } = useHeader();
 
   return (
-    <Container component="header">
-      <section className="w-full py-3 flex relative z-2">
+    <Container
+      component="header"
+      className="border-b shadow-sm  md:border-none md:shadow-none sticky md:static top-0 z-10 bg-white"
+    >
+      <section className="w-full py-0 md:py-3 flex relative z-2 ">
         <div className="flex flex-1 items-center grow gap-5">
           <Link href="/">
             <svg
@@ -31,13 +34,13 @@ const Header = () => {
             </svg>
           </Link>
           <div className="flex grow ml-auto">
-            <div className="w-[600px]">
+            <div className="md:w-[600px]">
               <SearchInput />
             </div>
           </div>
         </div>
         <div className="flex items-center justify-end gap-3">
-          <div className="flex items-center gap-5">
+          <div className="items-center gap-5 hidden md:flex">
             {get.isLoaded ? (
               <NavigationMenu />
             ) : (
@@ -46,7 +49,7 @@ const Header = () => {
               </div>
             )}
           </div>
-          <Link href={CART_PAGE_LINK} className=" border-r-2 pr-5 relative">
+          <Link href={CART_PAGE_LINK} className=" md:border-r-2 pr-5 relative">
             <ShoppingCart className="text-main" size={30} />
             <div className="absolute bottom-[-1px] bg-destructive rounded-md w-[19px] h-[19px] flex justify-center items-center p-2">
               <span className="text-[11px] text-white">{get.cartLength}</span>

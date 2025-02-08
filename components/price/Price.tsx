@@ -10,6 +10,7 @@ type PriceProps = {
 
 export const Price = (props: PriceProps) => {
   const { price, variant, discount } = props;
+
   return (
     <div className="flex gap-1 items-center">
       <UI_Typography variant={variant}>
@@ -17,7 +18,7 @@ export const Price = (props: PriceProps) => {
           ? calculateDiscountedPrice(price, discount)
           : price.toLocaleString()}
       </UI_Typography>
-      <UI_Typography variant="Regular/Reg12">تومان</UI_Typography>
+      <UI_Typography className="text-base mdd:text-lg">تومان</UI_Typography>
     </div>
   );
 };

@@ -8,7 +8,7 @@ type ProductListProps = {
 
 export const ProductListContainer = ({ products }: ProductListProps) => {
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4 w-full mt-12">
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 md:gap-4 gap-2 w-full md:mt-12 mt-1">
       {products.map((product) => (
         <ProductCard {...product} key={product.id} />
       ))}

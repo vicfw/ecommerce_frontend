@@ -8,7 +8,7 @@ export default function MainLayout({
   return (
     <>
       <Header />
-      <div className="h-[10px]" />
+      <div className="h-[10px] hidden md:block" />
       <Container component="section">{children}</Container>
     </>
   );

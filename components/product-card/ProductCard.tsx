@@ -21,8 +21,9 @@ export const ProductCard = ({
   slug,
 }: ProductCardProps) => {
   const { get, on } = useProductCard();
+
   return (
-    <article className="flex flex-col  border py-3 px-4 rounded-md">
+    <article className="flex flex-col  border md:py-3 md:px-4 py-1 px-2 rounded-md">
       <Link href={`/products/${slug}`}>
         <div className="flex flex-col gap-5 mb-5">
           <div className="flex justify-center items-center">
@@ -31,7 +32,7 @@ export const ProductCard = ({
           <div>
             <UI_Typography
               className="text-main whitespace-nowrap overflow-hidden text-ellipsis"
-              variant="Medium/Med14"
+              variant={get.isMobile ? "Medium/Med12" : "Medium/Med14"}
               component="h3"
             >
               {prName}
@@ -44,13 +45,17 @@ export const ProductCard = ({
             )}
           >
             {discount ? <Discount discount={discount} /> : null}
-            <Price price={price} discount={discount} variant="Medium/Med16" />
+            <Price
+              price={price}
+              discount={discount}
+              variant={get.isMobile ? "Medium/Med14" : "Medium/Med16"}
+            />
           </div>
           <div className="flex justify-end">
             {discount ? (
               <UI_Typography
                 className={cn("text-neutral-400", discount && "line-through")}
-                variant="Regular/Reg14"
+                variant={get.isMobile ? "Regular/Reg12" : "Regular/Reg14"}
               >
                 {price.toLocaleString()}
               </UI_Typography>
@@ -61,13 +66,16 @@ export const ProductCard = ({
         </div>
       </Link>
 
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center md:items-center h-full md:h-auto items-end">
         <Button
           onClick={(e) => {
             on.handleClickOnAddToCartButton(e, id);
           }}
+          className="py-1 "
         >
-          <UI_Typography variant="Medium/Med14">
+          <UI_Typography
+            variant={get.isMobile ? "Medium/Med12" : "Medium/Med14"}
+          >
             افزودن به سبد خرید
           </UI_Typography>
         </Button>

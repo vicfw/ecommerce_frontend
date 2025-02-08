@@ -23,7 +23,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={vazir.className}>
         <ReactQueryProvider>
-          <ReactQueryDevtools initialIsOpen={false} />
+          {/* <ReactQueryDevtools initialIsOpen={false} /> */}
           <CompositionRoot />
           <AlertModal />
           <Toaster />

@@ -24,7 +24,7 @@ const axiosInstance = () => {
           removeClientSideCookie("jwt");
           removeClientSideCookie("userInfo");
 
-          window.location.href = "/auth/register";
+          window.location.href = "/register";
         }
       }
       return Promise.reject(error);

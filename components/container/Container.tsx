@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { ElementType, HTMLProps, ReactNode } from "react";
+import { ElementType, HTMLProps } from "react";
 
 type ContainerProps = {
   component: ElementType;

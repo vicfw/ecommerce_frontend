@@ -1,13 +1,14 @@
 "use client";
 
 import { CART_PAGE_LINK } from "@/constants";
-import { ShoppingCart } from "lucide-react";
+import { AlignJustify, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { Container } from "../container/Container";
 import Loader from "../Loader/Loader";
-import { SearchInput } from "../ui/searchInput";
+import { SearchInput } from "../ui/search-input";
 import { NavigationMenu } from "./components/NavigationMenu";
 import { useHeader } from "./useHeader";
+import Sidebar from "./components/sidebar/Sidebar";
 
 const Header = () => {
   const { get, on } = useHeader();
@@ -49,13 +50,26 @@ const Header = () => {
               </div>
             )}
           </div>
-          <Link href={CART_PAGE_LINK} className=" md:border-r-2 pr-5 relative">
-            <ShoppingCart className="text-main" size={30} />
-            <div className="absolute bottom-[-1px] bg-destructive rounded-md w-[19px] h-[19px] flex justify-center items-center p-2">
+
+          <Link
+            href={CART_PAGE_LINK}
+            className="md:border-r-2 md:pr-5 relative"
+          >
+            <ShoppingCart className="text-main md:w-7 md:h-7 h-6 w-6" />
+            <div className="absolute bottom-[-1px] bg-destructive rounded-md md:w-[17px] md:h-[17px] w-2 h-2 flex justify-center items-center p-2">
               <span className="text-[11px] text-white">{get.cartLength}</span>
             </div>
           </Link>
+
+          <div
+            className="md:hidden cursor-pointer"
+            onClick={on.handleOpenSidebar}
+          >
+            <AlignJustify className="text-main md:w-7 md:h-7 h-6 w-6 mt-[2px]" />
+          </div>
         </div>
+        {/* Sidebar */}
+        <Sidebar />
       </section>
     </Container>
   );

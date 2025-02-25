@@ -2,6 +2,7 @@ import { CartItemType, User } from "@/types/globalTypes";
 import { create } from "zustand";
 
 interface GlobalState {
+  openSidebar: boolean;
   user: User | undefined;
   token: string | undefined;
   cartLength: number;
@@ -13,6 +14,7 @@ interface GlobalState {
     text: string;
     open: boolean;
   };
+  handleOpenSidebar: () => void;
   handleUpdateUser: (user: User) => void;
   handleUpdateToken: (token: string) => void;
   handleUpdateCartLength: (cartLength: number) => void;
@@ -37,10 +39,13 @@ interface GlobalState {
 
 export const useGlobalStore = create<GlobalState>()((set) => ({
   user: undefined,
+  openSidebar: false,
   token: undefined,
   cartLength: 0,
   goToCartModal: { open: false, data: undefined },
   alertModal: { open: false, text: "" },
+  handleOpenSidebar: () =>
+    set((state) => ({ openSidebar: !state.openSidebar })),
   handleUpdateUser: (user) => set(() => ({ user })),
   handleUpdateToken: (token) => set(() => ({ token })),
   handleUpdateCartLength: (cartLength) => set(() => ({ cartLength })),

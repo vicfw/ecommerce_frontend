@@ -73,9 +73,7 @@ export const ProductCard = ({
           }}
           className="py-1 "
         >
-          <UI_Typography
-            variant={get.isMobile ? "Medium/Med12" : "Medium/Med14"}
-          >
+          <UI_Typography className="text-sm font-bold md:text-lg">
             افزودن به سبد خرید
           </UI_Typography>
         </Button>

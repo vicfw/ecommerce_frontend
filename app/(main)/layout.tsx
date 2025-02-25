@@ -1,7 +1,13 @@
 import { Container } from "@/components/container/Container";
 import Header from "@/components/header/Header";
-import MobileBottomMenu from "@/components/mobile-bottom-menu/MobileBottomMenu";
-import { ReactNode } from "react";
+import { MOBILE_BOTTOM_MENU_HEIGHT } from "@/constants";
+import dynamic from "next/dynamic";
+import { ReactNode, Suspense } from "react";
+
+const MobileBottomMenu = dynamic(
+  () => import("../../components/mobile-bottom-menu/MobileBottomMenu"),
+  { ssr: false }
+);
 
 export default function MainLayout({
   children,
@@ -10,9 +16,14 @@ export default function MainLayout({
     <>
       <Header />
       <div className="h-[10px] hidden md:block" />
-      <Container component="section">
+      <Container
+        component="section"
+        style={{ marginBottom: MOBILE_BOTTOM_MENU_HEIGHT }}
+      >
         {children}
-        <MobileBottomMenu />
+        <Suspense fallback={null}>
+          <MobileBottomMenu />
+        </Suspense>
       </Container>
     </>
   );

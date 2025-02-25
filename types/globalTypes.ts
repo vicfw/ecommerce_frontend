@@ -100,3 +100,10 @@ export type DeliveryCost = {
   id: number;
   cost: number;
 };
+
+export type Category = {
+  id: number;
+  name: string;
+  image: string;
+  product: Product[];
+};

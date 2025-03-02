@@ -65,7 +65,7 @@ export const useCreateEditAddressModal = () => {
       handleOpenCreateAddressModal({ openCreateModal: false });
       toast({
         title: "آدرس جدید با موفقیت ایجاد شد",
-        variant: "success",
+        variant: "default",
         duration: 2000,
       });
     } catch (error) {

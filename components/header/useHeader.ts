@@ -8,7 +8,6 @@ import { useShallow } from "zustand/react/shallow";
 export const useHeader = () => {
   const { handleOpenSidebar, cartLength } = useGlobalStore(
     useShallow((state) => ({
-      openSidebar: state.openSidebar,
       handleOpenSidebar: state.handleOpenSidebar,
       cartLength: state.cartLength,
     }))
@@ -22,5 +21,8 @@ export const useHeader = () => {
     setIsLoaded(true);
   }, []);
 
-  return { get: { token, isLoaded, cartLength }, on: { handleOpenSidebar } };
+  return {
+    get: { token, isLoaded, cartLength },
+    on: { handleOpenSidebar },
+  };
 };

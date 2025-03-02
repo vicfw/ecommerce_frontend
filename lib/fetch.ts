@@ -4,7 +4,9 @@ export async function fetchData<T>(
   const url = `${process.env.NEXT_PUBLIC_SERVER_API_URL}${endpoint}`;
 
   try {
-    const response = await fetch(url, { cache: "no-cache" });
+    const response = await fetch(url, {
+      next: { revalidate: 10 },
+    });
 
     if (!response.ok) {
       throw new Error(`Failed to fetch data from "${endpoint}"`);

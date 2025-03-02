@@ -21,6 +21,7 @@ export type Product = {
   prName: string;
   enName: string;
   slug: string;
+  colorImage: ColorImage[];
 };
 
 export type Badge = {
@@ -106,4 +107,16 @@ export type Category = {
   name: string;
   image: string;
   product: Product[];
+};
+
+export type Brand = {
+  id: number;
+  name: string;
+  image: string;
+};
+
+export type ColorImage = {
+  id: number;
+  images: string[];
+  colorImage: string;
 };

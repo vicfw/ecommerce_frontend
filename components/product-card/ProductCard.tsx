@@ -2,13 +2,13 @@
 
 import { Discount } from "@/components/discount/Discount";
 import UI_Typography from "@/components/ui/typography/UI_Typography";
+import { cn } from "@/lib/utils";
 import { Product } from "@/types/globalTypes";
 import Image from "next/image";
-import { Button } from "../ui/button";
-import { Price } from "../price/Price";
-import { cn } from "@/lib/utils";
-import { useProductCard } from "./useProductCard";
 import Link from "next/link";
+import { Price } from "../price/Price";
+import { Button } from "../ui/button";
+import { useProductCard } from "./useProductCard";
 
 type ProductCardProps = Product;
 
@@ -19,6 +19,7 @@ export const ProductCard = ({
   price,
   discount,
   slug,
+  colorImage,
 }: ProductCardProps) => {
   const { get, on } = useProductCard();
 
@@ -31,8 +32,7 @@ export const ProductCard = ({
           </div>
           <div>
             <UI_Typography
-              className="text-main whitespace-nowrap overflow-hidden text-ellipsis"
-              variant={get.isMobile ? "Medium/Med12" : "Medium/Med14"}
+              className="text-main whitespace-nowrap overflow-hidden text-ellipsis med12 md:med14"
               component="h3"
             >
               {prName}
@@ -48,20 +48,27 @@ export const ProductCard = ({
             <Price
               price={price}
               discount={discount}
-              variant={get.isMobile ? "Medium/Med14" : "Medium/Med16"}
+              className="med14 md:med16"
             />
           </div>
-          <div className="flex justify-end">
+          <div className="flex flex-row-reverse justify-between">
             {discount ? (
               <UI_Typography
-                className={cn("text-neutral-400", discount && "line-through")}
-                variant={get.isMobile ? "Regular/Reg12" : "Regular/Reg14"}
+                className={cn(
+                  "text-neutral-400 reg12 reg14",
+                  discount && "line-through"
+                )}
               >
-                {price.toLocaleString()}
+                {price.toLocaleString()} تومان
               </UI_Typography>
             ) : (
               <div className="h-[26.03px]"></div>
             )}
+            {colorImage?.length ? (
+              <UI_Typography className="text-neutral-400 reg12 md:reg14">
+                {colorImage.length} رنگ
+              </UI_Typography>
+            ) : null}
           </div>
         </div>
       </Link>

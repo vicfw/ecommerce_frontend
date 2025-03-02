@@ -1,6 +1,5 @@
 "use client";
 
-import { useIsMobile } from "@/hooks/useIsMobile";
 import { getClientSideCookie, setClientSideCookie } from "@/lib/utils";
 import { CartService } from "@/services/cartService";
 import { OrderService } from "@/services/oderService";
@@ -22,7 +21,6 @@ const cartService = new CartService();
 
 export const useProductCard = () => {
   const isLoggedIn = Boolean(getClientSideCookie("jwt"));
-  const isMobile = useIsMobile();
 
   const queryClient = useQueryClient();
 
@@ -132,5 +130,5 @@ export const useProductCard = () => {
     }
   };
 
-  return { get: { isMobile }, on: { handleClickOnAddToCartButton } };
+  return { get: {}, on: { handleClickOnAddToCartButton } };
 };

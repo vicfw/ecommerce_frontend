@@ -1,19 +1,19 @@
 import React from "react";
-import UI_Typography, { variantClasses } from "../ui/typography/UI_Typography";
+import UI_Typography from "../ui/typography/UI_Typography";
 import { calculateDiscountedPrice } from "@/lib/utils";
 
 type PriceProps = {
   price: number;
-  variant: keyof typeof variantClasses;
   discount?: number;
+  className: string;
 };
 
 export const Price = (props: PriceProps) => {
-  const { price, variant, discount } = props;
+  const { price, discount, className } = props;
 
   return (
     <div className="flex gap-1 items-center">
-      <UI_Typography variant={variant}>
+      <UI_Typography className={className}>
         {discount
           ? calculateDiscountedPrice(price, discount)
           : price.toLocaleString()}

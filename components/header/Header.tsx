@@ -7,8 +7,8 @@ import { Container } from "../container/Container";
 import Loader from "../Loader/Loader";
 import { SearchInput } from "../ui/search-input";
 import { NavigationMenu } from "./components/NavigationMenu";
-import { useHeader } from "./useHeader";
 import Sidebar from "./components/sidebar/Sidebar";
+import { useHeader } from "./useHeader";
 
 const Header = () => {
   const { get, on } = useHeader();

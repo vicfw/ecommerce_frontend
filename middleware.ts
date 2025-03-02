@@ -7,9 +7,6 @@ const protectedRoutes = ["/payment", "/profile", "/shipping"];
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  const { device } = userAgent(request);
-  const viewport = device.type === "mobile" ? "mobile" : "desktop";
-
   let response: NextResponse;
 
   // Check if the requested path is in the protectedRoutes array
@@ -27,9 +24,6 @@ export function middleware(request: NextRequest) {
     // If it's not a protected route, continue to the requested page
     response = NextResponse.next();
   }
-
-  // Set the viewport cookie on the response
-  response.cookies.set("viewport", viewport);
 
   return response;
 }

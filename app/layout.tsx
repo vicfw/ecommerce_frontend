@@ -1,11 +1,10 @@
+import { AlertModal } from "@/components/alert-modal/AlertModal";
+import { CompositionRoot } from "@/components/composition-root/CompositionRoot";
+import { Toaster } from "@/components/ui/toaster";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { CompositionRoot } from "@/components/composition-root/CompositionRoot";
-import { AlertModal } from "@/components/alert-modal/AlertModal";
-import { Toaster } from "@/components/ui/toaster";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const vazir = localFont({ src: "./Vazir.ttf" });
 
@@ -20,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" dir="rtl">
       <body className={vazir.className}>
         <ReactQueryProvider>
           {/* <ReactQueryDevtools initialIsOpen={false} /> */}

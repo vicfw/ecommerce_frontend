@@ -5,7 +5,7 @@ import { calculateDiscountedPrice } from "@/lib/utils";
 type PriceProps = {
   price: number;
   discount?: number;
-  className: string;
+  className?: string;
 };
 
 export const Price = (props: PriceProps) => {

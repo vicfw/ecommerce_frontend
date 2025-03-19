@@ -14,7 +14,7 @@ export const Container = ({
   return (
     <Component
       className={cn(
-        "flex w-full container mx-auto relative justify-between md:px-4 p-2 grow",
+        "flex w-full container mx-auto relative justify-between md:px-4 px-2",
         className
       )}
       {...otherProps}

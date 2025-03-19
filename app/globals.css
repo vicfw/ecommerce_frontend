@@ -97,10 +97,10 @@
   * {
     @apply border-border;
     line-height: 26.04px;
+    direction: rtl;
   }
   body {
     @apply bg-background text-foreground;
-    direction: rtl;
     line-height: normal;
   }
 }

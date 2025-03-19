@@ -21,7 +21,7 @@ export type Product = {
   prName: string;
   enName: string;
   slug: string;
-  colorImage: ColorImage[];
+  colorImage?: ColorImage[];
 };
 
 export type Badge = {

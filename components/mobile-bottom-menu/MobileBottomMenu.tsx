@@ -1,15 +1,24 @@
 "use client";
 
-import React from "react";
 import UI_Typography from "@/components/ui/typography/UI_Typography";
 import { HomeIcon, ShoppingCart, User } from "lucide-react";
 import Link from "next/link";
-import { MOBILE_BOTTOM_MENU_HEIGHT } from "@/constants";
+import { usePathname } from "next/navigation";
 
 const MobileBottomMenu = () => {
+  const pathname = usePathname();
+
+  // Define an array of paths that should return null
+  const hiddenPaths = ["/products/", "/checkout", "/order-summary"];
+
+  // Check if pathname starts with any of the hidden paths
+  if (hiddenPaths.some((path) => pathname.startsWith(path))) {
+    return null;
+  }
+
   return (
     <div
-      className={`md:hidden fixed bottom-0 left-0 w-full flex px-4 bg-white border-t pt-1 justify-between items-center h-[${MOBILE_BOTTOM_MENU_HEIGHT}px]`}
+      className={`md:hidden sticky bottom-0 mt-2 w-full flex px-4 bg-white border-t pt-1 justify-between items-center`}
     >
       {/* Home */}
       <Link

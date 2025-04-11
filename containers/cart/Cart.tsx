@@ -8,27 +8,30 @@ const CartContainer = () => {
   const { cartLength } = useGlobalStore();
   const { get } = Lib.useCart();
 
-  if (!cartLength || !get.cartData?.cartItems.length)
-    return <Lib.C.EmptyCart />;
-
   return (
-    <section className="flex gap-4 w-full items-start">
+    <section className="flex gap-4 w-full items-start h-[calc(100dvh-118px)] md:h-auto">
       <div className="w-full flex flex-col flex-grow flex-1">
-        {get.cartData?.cartItems.map((cartItem, index) => (
-          <Lib.C.CartItem
-            key={cartItem.id}
-            cartItem={cartItem}
-            isFirstItem={!index}
-          />
-        ))}
+        {cartLength || get.cartData?.cartItems.length ? (
+          get.cartData?.cartItems.map((cartItem, index) => (
+            <Lib.C.CartItem
+              key={cartItem.id}
+              cartItem={cartItem}
+              isFirstItem={!index}
+            />
+          ))
+        ) : (
+          <Lib.C.EmptyCart />
+        )}
       </div>
-      <PriceDetailAside
-        cartPrice={get.cartData.price}
-        discountPrice={get.cartData.discountPrice}
-        profitFromDiscount={get.cartData.profitFromDiscount}
-        href={get.confirmCartHref}
-        submitButtonText="ثبت"
-      />
+      {get.cartData ? (
+        <PriceDetailAside
+          cartPrice={get.cartData.price}
+          discountPrice={get.cartData.discountPrice}
+          profitFromDiscount={get.cartData.profitFromDiscount}
+          href={get.confirmCartHref}
+          submitButtonText="ثبت"
+        />
+      ) : null}
     </section>
   );
 };

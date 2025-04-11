@@ -32,11 +32,8 @@ export const CartItem = (props: TCartItem) => {
         {isFirstItem && (
           <header className="flex justify-between items-center">
             <div className="flex flex-col gap-2">
-              <UI_Typography variant="Medium/Med16">سبد خرید شما</UI_Typography>
-              <UI_Typography
-                variant="Regular/Reg12"
-                className="text-neutral-500"
-              >
+              <UI_Typography>سبد خرید شما</UI_Typography>
+              <UI_Typography className="text-neutral-500">
                 {cartLength} کالا
               </UI_Typography>
             </div>
@@ -56,10 +53,7 @@ export const CartItem = (props: TCartItem) => {
               alt={cartItem.product.prName}
             />
             <div className="flex flex-col gap-2">
-              <UI_Typography
-                variant="Regular/Reg14"
-                className="text-neutral-800"
-              >
+              <UI_Typography className="text-neutral-800">
                 {cartItem.product.prName}
               </UI_Typography>
               <WarrantyText />
@@ -81,10 +75,7 @@ export const CartItem = (props: TCartItem) => {
             {get.updateAnonCartLoading || get.updateCartLoading ? (
               <Loader className="text-neutral-500 animate-spin" />
             ) : (
-              <UI_Typography
-                className="text-destructive"
-                variant="Regular/Reg14"
-              >
+              <UI_Typography className="text-destructive">
                 {cartItem.quantity}
               </UI_Typography>
             )}
@@ -113,7 +104,7 @@ export const CartItem = (props: TCartItem) => {
           </div>
 
           <div className="flex flex-[0.5]">
-            <UI_Typography variant="Medium/Med16" className="text-neutral-800">
+            <UI_Typography className="text-neutral-800">
               {cartItem.itemPrice.toLocaleString()} تومان
             </UI_Typography>
           </div>

@@ -16,7 +16,7 @@ const Header = () => {
   return (
     <Container
       component="header"
-      className="border-b shadow-sm  md:border-none md:shadow-none sticky md:static top-0 z-10 bg-white"
+      className="border-b shadow-sm  md:border-none md:shadow-none sticky md:static top-0 z-10 bg-white h-[55px]"
     >
       <section className="w-full py-0 md:py-3 flex relative z-2 ">
         <div className="flex flex-1 items-center grow gap-5">
@@ -34,7 +34,7 @@ const Header = () => {
               <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
             </svg>
           </Link>
-          <div className="flex grow ml-auto">
+          <div className="grow ml-auto hidden md:flex">
             <div className="md:w-[600px]">
               <SearchInput />
             </div>

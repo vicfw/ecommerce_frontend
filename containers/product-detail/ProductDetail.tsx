@@ -6,20 +6,21 @@ import { Button } from "@/components/ui/button";
 
 import UI_Typography from "@/components/ui/typography/UI_Typography";
 import { WarrantyText } from "@/components/warranty-text/WarrantyText";
-import { calculateDiscountedPrice, cn, getClientSideCookie } from "@/lib/utils";
+import { calculateDiscountedPrice, cn } from "@/lib/utils";
 import { Product } from "@/types/globalTypes";
 import { ChevronLeft, Info, Truck } from "lucide-react";
 import Image from "next/image";
 import * as Lib from "./lib";
 import PDPCarousel from "./lib/components/carousel/Carousel";
 import CommentSection from "./lib/components/commentSection/CommentSection";
+import { useProductDetail } from "./lib/useProductDetail";
 
 type ProductDetailProps = {
   product: Product;
 };
 
-const ProductDetailContainer = async ({ product }: ProductDetailProps) => {
-  const token = getClientSideCookie("jwt");
+const ProductDetailContainer = ({ product }: ProductDetailProps) => {
+  const { get, on } = useProductDetail();
 
   return (
     <>
@@ -203,7 +204,12 @@ const ProductDetailContainer = async ({ product }: ProductDetailProps) => {
 
         {/* Bottom Sell Button */}
         <div className="sticky z-10 bottom-0 right-0 bg-white border-t h-[80px] flex items-center justify-between">
-          <Button>افزودن به سبد خرید</Button>
+          <Button
+            loading={get.addToAnonCartIsPending || get.addToCartIsPending}
+            onClick={() => on.handleClickOnAddToCartButton(product.id)}
+          >
+            افزودن به سبد خرید
+          </Button>
 
           <div>
             <UI_Typography className="text-lg">

@@ -8,7 +8,7 @@ import React from "react";
 import { useShipping } from "./useShipping";
 import CreateEditAddressModal from "@/components/address-modal/components/create-edit-address/CreateEditAddressModal";
 import { PriceDetailAside } from "@/components/price-detail-aside/PriceDetailAside";
-import { CartItem } from "@/components/cart-item/CartItem";
+import { CartItem } from "@/containers/cart/lib/components/cart-item/CartItem";
 
 const Shipping = () => {
   const { get, on } = useShipping();

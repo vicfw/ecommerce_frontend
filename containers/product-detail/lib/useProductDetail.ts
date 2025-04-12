@@ -1,5 +1,3 @@
-"use client";
-
 import { getClientSideCookie, setClientSideCookie } from "@/lib/utils";
 import { CartService } from "@/services/cartService";
 import { OrderService } from "@/services/oderService";
@@ -15,11 +13,10 @@ import {
   useSuspenseQuery,
 } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { MouseEvent } from "react";
 
 const cartService = new CartService();
 
-export const useProductCard = () => {
+export const useProductDetail = () => {
   const isLoggedIn = Boolean(getClientSideCookie("jwt"));
 
   const queryClient = useQueryClient();
@@ -30,30 +27,34 @@ export const useProductCard = () => {
     handleUpdateAlertModal,
   } = useGlobalStore();
 
-  const { mutateAsync: addToCart } = useMutation({
-    mutationFn: (data: CreateCartBody) => cartService.createOrUpdateCart(data),
-    onError: (err: unknown) => {
-      if (err instanceof AxiosError) {
-        const { cause } = err.response?.data;
-        if (cause === "quantity limit") {
-          handleUpdateAlertModal(true, "موجودی این محصول تمام شده است .");
+  const { mutateAsync: addToCart, isPending: addToCartIsPending } = useMutation(
+    {
+      mutationFn: (data: CreateCartBody) =>
+        cartService.createOrUpdateCart(data),
+      onError: (err: unknown) => {
+        if (err instanceof AxiosError) {
+          const { cause } = err.response?.data;
+          if (cause === "quantity limit") {
+            handleUpdateAlertModal(true, "موجودی این محصول تمام شده است .");
+          }
         }
-      }
-    },
-  });
+      },
+    }
+  );
 
-  const { mutateAsync: addToAnonCart } = useMutation({
-    mutationFn: (data: CreateAnonCartBody) =>
-      cartService.createOrUpdateAnonCart(data),
-    onError: (err: unknown) => {
-      if (err instanceof AxiosError) {
-        const { cause } = err.response?.data;
-        if (cause === "quantity limit") {
-          handleUpdateAlertModal(true, "موجودی این محصول تمام شده است .");
+  const { mutateAsync: addToAnonCart, isPending: addToAnonCartIsPending } =
+    useMutation({
+      mutationFn: (data: CreateAnonCartBody) =>
+        cartService.createOrUpdateAnonCart(data),
+      onError: (err: unknown) => {
+        if (err instanceof AxiosError) {
+          const { cause } = err.response?.data;
+          if (cause === "quantity limit") {
+            handleUpdateAlertModal(true, "موجودی این محصول تمام شده است .");
+          }
         }
-      }
-    },
-  });
+      },
+    });
 
   const { data: deliveryCostData } = useSuspenseQuery({
     queryKey: ["delivery-cost"],
@@ -119,10 +120,7 @@ export const useProductCard = () => {
     handleUpdateGoToCartModal(true, cart);
   };
 
-  const handleClickOnAddToCartButton = (
-    e: MouseEvent<HTMLButtonElement>,
-    productId: number
-  ) => {
+  const handleClickOnAddToCartButton = (productId: number) => {
     if (isLoggedIn) {
       handleAddToCart(productId);
     } else {
@@ -130,5 +128,8 @@ export const useProductCard = () => {
     }
   };
 
-  return { get: {}, on: { handleClickOnAddToCartButton } };
+  return {
+    on: { handleClickOnAddToCartButton },
+    get: { addToAnonCartIsPending, addToCartIsPending },
+  };
 };

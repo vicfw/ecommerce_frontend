@@ -62,7 +62,7 @@ const Header = () => {
             </div>
           </Link>
 
-          <Link href="/login" className="block md:hidden">
+          <Link href="/register" className="block md:hidden">
             <Button className="h-9 reg12">ورود</Button>
           </Link>
 

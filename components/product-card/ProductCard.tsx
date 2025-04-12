@@ -7,8 +7,6 @@ import { Product } from "@/types/globalTypes";
 import Image from "next/image";
 import Link from "next/link";
 import { Price } from "../price/Price";
-import { Button } from "../ui/button";
-import { useProductCard } from "./useProductCard";
 
 type ProductCardProps = Product;
 
@@ -21,8 +19,6 @@ export const ProductCard = ({
   slug,
   colorImage,
 }: ProductCardProps) => {
-  const { get, on } = useProductCard();
-
   return (
     <article className="flex flex-col  border md:py-3 md:px-4 py-1 px-2 rounded-md">
       <Link href={`/products/${slug}`}>
@@ -72,19 +68,6 @@ export const ProductCard = ({
           </div>
         </div>
       </Link>
-
-      <div className="flex justify-center md:items-center h-full md:h-auto items-end">
-        <Button
-          onClick={(e) => {
-            on.handleClickOnAddToCartButton(e, id);
-          }}
-          className="py-1 "
-        >
-          <UI_Typography className="text-sm font-bold md:text-lg">
-            افزودن به سبد خرید
-          </UI_Typography>
-        </Button>
-      </div>
     </article>
   );
 };

@@ -9,6 +9,7 @@ import { SearchInput } from "../ui/search-input";
 import { NavigationMenu } from "./components/NavigationMenu";
 import Sidebar from "./components/sidebar/Sidebar";
 import { useHeader } from "./useHeader";
+import { Button } from "../ui/button";
 
 const Header = () => {
   const { get, on } = useHeader();
@@ -16,7 +17,7 @@ const Header = () => {
   return (
     <Container
       component="header"
-      className="border-b shadow-sm  md:border-none md:shadow-none sticky md:static top-0 z-10 bg-white"
+      className="border-b shadow-sm  md:border-none md:shadow-none sticky md:static top-0 z-10 bg-white md-h-auto h-[60px]"
     >
       <section className="w-full py-0 md:py-3 flex relative z-2 ">
         <div className="flex flex-1 items-center grow gap-5">
@@ -34,7 +35,7 @@ const Header = () => {
               <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
             </svg>
           </Link>
-          <div className="flex grow ml-auto">
+          <div className="grow ml-auto hidden md:flex">
             <div className="md:w-[600px]">
               <SearchInput />
             </div>
@@ -55,17 +56,21 @@ const Header = () => {
             href={CART_PAGE_LINK}
             className="md:border-r-2 md:pr-5 relative"
           >
-            <ShoppingCart className="text-main md:w-7 md:h-7 h-6 w-6" />
+            <ShoppingCart className="text-main md:w-7 md:h-7 h-7 w-7" />
             <div className="absolute bottom-[-1px] bg-destructive rounded-md md:w-[17px] md:h-[17px] w-2 h-2 flex justify-center items-center p-2">
               <span className="text-[11px] text-white">{get.cartLength}</span>
             </div>
+          </Link>
+
+          <Link href="/login" className="block md:hidden">
+            <Button className="h-9 reg12">ورود</Button>
           </Link>
 
           <div
             className="md:hidden cursor-pointer"
             onClick={on.handleOpenSidebar}
           >
-            <AlignJustify className="text-main md:w-7 md:h-7 h-6 w-6 mt-[2px]" />
+            <AlignJustify className="text-main md:w-7 md:h-7 h-7 w-7 mt-[2px]" />
           </div>
         </div>
         {/* Sidebar */}

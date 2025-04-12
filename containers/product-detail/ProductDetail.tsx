@@ -4,21 +4,23 @@ import { Discount } from "@/components/discount/Discount";
 import { Price } from "@/components/price/Price";
 import { Button } from "@/components/ui/button";
 
-import { Separator } from "@/components/ui/separator";
 import UI_Typography from "@/components/ui/typography/UI_Typography";
 import { WarrantyText } from "@/components/warranty-text/WarrantyText";
-import { calculateDiscountedPrice, cn } from "@/lib/utils";
+import { calculateDiscountedPrice, cn, getClientSideCookie } from "@/lib/utils";
 import { Product } from "@/types/globalTypes";
-import { ChevronLeft, Info, MessageCircle, Star, Truck } from "lucide-react";
+import { ChevronLeft, Info, Truck } from "lucide-react";
 import Image from "next/image";
 import * as Lib from "./lib";
 import PDPCarousel from "./lib/components/carousel/Carousel";
+import CommentSection from "./lib/components/commentSection/CommentSection";
 
 type ProductDetailProps = {
   product: Product;
 };
 
 const ProductDetailContainer = async ({ product }: ProductDetailProps) => {
+  const token = getClientSideCookie("jwt");
+
   return (
     <>
       {/* Desktop */}
@@ -196,38 +198,7 @@ const ProductDetailContainer = async ({ product }: ProductDetailProps) => {
           </div>
 
           {/* Comments */}
-          <div className="border rounded-md py-4 flex items-center flex-col justify-start gap-3 mt-4 text-neutral-500 px-2">
-            {/* Header */}
-            <div className="flex items-center justify-between w-full">
-              <UI_Typography className="font-bold reg14 text-black">
-                دیدگاه کاربران
-              </UI_Typography>
-              <Button>افزودن دیدگاه</Button>
-            </div>
-            <div className="flex items-center justify-start gap-2 w-full">
-              {/* Reviews */}
-              <div className="flex items-center justify-center gap-1">
-                <Star className="fill-yellow-400 text-yellow-400" size={20} />
-                <UI_Typography className="mt-1"> امتیاز 4.2</UI_Typography>
-              </div>
-              <Separator orientation="vertical" />
-              {/* Comments count */}
-              <div className="flex items-center justify-center gap-1">
-                <MessageCircle size={20} />
-                <UI_Typography className="mt-1"> دیدگاه 74</UI_Typography>
-              </div>
-            </div>
-            {/* Comment Images */}
-            <div className="flex items-center gap-2 flex-col w-full">
-              <div className="flex items-center justify-between gap-2 w-full">
-                <UI_Typography className="text-neutral-900 reg14">
-                  تصاویر خریداران
-                </UI_Typography>
-                <UI_Typography> 3 تصویر</UI_Typography>
-              </div>
-              <div className="flex items-center justify-center gap-2"></div>
-            </div>
-          </div>
+          <CommentSection />
         </div>
 
         {/* Bottom Sell Button */}

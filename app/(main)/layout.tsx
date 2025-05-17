@@ -7,10 +7,12 @@ export default function MainLayout({
   children,
 }: Readonly<{ children: ReactNode }>) {
   return (
-    <div className="flex flex-col">
+    <div className="flex min-h-screen flex-col">
       <Header />
       <div className="h-[10px] hidden md:block" />
-      <Container component="section">{children}</Container>
+      <Container component="section" className="flex-1">
+        {children}
+      </Container>
       <MobileBottomMenu />
     </div>
   );

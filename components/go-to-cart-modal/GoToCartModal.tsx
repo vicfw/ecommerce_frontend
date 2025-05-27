@@ -49,15 +49,11 @@ export const GoToCartModal = () => {
             height={120}
             className="rounded-full"
           />
-          <UI_Typography variant="Medium/Med14">
-            {cartData?.product.prName}
-          </UI_Typography>
+          <span className="med14">{cartData?.product.prName}</span>
         </section>
         <Link href="/cart" className="w-full block" onClick={handleCloseModal}>
           <Button className="w-full">
-            <UI_Typography variant="Medium/Med14">
-              برو به سبد خرید
-            </UI_Typography>
+            <span className="med14">برو به سبد خرید</span>
           </Button>
         </Link>
       </DialogContent>

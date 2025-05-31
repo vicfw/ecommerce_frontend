@@ -7,7 +7,7 @@ type ContainerProps = {
 
 export const Container = ({
   children,
-  component: Component = "div",
+  component: Component = "main",
   className,
   ...otherProps
 }: ContainerProps) => {

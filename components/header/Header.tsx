@@ -6,10 +6,10 @@ import Link from "next/link";
 import { Container } from "../container/Container";
 import Loader from "../Loader/Loader";
 import { SearchInput } from "../ui/search-input";
+import LoginButton from "./components/LoginButton";
 import { NavigationMenu } from "./components/NavigationMenu";
 import Sidebar from "./components/sidebar/Sidebar";
 import { useHeader } from "./useHeader";
-import { Button } from "../ui/button";
 
 const Header = () => {
   const { get, on } = useHeader();
@@ -61,10 +61,7 @@ const Header = () => {
               <span className="text-[11px] text-white">{get.cartLength}</span>
             </div>
           </Link>
-
-          <Link href="/register" className="block md:hidden">
-            <Button className="h-9 reg12">ورود</Button>
-          </Link>
+          {!!!get.token ? <LoginButton /> : null}
 
           <div
             className="md:hidden cursor-pointer"

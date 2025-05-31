@@ -1,22 +1,21 @@
 import UI_Typography from "@/components/ui/typography/UI_Typography";
+import { Comment as CommentType } from "@/types/globalTypes";
 import { format } from "date-fns-jalali";
 import React from "react";
 
-const Comment = () => {
+const Comment = ({ comment }: { comment: CommentType }) => {
   return (
     <div className="border-t px-2 w-full pt-2">
       {/* Name & Date */}
       <div className="flex items-center justify-between">
-        <UI_Typography>سما محسنی</UI_Typography>
-        <UI_Typography>{format(new Date(), "yyyy/MM/dd")}</UI_Typography>
+        <UI_Typography>{comment.user.name}</UI_Typography>
+        <UI_Typography>
+          {format(new Date(comment.createdAt), "yyyy/MM/dd")}
+        </UI_Typography>
       </div>
 
       {/* Comment */}
-      <UI_Typography>
-        من شماره 1 رو سفارش دادم. خیلی پر رنگ تر از تصویرش هست، تازه من تو نور
-        عکس گرفتم، روی لب خیلی پر رنگ هستش. ولی خیلی روی لب کشیده میشه. در کل بد
-        نیست ولی کاش رنگاش واقعی بود.
-      </UI_Typography>
+      <UI_Typography>{comment.body}</UI_Typography>
     </div>
   );
 };

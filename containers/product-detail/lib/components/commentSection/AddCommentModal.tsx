@@ -14,6 +14,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/hooks/use-toast";
 import { cn, getUserInfoFromCookies } from "@/lib/utils";
 import {
   createCommentSchema,
@@ -24,18 +25,18 @@ import { CreateCommentBody } from "@/services/types/commentService.types";
 import { UploadService } from "@/services/uploadService";
 import { useGlobalStore } from "@/store/globalStore";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2, Upload, X } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useProductDetailStore } from "../../store/ProductDetailStore";
-import { useToast } from "@/hooks/use-toast";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB in bytes
 const uploadService = new UploadService();
 const commentService = new CommentService();
 
 export function AddCommentModal() {
+  const queryClient = useQueryClient();
   const { productId } = useProductDetailStore();
   const user = getUserInfoFromCookies();
   const { toast } = useToast();
@@ -56,7 +57,7 @@ export function AddCommentModal() {
   });
 
   const {
-    formState: { errors, isValid, isDirty },
+    formState: { isValid },
   } = form;
 
   const { mutate: uploadFile, isPending: isUploading } = useMutation({
@@ -88,6 +89,9 @@ export function AddCommentModal() {
         title: "دیدگاه شما با موفقیت ثبت شد، پس از تایید ، نمایش داده خواهد شد",
         variant: "default",
         duration: 2000,
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["comments", productId],
       });
       handleUpdateAddCommentModal(false);
       form.reset();

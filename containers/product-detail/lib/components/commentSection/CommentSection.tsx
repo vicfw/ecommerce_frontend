@@ -7,6 +7,16 @@ import Link from "next/link";
 import { AddCommentModal } from "./AddCommentModal";
 import Comment from "./Comment";
 import { useCommentSection } from "./useCommentSection";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import { cn } from "@/lib/utils";
 
 const CommentSection = () => {
   const { get, on } = useCommentSection();
@@ -28,31 +38,88 @@ const CommentSection = () => {
         {/* Comments count */}
         <div className="flex items-center justify-center gap-1">
           <MessageCircle size={20} />
-          <span className="mt-1"> دیدگاه 74</span>
+          <span className="mt-1"> دیدگاه {get.totalComments}</span>
         </div>
       </div>
       {/* Comment Images */}
       <div className="flex items-center gap-2 flex-col w-full">
         <div className="flex items-center justify-between gap-2 w-full">
           <span className="text-neutral-900 reg14">تصاویر خریداران</span>
-          <span> 3 تصویر</span>
+          <span> {get.commentsImages?.length || 0} تصویر</span>
         </div>
         {/* Comment Images */}
-        <div className="flex items-center justify-start gap-2 w-full">
-          {Array.from({ length: 3 }).map((_, index) => (
+        <div className="flex items-center justify-start gap-2 w-full overflow-auto">
+          {get.commentsImages?.map((image) => (
             <Image
-              key={index}
-              src="/images/saffron-auth.png"
+              key={image}
+              src={image}
               alt="comment-image"
               width={90}
               height={90}
+              className="h-[73px]"
             />
           ))}
         </div>
         {/* Comment */}
-        {Array.from({ length: 3 }).map((_, index) => (
-          <Comment key={index} />
+        {get.comments?.map((comment) => (
+          <Comment key={comment.id} comment={comment} />
         ))}
+
+        {get.totalPages > 0 && (
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  onClick={() => on.handlePageChange(get.page - 1)}
+                  className={cn(
+                    get.page === 1 && "pointer-events-none opacity-50"
+                  )}
+                />
+              </PaginationItem>
+
+              {Array.from({ length: get.totalPages }, (_, i) => i + 1).map(
+                (pageNum) => {
+                  if (
+                    pageNum === 1 ||
+                    pageNum === get.totalPages ||
+                    (pageNum >= get.page - 1 && pageNum <= get.page + 1)
+                  ) {
+                    return (
+                      <PaginationItem key={pageNum}>
+                        <PaginationLink
+                          onClick={() => on.handlePageChange(pageNum)}
+                          isActive={get.page === pageNum}
+                        >
+                          {pageNum}
+                        </PaginationLink>
+                      </PaginationItem>
+                    );
+                  } else if (
+                    pageNum === get.page - 2 ||
+                    pageNum === get.page + 2
+                  ) {
+                    return (
+                      <PaginationItem key={pageNum}>
+                        <PaginationEllipsis />
+                      </PaginationItem>
+                    );
+                  }
+                  return null;
+                }
+              )}
+
+              <PaginationItem>
+                <PaginationNext
+                  onClick={() => on.handlePageChange(get.page + 1)}
+                  className={cn(
+                    get.page === get.totalPages &&
+                      "pointer-events-none opacity-50"
+                  )}
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        )}
 
         {/* Login Bottom Sheet */}
         {!get.token ? (

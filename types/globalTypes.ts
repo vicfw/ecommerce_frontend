@@ -124,9 +124,8 @@ export type ColorImage = {
 export type Comment = {
   id: number;
   body: string;
-  rate: number;
   image: string;
-  isApproved: boolean;
-  productId: number;
-  userId: number;
+  user: User;
+  createdAt: string;
+  updatedAt: string;
 };

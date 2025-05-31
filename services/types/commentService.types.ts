@@ -4,3 +4,8 @@ export type CreateCommentBody = {
   userId: number;
   image: string;
 };
+export type GetCommentsParams = {
+  productId: number;
+  page: number;
+  limit: number;
+};

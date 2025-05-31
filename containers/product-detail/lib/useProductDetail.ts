@@ -13,10 +13,13 @@ import {
   useSuspenseQuery,
 } from "@tanstack/react-query";
 import { AxiosError } from "axios";
+import { useEffect } from "react";
+import { useProductDetailStore } from "./store/ProductDetailStore";
 
 const cartService = new CartService();
 
-export const useProductDetail = () => {
+export const useProductDetail = (productId: number) => {
+  const { setProductId } = useProductDetailStore();
   const isLoggedIn = Boolean(getClientSideCookie("jwt"));
 
   const queryClient = useQueryClient();
@@ -127,6 +130,12 @@ export const useProductDetail = () => {
       handleAddToAnonCart(productId);
     }
   };
+
+  useEffect(() => {
+    if (productId) {
+      setProductId(productId);
+    }
+  }, [productId]);
 
   return {
     on: { handleClickOnAddToCartButton },

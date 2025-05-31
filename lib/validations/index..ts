@@ -39,3 +39,12 @@ export const createUserInfo = z.object({
     .string({ message: "اینجا را خالی نگذارید" })
     .min(1, { message: "اینجا را خالی نگذارید" }),
 });
+
+export const createCommentSchema = z.object({
+  body: z.string().min(1, "دیدگاه نمی‌تواند خالی باشد"),
+  productId: z.number(),
+  userId: z.number(),
+  image: z.string(),
+});
+
+export type CreateCommentSchema = z.infer<typeof createCommentSchema>;

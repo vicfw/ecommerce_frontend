@@ -12,7 +12,7 @@ export const CountDownChildren = ({
   const formattedSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`;
 
   return (
-    <UI_Typography variant="Medium/Med12">
+    <UI_Typography className="med12">
       {formattedMinutes}:{formattedSeconds}
     </UI_Typography>
   );

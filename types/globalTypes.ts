@@ -120,3 +120,13 @@ export type ColorImage = {
   images: string[];
   colorImage: string;
 };
+
+export type Comment = {
+  id: number;
+  body: string;
+  rate: number;
+  image: string;
+  isApproved: boolean;
+  productId: number;
+  userId: number;
+};

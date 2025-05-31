@@ -20,7 +20,7 @@ type ProductDetailProps = {
 };
 
 const ProductDetailContainer = ({ product }: ProductDetailProps) => {
-  const { get, on } = useProductDetail();
+  const { get, on } = useProductDetail(product.id);
 
   return (
     <>

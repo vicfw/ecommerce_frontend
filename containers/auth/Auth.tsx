@@ -21,13 +21,12 @@ const AuthContainer = () => {
   return (
     <div className={cn("grid gap-6")}>
       <div className="flex flex-col space-y-2 text-center">
-        <UI_Typography variant="Medium/Med18" component="h1">
+        <UI_Typography component="h1" className="med18">
           {get.codeView ? "کد تایید را وارد کنید" : "ورود | ثبت‌ نام"}
         </UI_Typography>
         <UI_Typography
-          variant="Regular/Reg16"
           component="p"
-          className="text-sm text-muted-foreground"
+          className="text-sm text-muted-foreground reg16"
         >
           {get.codeView
             ? `کد تایید برای شماره ${get.registerForm.watch(
@@ -81,10 +80,10 @@ const AuthContainer = () => {
               </div>
               {get.counterFinishedMessage && (
                 <UI_Typography
-                  variant="Medium/Med14"
+                  component="p"
                   onClick={on.onCodeResend}
                   className={cn(
-                    "text-center text-main cursor-pointer",
+                    "text-center text-main cursor-pointer med14",
                     get.counterFinishedMessage.status === "pending" &&
                       "underline"
                   )}
@@ -93,7 +92,9 @@ const AuthContainer = () => {
                 </UI_Typography>
               )}
               <Button type="submit" loading={get.loginUserLoading}>
-                <UI_Typography variant="Regular/Reg16">تایید</UI_Typography>
+                <UI_Typography component="p" className="reg16">
+                  تایید
+                </UI_Typography>
               </Button>
             </div>
           </form>
@@ -127,7 +128,7 @@ const AuthContainer = () => {
               />
 
               <Button type="submit" loading={get.registerUserLoading}>
-                <UI_Typography variant="Regular/Reg16">ورود</UI_Typography>
+                <UI_Typography className="reg16">ورود</UI_Typography>
               </Button>
             </div>
           </form>

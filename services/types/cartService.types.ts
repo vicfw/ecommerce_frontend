@@ -4,6 +4,7 @@ export type CreateCartBody = {
   increment: boolean;
   productId: number;
   deliveryCostId: number;
+  colorImageId?: number;
 };
 
 export type CreateCartResponse = CartType;
@@ -12,6 +13,7 @@ export type CreateAnonCartBody = {
   increment: boolean;
   productId: number;
   deliveryCostId: number;
+  colorImageId?: number;
 };
 
 export type CreateAnonCartResponse = AnonCartType;

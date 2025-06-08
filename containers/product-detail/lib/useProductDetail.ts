@@ -6,21 +6,34 @@ import {
   CreateCartBody,
 } from "@/services/types/cartService.types";
 import { useGlobalStore } from "@/store/globalStore";
-import { CartItemType } from "@/types/globalTypes";
+import { CartItemType, ColorImage, Product } from "@/types/globalTypes";
 import {
   useMutation,
   useQueryClient,
   useSuspenseQuery,
 } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useProductDetailStore } from "./store/ProductDetailStore";
+import { useSearchParams, useRouter } from "next/navigation";
 
 const cartService = new CartService();
 
-export const useProductDetail = (productId: number) => {
+export const useProductDetail = (product: Product) => {
   const { setProductId } = useProductDetailStore();
   const isLoggedIn = Boolean(getClientSideCookie("jwt"));
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const [productImages, setProductImages] = useState<string[]>(() => {
+    const colorImageId = searchParams.get("ci");
+    if (colorImageId && product.colorImages) {
+      const selectedColorImage = product.colorImages.find(
+        (ci) => ci.id === parseInt(colorImageId)
+      );
+      return selectedColorImage?.images || product.images;
+    }
+    return product.images;
+  });
 
   const queryClient = useQueryClient();
 
@@ -83,10 +96,12 @@ export const useProductDetail = (productId: number) => {
   // http handlers
   const handleAddToCart = async (productId: number) => {
     try {
+      const colorImageId = searchParams.get("ci");
       const { data } = await addToCart({
         increment: true,
         productId,
         deliveryCostId: deliveryCostData.id,
+        colorImageId: colorImageId ? parseInt(colorImageId) : undefined,
       });
       // invalidate cart
       queryClient.invalidateQueries({ queryKey: ["get-cart"] });
@@ -103,11 +118,13 @@ export const useProductDetail = (productId: number) => {
 
   const handleAddToAnonCart = async (productId: number) => {
     const anonCartId = getClientSideCookie("anonCartId");
+    const colorImageId = searchParams.get("ci");
 
     const { data } = await addToAnonCart({
       increment: true,
       productId,
       deliveryCostId: deliveryCostData.id,
+      colorImageId: colorImageId ? parseInt(colorImageId) : undefined,
     });
 
     queryClient.invalidateQueries({ queryKey: ["get-anon-cart"] });
@@ -131,14 +148,24 @@ export const useProductDetail = (productId: number) => {
     }
   };
 
+  const handleClickOnColorImage = (
+    colorImages: string[],
+    colorImageId: number
+  ) => {
+    setProductImages(colorImages);
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("ci", colorImageId.toString());
+    router.push(`?${params.toString()}`);
+  };
+
   useEffect(() => {
-    if (productId) {
-      setProductId(productId);
+    if (product.id) {
+      setProductId(product.id);
     }
-  }, [productId]);
+  }, [product.id]);
 
   return {
-    on: { handleClickOnAddToCartButton },
-    get: { addToAnonCartIsPending, addToCartIsPending },
+    on: { handleClickOnAddToCartButton, handleClickOnColorImage },
+    get: { addToAnonCartIsPending, addToCartIsPending, productImages },
   };
 };

@@ -21,7 +21,7 @@ export type Product = {
   prName: string;
   enName: string;
   slug: string;
-  colorImage?: ColorImage[];
+  colorImages?: ColorImage[];
 };
 
 export type Badge = {
@@ -119,6 +119,7 @@ export type ColorImage = {
   id: number;
   images: string[];
   colorImage: string;
+  name: string;
 };
 
 export type Comment = {

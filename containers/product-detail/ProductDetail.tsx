@@ -14,13 +14,15 @@ import * as Lib from "./lib";
 import PDPCarousel from "./lib/components/carousel/Carousel";
 import CommentSection from "./lib/components/commentSection/CommentSection";
 import { useProductDetail } from "./lib/useProductDetail";
+import { useSearchParams } from "next/navigation";
 
 type ProductDetailProps = {
   product: Product;
 };
 
 const ProductDetailContainer = ({ product }: ProductDetailProps) => {
-  const { get, on } = useProductDetail(product.id);
+  const { get, on } = useProductDetail(product);
+  const searchParams = useSearchParams();
 
   return (
     <>
@@ -133,34 +135,54 @@ const ProductDetailContainer = ({ product }: ProductDetailProps) => {
       </main>
 
       {/* Mobile */}
-
       <main className="md:hidden w-full mt-2 flex flex-col">
         <div className="mb-2">
           {/* TODO:BreadCrumb Goes Here */}
 
           {/* Image Slider */}
-          <PDPCarousel images={product.images} name={product.prName} />
+          <PDPCarousel images={get.productImages} name={product.prName} />
 
           <div className="mt-5">
             <UI_Typography className="med16">{product.prName}</UI_Typography>
           </div>
           {/* TODO:Rating , Comments , Favorite */}
           {/* Colors */}
-          {product.colorImage ? (
+          {product.colorImages ? (
             <div className="mt-4">
               <UI_Typography component="p" className="reg14">
                 رنگ:{" "}
               </UI_Typography>
-              <div className="flex justify-start gap-3">
-                {product.colorImage.map((colorImage) => (
-                  <Image
-                    width={34}
-                    height={34}
-                    src={colorImage.colorImage}
-                    alt={product.prName}
-                    key={colorImage.id}
-                  />
-                ))}
+              <div className="flex justify-start gap-2">
+                {product.colorImages.map((colorImage) => {
+                  const isSelected =
+                    searchParams.get("ci") === colorImage.id.toString();
+                  return (
+                    <div
+                      key={colorImage.id}
+                      className={cn(
+                        "relative p-0.5 transition-all duration-200",
+                        isSelected && "ring-2 ring-primary ring-offset-1"
+                      )}
+                    >
+                      <Image
+                        width={28}
+                        height={28}
+                        src={colorImage.colorImage}
+                        alt={product.prName}
+                        className={cn(
+                          "cursor-pointer transition-transform duration-200",
+                          isSelected && "scale-105"
+                        )}
+                        onClick={() =>
+                          on.handleClickOnColorImage(
+                            colorImage.images,
+                            colorImage.id
+                          )
+                        }
+                      />
+                    </div>
+                  );
+                })}
               </div>
             </div>
           ) : null}

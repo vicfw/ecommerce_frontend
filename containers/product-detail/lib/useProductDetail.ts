@@ -39,7 +39,7 @@ export const useProductDetail = (product: Product) => {
 
   const {
     handleUpdateCartLength,
-    handleUpdateGoToCartModal,
+    handleUpdateAddedToCartModal,
     handleUpdateAlertModal,
   } = useGlobalStore();
 
@@ -112,7 +112,7 @@ export const useProductDetail = (product: Product) => {
 
       // store
       handleUpdateCartLength(cartLength);
-      handleUpdateGoToCartModal(true, cart);
+      handleUpdateAddedToCartModal(true, cart);
     } catch (e) {}
   };
 
@@ -137,7 +137,7 @@ export const useProductDetail = (product: Product) => {
     const cartLength = sumCartItemQuantity(cartItems);
 
     handleUpdateCartLength(cartLength);
-    handleUpdateGoToCartModal(true, cart);
+    handleUpdateAddedToCartModal(true, cart);
   };
 
   const handleClickOnAddToCartButton = (productId: number) => {

@@ -17,7 +17,7 @@ export const ProductCard = ({
   price,
   discount,
   slug,
-  colorImage,
+  colorImages,
 }: ProductCardProps) => {
   return (
     <article className="flex flex-col  border md:py-3 md:px-4 py-1 px-2 rounded-md">
@@ -60,9 +60,9 @@ export const ProductCard = ({
             ) : (
               <div className="h-[26.03px]"></div>
             )}
-            {colorImage?.length ? (
+            {colorImages?.length ? (
               <UI_Typography className="text-neutral-400 reg12 md:reg14">
-                {colorImage.length} رنگ
+                {colorImages.length} رنگ
               </UI_Typography>
             ) : null}
           </div>

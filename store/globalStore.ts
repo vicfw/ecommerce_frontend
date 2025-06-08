@@ -17,6 +17,10 @@ interface GlobalState {
   addCommentModal: {
     open: boolean;
   };
+  addedToCartModal: {
+    open: boolean;
+    data: CartItemType | undefined;
+  };
   handleOpenSidebar: () => void;
   handleUpdateUser: (user: User) => void;
   handleUpdateToken: (token: string) => void;
@@ -27,6 +31,10 @@ interface GlobalState {
   ) => void;
   handleUpdateAlertModal: (state: boolean, text: string) => void;
   handleUpdateAddCommentModal: (state: boolean) => void;
+  handleUpdateAddedToCartModal: (
+    state: boolean,
+    data: CartItemType | undefined
+  ) => void;
   // Address
   address: {
     openModal: boolean;
@@ -49,6 +57,7 @@ export const useGlobalStore = create<GlobalState>()((set) => ({
   goToCartModal: { open: false, data: undefined },
   alertModal: { open: false, text: "" },
   addCommentModal: { open: false },
+  addedToCartModal: { open: false, data: undefined },
   handleOpenSidebar: () =>
     set((state) => ({ openSidebar: !state.openSidebar })),
   handleUpdateUser: (user) => set(() => ({ user })),
@@ -60,6 +69,8 @@ export const useGlobalStore = create<GlobalState>()((set) => ({
     set(() => ({ alertModal: { open: state, text } })),
   handleUpdateAddCommentModal: (state) =>
     set(() => ({ addCommentModal: { open: state } })),
+  handleUpdateAddedToCartModal: (state, data) =>
+    set(() => ({ addedToCartModal: { open: state, data } })),
   // Address
   address: {
     openModal: false,

@@ -15,6 +15,7 @@ import PDPCarousel from "./lib/components/carousel/Carousel";
 import CommentSection from "./lib/components/commentSection/CommentSection";
 import { useProductDetail } from "./lib/useProductDetail";
 import { useSearchParams } from "next/navigation";
+import AddedToCartModal from "./lib/components/addedToCartModal/AddedToCartModal";
 
 type ProductDetailProps = {
   product: Product;
@@ -41,7 +42,11 @@ const ProductDetailContainer = ({ product }: ProductDetailProps) => {
 
           <div className="mt-4 flex gap-5">
             {product.images.slice(1).map((image) => (
-              <Lib.C.ImageVariant alt={product.enName} src={image} />
+              <Lib.C.ImageVariant
+                alt={product.enName}
+                src={image}
+                key={image}
+              />
             ))}
           </div>
         </section>
@@ -238,6 +243,7 @@ const ProductDetailContainer = ({ product }: ProductDetailProps) => {
               <Price discount={product.discount} price={product.price} />
             </UI_Typography>
           </div>
+          <AddedToCartModal />
         </div>
       </main>
     </>

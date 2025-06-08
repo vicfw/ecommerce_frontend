@@ -57,6 +57,7 @@ export type CartItemType = {
   cartId: number;
   product: Product;
   itemPrice: number;
+  colorImage: ColorImage;
 };
 
 export type Address = {

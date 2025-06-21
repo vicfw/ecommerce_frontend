@@ -7,7 +7,6 @@ import { useCart } from "./lib/useCart";
 import { CartItem, EmptyCart } from "./lib/components";
 
 const CartContainer = () => {
-  const { cartLength } = useGlobalStore();
   const { get } = useCart();
 
   return (
@@ -15,7 +14,7 @@ const CartContainer = () => {
       {/* Desktop */}
       <section className="md:flex gap-4 w-full items-start h-[calc(100dvh-118px)] md:h-auto hidden">
         <div className="w-full flex flex-col flex-grow flex-1">
-          {cartLength || get.cartData?.cartItems.length ? (
+          {get.cartData && get.cartData?.cartItems.length ? (
             get.cartData?.cartItems.map((cartItem, index) => (
               <CartItem
                 key={cartItem.id}
@@ -40,10 +39,14 @@ const CartContainer = () => {
 
       {/* Mobile */}
       <div className="h-[calc(100dvh-118px)] w-full">
-        <div className="flex flex=col gap-2 mt-4">
-          {get.cartData?.cartItems.map((cartItem, index) => (
-            <MobileCartItem cartItem={cartItem} />
-          ))}
+        <div className="flex flex-col gap-2 mt-4">
+          {get.cartData && get.cartData.cartItems.length ? (
+            get.cartData?.cartItems.map((cartItem, index) => (
+              <MobileCartItem cartItem={cartItem} />
+            ))
+          ) : (
+            <EmptyCart />
+          )}
         </div>
       </div>
     </>

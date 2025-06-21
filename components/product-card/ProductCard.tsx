@@ -20,7 +20,7 @@ export const ProductCard = ({
   colorImages,
 }: ProductCardProps) => {
   return (
-    <article className="flex flex-col  border md:py-3 md:px-4 py-1 px-2 rounded-md">
+    <article className="flex flex-col  border md:py-3 md:px-4 py-1 px-2 rounded-md h-fit">
       <Link href={`/products/${slug}`}>
         <div className="flex flex-col gap-5 mb-5">
           <div className="flex justify-center items-center">

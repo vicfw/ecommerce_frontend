@@ -152,13 +152,32 @@ const ProductDetailContainer = ({ product }: ProductDetailProps) => {
           </div>
           {/* TODO:Rating , Comments , Favorite */}
           {/* Colors */}
-          {product.colorImages ? (
+          {product.colorImages || product.defaultColorImage ? (
             <div className="mt-4">
               <UI_Typography component="p" className="reg14">
                 رنگ:{" "}
               </UI_Typography>
-              <div className="flex justify-start gap-2">
-                {product.colorImages.map((colorImage) => {
+              <div className="flex justify-start gap-2 items-center">
+                <div
+                  className={cn(
+                    "relative p-0.5 transition-all duration-200",
+                    !searchParams.get("ci") &&
+                      "ring-2 ring-primary ring-offset-1"
+                  )}
+                >
+                  <Image
+                    width={28}
+                    height={28}
+                    src={product.defaultColorImage}
+                    alt={product.prName}
+                    className="h-[28px] w-[28px]"
+                    onClick={() =>
+                      on.handleClickOnColorImage(product.images, 0)
+                    }
+                  />
+                </div>
+
+                {product.colorImages?.map((colorImage) => {
                   const isSelected =
                     searchParams.get("ci") === colorImage.id.toString();
                   return (

@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import UI_Typography from "@/components/ui/typography/UI_Typography";
 import { WarrantyText } from "@/components/warranty-text/WarrantyText";
 import { Suspense } from "react";
+import Link from "next/link";
 
 type Props = {
   cartItem: CartItemType;
@@ -18,12 +19,26 @@ export const MobileCartItem = ({ cartItem }: Props) => {
     <Suspense>
       <div className="border w-full flex-col gap-2 rounded shadow-sm py-3 px-3 md:hidden">
         <div className="flex gap-3">
-          <Image
-            src={cartItem.product.images[0]}
-            alt={cartItem.id.toString()}
-            width={88}
-            height={88}
-          />
+          <Link
+            href={
+              cartItem.colorImage && cartItem.colorImage.id
+                ? `/products/${cartItem.product.slug}?ci=${cartItem.colorImage.id}`
+                : `/products/${cartItem.product.slug}`
+            }
+            className="flex-shrink-0"
+          >
+            <Image
+              src={
+                cartItem.colorImage && cartItem.colorImage.images
+                  ? cartItem.colorImage.images[0]
+                  : cartItem.product.images[0]
+              }
+              alt={cartItem.id.toString()}
+              width={88}
+              height={88}
+              className="w-[88px] h-[88px] object-cover rounded"
+            />
+          </Link>
           <div className="flex w-full flex-col gap-1">
             <div className="flex w-full flex-col-reverse gap-1">
               <span className="reg10 text-gray-600">
@@ -46,7 +61,8 @@ export const MobileCartItem = ({ cartItem }: Props) => {
                   onClick={() =>
                     on.handleIncrementOrDecrementCartItem(
                       cartItem.productId,
-                      true
+                      true,
+                      cartItem.colorImage?.id
                     )
                   }
                 />
@@ -74,7 +90,8 @@ export const MobileCartItem = ({ cartItem }: Props) => {
                     onClick={() =>
                       on.handleIncrementOrDecrementCartItem(
                         cartItem.productId,
-                        false
+                        false,
+                        cartItem.colorImage?.id
                       )
                     }
                   />

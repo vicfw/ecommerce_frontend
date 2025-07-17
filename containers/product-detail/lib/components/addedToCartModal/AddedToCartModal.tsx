@@ -42,7 +42,10 @@ const AddedToCartModal = () => {
             <div className="relative h-24 w-24 flex-shrink-0 overflow-hidden rounded-lg bg-muted">
               {addedToCartModal.data.product.images[0] && (
                 <Image
-                  src={addedToCartModal.data.colorImage.images[0]}
+                  src={
+                    addedToCartModal.data.colorImage?.images[0] ??
+                    addedToCartModal.data.product.images[0]
+                  }
                   alt={addedToCartModal.data.product.name}
                   fill
                   className="object-cover"

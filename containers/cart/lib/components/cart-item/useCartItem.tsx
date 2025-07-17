@@ -121,13 +121,15 @@ export const useCartItem = (cartItemQuantity: number) => {
 
   const handleIncrementOrDecrementCartItem = (
     productId: number,
-    increment: boolean
+    increment: boolean,
+    colorImageId?: number | null
   ) => {
     if (updateCartLoading || updateAnonCartLoading) return;
     updateOrCreateCartHandler({
       productId: productId,
       increment,
       deliveryCostId: deliveryCostData.id,
+      colorImageId: colorImageId ?? undefined,
     });
   };
 

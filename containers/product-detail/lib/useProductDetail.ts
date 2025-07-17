@@ -152,6 +152,14 @@ export const useProductDetail = (product: Product) => {
     colorImages: string[],
     colorImageId: number
   ) => {
+    if (colorImageId === 0) {
+      setProductImages(product.images);
+      const params = new URLSearchParams(searchParams.toString());
+      params.delete("ci");
+      router.push(`?${params.toString()}`);
+      return;
+    }
+
     setProductImages(colorImages);
     const params = new URLSearchParams(searchParams.toString());
     params.set("ci", colorImageId.toString());

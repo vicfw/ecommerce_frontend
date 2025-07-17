@@ -22,6 +22,7 @@ export type Product = {
   enName: string;
   slug: string;
   colorImages?: ColorImage[];
+  defaultColorImage: string;
 };
 
 export type Badge = {
@@ -57,7 +58,7 @@ export type CartItemType = {
   cartId: number;
   product: Product;
   itemPrice: number;
-  colorImage: ColorImage;
+  colorImage: ColorImage | null;
 };
 
 export type Address = {

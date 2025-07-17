@@ -1,10 +1,11 @@
 "use client";
 
 import { PriceDetailAside } from "@/components/price-detail-aside/PriceDetailAside";
-import { useGlobalStore } from "@/store/globalStore";
-import { MobileCartItem } from "./lib/components/cart-item/MobileCartItem";
-import { useCart } from "./lib/useCart";
 import { CartItem, EmptyCart } from "./lib/components";
+import { MobileCartItem } from "./lib/components/cart-item/MobileCartItem";
+import { ShopTimeline } from "@/components/shop-timeline/ShopTimeline";
+import { useCart } from "./lib/useCart";
+import { MobilePriceDetail } from "@/components/price-detail-aside/MobilePriceDetail";
 
 const CartContainer = () => {
   const { get } = useCart();
@@ -38,8 +39,9 @@ const CartContainer = () => {
       </section>
 
       {/* Mobile */}
-      <div className="h-[calc(100dvh-118px)] w-full">
-        <div className="flex flex-col gap-2 mt-4">
+      <div className="h-[calc(100dvh-118px)] w-full overflow-scroll pb-20">
+        <ShopTimeline currentStep="cart" />
+        <div className="flex flex-col gap-2 mt-2">
           {get.cartData && get.cartData.cartItems.length ? (
             get.cartData?.cartItems.map((cartItem, index) => (
               <MobileCartItem cartItem={cartItem} />
@@ -48,6 +50,17 @@ const CartContainer = () => {
             <EmptyCart />
           )}
         </div>
+
+        {/* Mobile Price Detail */}
+        {get.cartData && get.cartData.cartItems.length ? (
+          <MobilePriceDetail
+            cartPrice={get.cartData.price}
+            discountPrice={get.cartData.discountPrice}
+            profitFromDiscount={get.cartData.profitFromDiscount}
+            href={get.confirmCartHref}
+            submitButtonText="ثبت"
+          />
+        ) : null}
       </div>
     </>
   );

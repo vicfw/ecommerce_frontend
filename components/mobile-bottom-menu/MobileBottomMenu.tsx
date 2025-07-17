@@ -9,7 +9,7 @@ const MobileBottomMenu = () => {
   const pathname = usePathname();
 
   // Define an array of paths that should return null
-  const hiddenPaths = ["/products/", "/checkout", "/order-summary"];
+  const hiddenPaths = ["/products/", "/checkout", "/order-summary", "/cart"];
 
   // Check if pathname starts with any of the hidden paths
   if (hiddenPaths.some((path) => pathname.startsWith(path))) {

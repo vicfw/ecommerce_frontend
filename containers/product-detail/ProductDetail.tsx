@@ -13,6 +13,7 @@ import Image from "next/image";
 import * as Lib from "./lib";
 import PDPCarousel from "./lib/components/carousel/Carousel";
 import CommentSection from "./lib/components/commentSection/CommentSection";
+import PdpPrice from "./lib/components/pdp-price/PdpPrice";
 import { useProductDetail } from "./lib/useProductDetail";
 import { useSearchParams } from "next/navigation";
 import AddedToCartModal from "./lib/components/addedToCartModal/AddedToCartModal";
@@ -259,7 +260,7 @@ const ProductDetailContainer = ({ product }: ProductDetailProps) => {
 
           <div>
             <UI_Typography className="text-lg">
-              <Price discount={product.discount} price={product.price} />
+              <PdpPrice discount={product.discount} price={product.price} />
             </UI_Typography>
           </div>
           <AddedToCartModal />

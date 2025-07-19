@@ -23,4 +23,10 @@ export class AddressService {
       data
     );
   }
+
+  async deleteAddress(addressId: number): Promise<Response<Address>> {
+    return axiosInstance().delete(
+      this.endpoint.concat("/" + addressId.toString())
+    );
+  }
 }

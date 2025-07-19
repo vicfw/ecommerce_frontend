@@ -1,9 +1,6 @@
 import { AddressService } from "@/services/addressService";
-import { Response } from "@/services/types/config";
-import { Address } from "@/types/globalTypes";
 import { CheckedState } from "@radix-ui/react-checkbox";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
 
 export const useAddress = () => {
   const queryClient = useQueryClient();
@@ -21,29 +18,16 @@ export const useAddress = () => {
         isDefault: checked as boolean,
       });
     },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["address"] });
+    },
+  });
 
-    // onMutate: (addressData) => {
-    //   const newAddress = queryClient.getQueryData([
-    //     "address",
-    //   ]) as unknown as Response<Address[]>;
-    //   newAddress.data.data.forEach((address: Address) => {
-    //     if (address.isDefault) {
-    //       address.isDefault = false;
-    //     }
-    //     if (!address.isDefault && address.id === addressData.addressId) {
-    //       address.isDefault = true;
-    //     }
-    //   });
-
-    //   queryClient.setQueryData(["address"], newAddress);
-    // },
-    // onError: (_, __, context) => {
-    //   const previousTodo = queryClient.getQueryData([
-    //     "address",
-    //   ]) as unknown as Response<Address[]>;
-
-    //   queryClient.setQueryData(["address"], previousTodo);
-    // },
+  const { mutateAsync: deleteAddressMutation } = useMutation({
+    mutationFn: (addressId: number) => {
+      const addressService = new AddressService();
+      return addressService.deleteAddress(addressId);
+    },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["address"] });
     },
@@ -58,5 +42,19 @@ export const useAddress = () => {
     await mutateAsync({ addressId, checked });
   };
 
-  return { get: {}, on: { handleChangeDefaultAddress } };
+  const handleDeleteAddress = async (addressId: number) => {
+    try {
+      await deleteAddressMutation(addressId);
+    } catch (error) {
+      console.error("Error deleting address:", error);
+    }
+  };
+
+  return {
+    get: {},
+    on: {
+      handleChangeDefaultAddress,
+      handleDeleteAddress,
+    },
+  };
 };

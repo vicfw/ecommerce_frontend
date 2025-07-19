@@ -33,15 +33,19 @@ const OrderItem = ({ order }: OrderItemProps) => {
 
   const iconMapper = useMemo(
     () => ({
-      [OrderStatus.PROCESSING]: <CarFront className="text-neutral-600" />,
+      [OrderStatus.PROCESSING]: (
+        <CarFront className="text-neutral-600" size={20} />
+      ),
 
       [OrderStatus.DELIVERED]: (
-        <div className="w-5 h-5 rounded-full bg-green-600 flex items-center justify-center">
+        <div className="w-4 h-4 md:w-5 md:h-5 rounded-full bg-green-600 flex items-center justify-center">
           <Check size="70%" className="text-white" />
         </div>
       ),
-      [OrderStatus.RETURNED]: <Undo2 className="text-neutral-600" />,
-      [OrderStatus.CANCELLED]: <CircleX className="text-neutral-600" />,
+      [OrderStatus.RETURNED]: <Undo2 className="text-neutral-600" size={20} />,
+      [OrderStatus.CANCELLED]: (
+        <CircleX className="text-neutral-600" size={20} />
+      ),
     }),
     []
   );
@@ -53,23 +57,58 @@ const OrderItem = ({ order }: OrderItemProps) => {
   return (
     <div className="border rounded-md w-full">
       <div className="flex justify-between">
-        <div className="flex flex-col  w-full">
-          <div className="py-4 flex flex-col gap-4">
+        <div className="flex flex-col w-full">
+          <div className="py-3 md:py-4 flex flex-col gap-3 md:gap-4">
             <div className="flex items-center gap-2 px-3">
               {iconMapper[activeTab as keyof typeof iconMapper]}
-              <UI_Typography
-                variant="Medium/Med14"
-                className="text-neutral-800"
-              >
+              <UI_Typography className="text-neutral-800 reg14 md:med14">
                 {mapper[activeTab as keyof typeof mapper]}
               </UI_Typography>
             </div>
-            {/* info */}
-            <div className="flex items-center gap-1 px-3">
-              <UI_Typography
-                variant="Regular/Reg14"
-                className="text-neutral-500"
-              >
+
+            {/* Mobile Info Layout */}
+            <div className="md:hidden flex flex-col gap-2 px-3">
+              <div className="flex items-center gap-1">
+                <UI_Typography className="text-neutral-500 reg12">
+                  {format(new Date(order.createdAt), "d LLLL yyyy")}
+                </UI_Typography>
+                <Dot className="text-[#e0e0e2]" size={20} />
+                <div className="flex items-center gap-1">
+                  <UI_Typography className="text-neutral-400 reg12">
+                    کد سفارش
+                  </UI_Typography>
+                  <UI_Typography className="text-neutral-700 reg12">
+                    {order.id}
+                  </UI_Typography>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-1">
+                <UI_Typography className="text-neutral-400 reg12">
+                  مبلغ
+                </UI_Typography>
+                <Price price={order.totalAmount} className="reg12" />
+
+                {order.profitFromDiscount && (
+                  <>
+                    <Dot className="text-[#e0e0e2]" size={20} />
+                    <div className="flex items-center gap-1">
+                      <UI_Typography className="text-neutral-400 reg12">
+                        تخفیف
+                      </UI_Typography>
+                      <Price
+                        price={order.profitFromDiscount}
+                        className="reg12"
+                      />
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+
+            {/* Desktop Info Layout */}
+            <div className="hidden md:flex items-center gap-1 px-3">
+              <UI_Typography className="text-neutral-500 reg14">
                 {format(new Date(order.createdAt), "d LLLL yyyy")}
               </UI_Typography>
               <Dot className="text-[#e0e0e2]" size={30} />
@@ -77,17 +116,14 @@ const OrderItem = ({ order }: OrderItemProps) => {
                 <UI_Typography className="text-neutral-400">
                   کد سفارش
                 </UI_Typography>
-                <UI_Typography
-                  variant="Regular/Reg14"
-                  className="text-neutral-700"
-                >
+                <UI_Typography className="text-neutral-700 reg14">
                   {order.id}
                 </UI_Typography>
               </div>
               <Dot className="text-[#e0e0e2]" size={30} />
               <div className="flex items-center gap-1">
                 <UI_Typography className="text-neutral-400">مبلغ</UI_Typography>
-                <Price price={order.totalAmount} variant="Regular/Reg14" />
+                <Price price={order.totalAmount} className="reg14" />
               </div>
 
               {order.profitFromDiscount ? (
@@ -97,10 +133,7 @@ const OrderItem = ({ order }: OrderItemProps) => {
                     <UI_Typography className="text-neutral-400">
                       تخفیف
                     </UI_Typography>
-                    <Price
-                      price={order.profitFromDiscount}
-                      variant="Regular/Reg14"
-                    />
+                    <Price price={order.profitFromDiscount} className="reg14" />
                   </div>
                 </>
               ) : null}
@@ -108,25 +141,27 @@ const OrderItem = ({ order }: OrderItemProps) => {
           </div>
 
           {/* images */}
-          <div className="flex items-center gap-4 border-t border-b py-4 px-3">
+          <div className="flex items-center gap-2 md:gap-4 border-t border-b py-3 md:py-4 px-3">
             {order.orderItem.map((orderItem) => (
               <Image
                 key={orderItem.product.id}
                 src={orderItem.product.images[0]}
                 alt="product"
-                width={64}
-                height={64}
+                width={48}
+                height={48}
+                className="md:w-16 md:h-16 rounded-md object-cover"
               />
             ))}
           </div>
+
           {/* factor */}
-          <div className="flex items-center gap-1 px-3 py-5 justify-end">
+          <div className="flex items-center gap-1 px-3 py-3 md:py-5 justify-end">
             <div
-              className="flex items-center gap-2 cursor-pointer"
+              className="flex items-center gap-1 md:gap-2 cursor-pointer transition-all duration-200 hover:opacity-80"
               onClick={handleRedirectToOrderDetail}
             >
-              <ClipboardList className="text-secondary" size={22} />
-              <UI_Typography variant="Regular/Reg12" className="text-secondary">
+              <ClipboardList className="text-secondary" size={18} />
+              <UI_Typography className="text-secondary reg12">
                 نمایش جزئیات
               </UI_Typography>
             </div>

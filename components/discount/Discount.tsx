@@ -8,10 +8,7 @@ type DiscountProps = {
 export const Discount = (props: DiscountProps) => {
   const { discount } = props;
   return (
-    <UI_Typography
-      variant="Medium/Med12"
-      className="bg-destructive px-2  py-1 rounded-xl text-white md:tex-base text-sm font-bold"
-    >
+    <UI_Typography className="bg-destructive px-2 rounded-xl text-white  med12">
       %{discount}
     </UI_Typography>
   );

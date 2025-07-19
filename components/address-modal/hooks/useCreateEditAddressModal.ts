@@ -45,7 +45,7 @@ export const useCreateEditAddressModal = () => {
       receiverName: userInfo?.name,
       receiverLastName: userInfo?.lastName,
       receiverPhoneNumber: userInfo?.phoneNumber,
-      isDefault: false,
+      isDefault: true,
     },
   });
 

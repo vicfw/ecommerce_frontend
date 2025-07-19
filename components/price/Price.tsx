@@ -18,7 +18,7 @@ export const Price = (props: PriceProps) => {
           ? calculateDiscountedPrice(price, discount)
           : price.toLocaleString()}
       </UI_Typography>
-      <UI_Typography className="text-base mdd:text-lg">تومان</UI_Typography>
+      <UI_Typography className="med14 md:med16">تومان</UI_Typography>
     </div>
   );
 };

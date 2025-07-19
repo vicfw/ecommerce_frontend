@@ -46,7 +46,7 @@ export function NavigationMenu() {
         ) : (
           <Link href={REGISTER_PAGE_LINK} className="flex items-center gap-2">
             <LogIn className="text-main" />
-            <UI_Typography className="text-main" variant="Medium/Med12">
+            <UI_Typography className="text-main med12">
               ورود | ثبت نام
             </UI_Typography>
           </Link>
@@ -63,10 +63,7 @@ export function NavigationMenu() {
                 onClick={() => setOpen(false)}
               >
                 <DropdownMenuLabel className="flex items-center justify-end gap-4">
-                  <UI_Typography
-                    variant="Medium/Med14"
-                    className="text-neutral-700"
-                  >
+                  <UI_Typography className="text-neutral-700 med14">
                     {item.name}
                   </UI_Typography>
                   <item.icon size={20} className="text-neutral-700" />

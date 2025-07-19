@@ -22,38 +22,39 @@ export const AddressModal = ({ addresses }: AddressModalProps) => {
 
   return (
     <Dialog open={get.openModal} onOpenChange={on.handleToggleModal}>
-      <DialogContent>
-        <DialogHeader className="flex flex-row justify-between items-center">
-          <DialogTitle className="flex">انتخاب آدرس</DialogTitle>
+      <DialogContent className="w-[95vw] max-w-md mx-auto p-0 rounded-lg">
+        <DialogHeader className="flex flex-row justify-between items-center p-4 pb-3">
+          <DialogTitle className="flex text-base font-medium">
+            انتخاب آدرس
+          </DialogTitle>
           <X
-            className="cursor-pointer"
-            style={{ margin: 0 }}
+            className="cursor-pointer p-1 rounded-full hover:bg-neutral-100 transition-colors"
             size={20}
             onClick={on.handleToggleModal}
           />
         </DialogHeader>
-        <Separator className="bg-neutral-200 mt-3" />
-        <section>
+        <Separator className="bg-neutral-200" />
+        <section className="p-4 pt-0">
           <div
-            className="flex items-center py-5 cursor-pointer"
+            className="flex items-center py-4 cursor-pointer rounded-lg hover:bg-neutral-50 transition-colors"
             onClick={on.handleToggleCreateModal}
           >
-            <div className="flex shrink-0 ml-2">
-              <MapPin className="text-neutral-500" />
+            <div className="flex shrink-0 ml-3">
+              <MapPin className="text-neutral-500" size={18} />
             </div>
             <UI_Typography
               component="p"
-              className="grow text-neutral-900"
-              variant="Medium/Med16"
+              className="grow text-neutral-900 text-sm font-medium"
             >
               افزودن آدرس جدید
             </UI_Typography>
-            <div className="flex mr-2 shrink-0">
-              <ChevronLeft className="text-neutral-400" />
+            <div className="flex mr-3 shrink-0">
+              <ChevronLeft className="text-neutral-400" size={16} />
             </div>
           </div>
-          {/* address loop */}
-          <div className="overflow-y-auto h-[36dvh]">
+
+          {/* Address list with mobile-optimized height */}
+          <div className="overflow-y-auto max-h-[50vh] md:max-h-[36dvh] space-y-2">
             {addresses.map((address) => (
               <Address key={address.id} address={address} />
             ))}

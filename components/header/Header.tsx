@@ -8,6 +8,7 @@ import Loader from "../Loader/Loader";
 import { SearchInput } from "../ui/search-input";
 import LoginButton from "./components/LoginButton";
 import { NavigationMenu } from "./components/NavigationMenu";
+import ProfileMenu from "./components/ProfileMenu";
 import Sidebar from "./components/sidebar/Sidebar";
 import { useHeader } from "./useHeader";
 
@@ -61,7 +62,14 @@ const Header = () => {
               <span className="text-[11px] text-white">{get.cartLength}</span>
             </div>
           </Link>
-          {!!!get.token ? <LoginButton /> : null}
+
+          {/* Desktop: Show LoginButton, Mobile: Show ProfileMenu if logged in */}
+          <div className="hidden md:block">
+            <LoginButton />
+          </div>
+
+          {/* Mobile Profile Menu */}
+          {get.token ? <ProfileMenu /> : <LoginButton />}
 
           <div
             className="md:hidden cursor-pointer"

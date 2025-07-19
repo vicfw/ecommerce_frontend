@@ -35,25 +35,25 @@ const TabItem = ({ title, count, engTitle }: TabItemProps) => {
 
   return (
     <div
-      className="flex items-center gap-2 relative pb-3 cursor-pointer"
+      className="flex items-center gap-1 md:gap-2 relative pb-3 cursor-pointer transition-all duration-200 hover:opacity-80"
       onClick={handleRedirect}
     >
-      <UI_Typography variant="Regular/Reg14" className="text-neutral-500">
+      <UI_Typography className="text-neutral-500 reg12 md:reg14 whitespace-nowrap">
         {title}
       </UI_Typography>
 
-      <div className="w-5 h-5 bg-neutral-500 flex justify-center items-center rounded-md">
+      <div className="w-4 h-4 md:w-5 md:h-5 bg-neutral-500 flex justify-center items-center rounded-md flex-shrink-0">
         {Boolean(orderStatusCountPending) ? (
-          <Loader className="text-white" size={12} />
+          <Loader className="text-white" size={10} />
         ) : (
-          <UI_Typography variant="Regular/Reg14" className="text-white">
+          <UI_Typography className="text-white reg10 md:reg14">
             {count}
           </UI_Typography>
         )}
       </div>
 
       {isActive && (
-        <div className="absolute h-[4px] rounded-sm w-full bg-red-600 bottom-0" />
+        <div className="absolute h-[3px] md:h-[4px] rounded-sm w-full bg-secondary bottom-0" />
       )}
     </div>
   );

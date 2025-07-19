@@ -76,13 +76,13 @@ export const MobilePriceDetail = ({
           </div>
         ) : null}
 
-        {deliveryCost ? (
+        {/* {deliveryCost ? (
           <div className="flex justify-center items-center">
             <UI_Typography className="text-destructive med14">
               ارسال در 2 روز کاری
             </UI_Typography>
           </div>
-        ) : null}
+        ) : null} */}
       </div>
 
       {/* Sticky Submit Button */}

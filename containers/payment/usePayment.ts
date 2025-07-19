@@ -6,10 +6,12 @@ import { Order } from "@/types/globalTypes";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { addDays, parseISO } from "date-fns";
 import { format } from "date-fns-jalali";
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export const usePayment = () => {
   const token = getClientSideCookie("jwt");
+  const router = useRouter();
 
   const { data: cartData } = useQuery({
     queryKey: ["get-cart"],
@@ -20,6 +22,13 @@ export const usePayment = () => {
     enabled: Boolean(token),
     select: (data) => data.data.data,
   });
+
+  // Redirect to main page if no cart data
+  useEffect(() => {
+    if (token && cartData === null) {
+      router.replace("/");
+    }
+  }, [cartData, token, router]);
 
   const { mutateAsync: createOrder } = useMutation({
     mutationFn: () => {

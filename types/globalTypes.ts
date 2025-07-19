@@ -90,6 +90,10 @@ export type Order = {
 
 export type OrderItem = {
   product: Product;
+  id: number;
+  quantity: number;
+  itemPrice: number;
+  productId: number;
 };
 
 export enum OrderStatus {

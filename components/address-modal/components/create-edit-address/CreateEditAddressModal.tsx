@@ -110,13 +110,6 @@ const CreateEditAddressModal = () => {
                         onChange={field.onChange}
                         value={field.value}
                         placeholder="انتخاب کنید"
-                        defaultValue={
-                          citiesStaticData[
-                            get.form.watch(
-                              "province"
-                            ) as keyof typeof citiesStaticData
-                          ][0].label
-                        }
                         data={
                           citiesStaticData[
                             get.form.watch(
@@ -190,10 +183,7 @@ const CreateEditAddressModal = () => {
                         <Input {...field} />
                       </FormControl>
                       <FormDescription>
-                        <UI_Typography
-                          className="text-neutral-300"
-                          variant="Regular/Reg12"
-                        >
+                        <UI_Typography className="text-neutral-300 reg12">
                           کد‌پستی باید ۱۰ رقم و بدون خط تیره باشد.
                         </UI_Typography>
                       </FormDescription>
@@ -213,11 +203,28 @@ const CreateEditAddressModal = () => {
                 onCheckedChange={on.handleChangeIsForHimSelf}
               />
               <UI_Typography
-                variant="Regular/Reg14"
+                className="reg14"
                 component="label"
                 htmlFor="receiver"
               >
                 گیرنده سفارش خودم هستم.
+              </UI_Typography>
+            </div>
+
+            <div className="flex gap-2 items-center">
+              <Checkbox
+                id="isDefault"
+                checked={get.form.watch("isDefault")}
+                onCheckedChange={(checked) => {
+                  get.form.setValue("isDefault", checked as boolean);
+                }}
+              />
+              <UI_Typography
+                className="reg14"
+                component="label"
+                htmlFor="isDefault"
+              >
+                این آدرس را به عنوان آدرس پیش‌فرض تنظیم کن
               </UI_Typography>
             </div>
 
@@ -273,7 +280,7 @@ const CreateEditAddressModal = () => {
             </div>
 
             <Button type="submit">
-              <UI_Typography variant="Regular/Reg16">ثبت آدرس</UI_Typography>
+              <UI_Typography className="reg16">ثبت آدرس</UI_Typography>
             </Button>
           </form>
         </Form>

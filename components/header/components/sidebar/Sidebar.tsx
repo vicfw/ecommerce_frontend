@@ -4,6 +4,7 @@ import { ChevronLeft } from "lucide-react";
 import Image from "next/image";
 import SidebarBox from "./SidebarBox";
 import { useSidebar } from "./useSidebar";
+import Brands from "./brands/Brands";
 
 const Sidebar = () => {
   const { get, on } = useSidebar();
@@ -19,22 +20,8 @@ const Sidebar = () => {
                 <ChevronLeft onClick={on.handleSetShowBrands} />
               </div>
             </SheetHeader>
-            <div className="grid grid-cols-2 gap-3 mt-5">
-              {get.brands?.map((brand) => (
-                <SidebarBox
-                  key={brand.id}
-                  href="/cart"
-                  onClick={on.handleOpenSidebar}
-                >
-                  <UI_Typography>{brand.name}</UI_Typography>
-                  <Image
-                    src={brand.image}
-                    alt={brand.name}
-                    width={50}
-                    height={50}
-                  />
-                </SidebarBox>
-              ))}
+            <div className=" mt-5">
+              <Brands />
             </div>
           </>
         ) : (

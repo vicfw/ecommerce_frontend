@@ -1,30 +1,34 @@
-import { SearchIcon } from "lucide-react";
-import { InputProps } from "./input";
-import React from "react";
+import * as React from "react";
+import { Search } from "lucide-react";
+
 import { cn } from "@/lib/utils";
+import { Input } from "@/components/ui/input";
 
-export type SearchProps = React.InputHTMLAttributes<HTMLInputElement>;
+export interface SearchInputProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
+  onSearch?: (value: string) => void;
+}
 
-const SearchInput = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, ...props }, ref) => {
+const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
+  ({ className, onSearch, ...props }, ref) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      onSearch?.(e.target.value);
+    };
+
     return (
-      <div
-        className={cn(
-          "flex h-10 items-center rounded-md border border-input bg-white pl-3 text-sm ",
-          className
-        )}
-      >
-        <SearchIcon className="h-[16px] w-[16px] mr-2 cursor-pointer" />
-        <input
-          {...props}
+      <div className="relative">
+        <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+        <Input
+          placeholder="Search..."
+          className={cn("pl-8", className)}
+          onChange={handleChange}
           ref={ref}
-          className="RegularReg12 w-full text-main  text-lg  placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 pr-2"
+          {...props}
         />
       </div>
     );
   }
 );
-
 SearchInput.displayName = "SearchInput";
 
 export { SearchInput };

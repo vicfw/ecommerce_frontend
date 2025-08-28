@@ -14,3 +14,11 @@ export interface PaginatedResponse<T = unknown> extends AxiosResponse {
     hasMore: boolean;
   };
 }
+
+export interface FetchDataPaginatedResponse<T> {
+  data: T;
+  message: string;
+  total?: number;
+  page?: number;
+  hasMore?: boolean;
+}

@@ -1,3 +1,8 @@
-import { Brand } from "@/types/globalTypes";
+import { Brand, Product } from "@/types/globalTypes";
 
-export type GetAllBrandsResponse = Brand[];
+export type GetAllBrandsResponse = Brand;
+
+export type GetBrandProductsResponse = {
+  products: Product[];
+  brand: Brand;
+};

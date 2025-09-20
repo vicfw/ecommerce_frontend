@@ -1,4 +1,3 @@
-import { BrandService } from "@/services/brandService";
 import { CategoryService } from "@/services/categoryService";
 import { useGlobalStore } from "@/store/globalStore";
 import { useQuery } from "@tanstack/react-query";
@@ -7,6 +6,8 @@ import { useShallow } from "zustand/react/shallow";
 
 export const useSidebar = () => {
   const [showBrands, setShowBrands] = useState(false);
+  const [isDefaultScreen, setIsDefaultScreen] = useState(true);
+  const [showSubCategory, setShowSubCategory] = useState(false);
 
   const { handleOpenSidebar, openSidebar } = useGlobalStore(
     useShallow((state) => ({
@@ -17,33 +18,34 @@ export const useSidebar = () => {
 
   const { data: categories } = useQuery({
     queryKey: ["categories"],
-    queryFn: () => new CategoryService().getCategories(),
+    queryFn: () => new CategoryService().getAllCategoriesByLevel(1),
     enabled: openSidebar,
-  });
-
-  const { data: brands } = useQuery({
-    queryKey: ["brands"],
-    queryFn: () => new BrandService().getBrands(),
-    enabled: showBrands,
   });
 
   const handleSetShowBrands = () => {
     setShowBrands((prev) => !prev);
+    setIsDefaultScreen((prev) => !prev);
+  };
+
+  const handleShowSubCategory = () => {
+    setShowSubCategory((prev) => !prev);
+    setIsDefaultScreen((prev) => !prev);
   };
 
   useEffect(() => {
     if (!openSidebar) {
-      setShowBrands(false);
+      if (showBrands) setShowBrands(false);
     }
   }, [openSidebar]);
 
   return {
     get: {
       openSidebar,
-      categories: categories?.data.data,
+      parentCategories: categories?.data.data,
       showBrands,
-      brands: brands?.data.data,
+      isDefaultScreen,
+      showSubCategory,
     },
-    on: { handleOpenSidebar, handleSetShowBrands },
+    on: { handleOpenSidebar, handleSetShowBrands, handleShowSubCategory },
   };
 };

@@ -12,7 +12,7 @@ type SidebarBoxProps = {
 const SidebarBox = ({ href, children, onClick, ...rest }: SidebarBoxProps) => {
   const className = useMemo(
     () =>
-      "border rounded-lg  items-center py-[8px] px-[16px]  max-h-[85px] justify-center flex flex-col gap-2",
+      "border rounded-lg  items-center py-[8px] px-[16px]  max-h-[85px] justify-center flex flex-col gap-1",
     []
   );
 

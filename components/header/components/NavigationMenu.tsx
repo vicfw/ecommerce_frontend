@@ -12,11 +12,18 @@ import { REGISTER_PAGE_LINK } from "@/constants";
 import { getClientSideCookie } from "@/lib/utils";
 import { Captions, ChevronDown, LogIn, User } from "lucide-react";
 import Link from "next/link";
-import { Fragment, useMemo, useState } from "react";
+import { Fragment, useMemo, useState, useEffect } from "react";
 
 export function NavigationMenu() {
-  const token = getClientSideCookie("jwt");
+  const [token, setToken] = useState<string | null>(null);
+  const [isClient, setIsClient] = useState(false);
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+    const jwtToken = getClientSideCookie("jwt");
+    setToken(jwtToken || null);
+  }, []);
 
   const menuItems = useMemo(() => {
     return [
@@ -31,6 +38,18 @@ export function NavigationMenu() {
   const handleOnOpenChange = (open: boolean) => {
     setOpen(open);
   };
+
+  // Show loading state during hydration to prevent mismatch
+  if (!isClient) {
+    return (
+      <div className="border rounded-lg flex items-center py-[8px] px-[16px] gap-2 max-h-[40px] justify-center">
+        <div className="flex items-center gap-2">
+          <User className="text-main" />
+          <ChevronDown className="text-main" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <DropdownMenu open={open} onOpenChange={handleOnOpenChange}>

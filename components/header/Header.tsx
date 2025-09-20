@@ -1,19 +1,18 @@
-"use client";
-
 import { CART_PAGE_LINK } from "@/constants";
-import { AlignJustify, ShoppingCart } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { Container } from "../container/Container";
-import Loader from "../Loader/Loader";
 import { SearchInput } from "../ui/search-input";
+import AuthMenu from "./components/AuthMenu";
+import CartLength from "./components/CartLength";
+import HamburgerMenu from "./components/HamburgerMenu";
 import LoginButton from "./components/LoginButton";
 import { NavigationMenu } from "./components/NavigationMenu";
-import ProfileMenu from "./components/ProfileMenu";
 import Sidebar from "./components/sidebar/Sidebar";
-import { useHeader } from "./useHeader";
+import { BrandService } from "@/services/brandService";
 
-const Header = () => {
-  const { get, on } = useHeader();
+const Header = async () => {
+  const brands = await new BrandService().getBrands();
 
   return (
     <Container
@@ -44,13 +43,7 @@ const Header = () => {
         </div>
         <div className="flex items-center justify-end gap-3">
           <div className="items-center gap-5 hidden md:flex">
-            {get.isLoaded ? (
-              <NavigationMenu />
-            ) : (
-              <div className="border rounded-lg flex items-center py-[8px] px-[16px] gap-2  max-h-[40px] justify-center">
-                <Loader />
-              </div>
-            )}
+            <NavigationMenu />
           </div>
 
           <Link
@@ -58,9 +51,7 @@ const Header = () => {
             className="md:border-r-2 md:pr-5 relative"
           >
             <ShoppingCart className="text-main md:w-7 md:h-7 h-7 w-7" />
-            <div className="absolute bottom-[-1px] bg-destructive rounded-md md:w-[17px] md:h-[17px] w-2 h-2 flex justify-center items-center p-2">
-              <span className="text-[11px] text-white">{get.cartLength}</span>
-            </div>
+            <CartLength />
           </Link>
 
           {/* Desktop: Show LoginButton, Mobile: Show ProfileMenu if logged in */}
@@ -69,17 +60,12 @@ const Header = () => {
           </div>
 
           {/* Mobile Profile Menu */}
-          {get.token ? <ProfileMenu /> : <LoginButton />}
+          <AuthMenu />
 
-          <div
-            className="md:hidden cursor-pointer"
-            onClick={on.handleOpenSidebar}
-          >
-            <AlignJustify className="text-main md:w-7 md:h-7 h-7 w-7 mt-[2px]" />
-          </div>
+          <HamburgerMenu />
         </div>
         {/* Sidebar */}
-        <Sidebar />
+        <Sidebar brands={brands} />
       </section>
     </Container>
   );

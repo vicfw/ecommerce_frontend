@@ -1,5 +1,7 @@
 import UI_Typography from "@/components/ui/typography/UI_Typography";
 import { EmptyBasket } from "../../icons";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export const EmptyCart = () => {
   return (
@@ -13,6 +15,10 @@ export const EmptyCart = () => {
       <UI_Typography className="text-neutral-600 reg14">
         می‌توانید برای مشاهده محصولات بیشتر به صفحات زیر بروید:
       </UI_Typography>
+
+      <Link href="/">
+        <Button>برو به خانه</Button>
+      </Link>
     </div>
   );
 };

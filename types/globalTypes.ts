@@ -111,8 +111,20 @@ export type DeliveryCost = {
 export type Category = {
   id: number;
   name: string;
-  image: string;
-  product: Product[];
+  slug: string;
+  description: string | null;
+  isParent: boolean;
+  parentImage: string;
+  parentBanner: string;
+  image: string | null;
+  color: string | null;
+  icon: string | null;
+  parentId: number | null;
+  level: number;
+  isActive: boolean;
+  sortOrder: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type Brand = {

@@ -8,4 +8,10 @@ export class CategoryService {
   getCategories(): Promise<Response<GetAllCategoriesResponse>> {
     return axiosInstance().get(this.endpoint);
   }
+
+  getAllCategoriesByLevel(
+    level: number
+  ): Promise<Response<GetAllCategoriesResponse>> {
+    return axiosInstance().get(`${this.endpoint}/level/${level}`);
+  }
 }

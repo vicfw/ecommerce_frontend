@@ -10,7 +10,7 @@ export default function MainLayout({
     <div className="flex min-h-screen flex-col">
       <Header />
       <div className="h-[10px] hidden md:block" />
-      <Container component="section" className="flex-1">
+      <Container component="section" className="flex-1 py-2 px-4">
         {children}
       </Container>
       <MobileBottomMenu />

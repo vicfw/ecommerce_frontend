@@ -15,6 +15,7 @@ export class UploadService {
       headers: {
         "Content-Type": "multipart/form-data",
       },
+      timeout: 60000,
     });
   }
 }

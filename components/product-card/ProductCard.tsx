@@ -24,7 +24,11 @@ export const ProductCard = ({
       <Link href={`/products/${slug}`}>
         <div className="flex flex-col gap-5 mb-5">
           <div className="flex justify-center items-center">
-            <Image src={images[0]} alt="" width={200} height={200} />
+            {images?.[0] ? (
+              <Image src={images[0]} alt={prName} width={200} height={200} />
+            ) : (
+              <div className="w-[200px] h-[200px] bg-neutral-100" />
+            )}
           </div>
           <div>
             <UI_Typography

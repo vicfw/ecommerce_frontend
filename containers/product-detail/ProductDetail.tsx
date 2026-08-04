@@ -8,7 +8,7 @@ import UI_Typography from "@/components/ui/typography/UI_Typography";
 import { WarrantyText } from "@/components/warranty-text/WarrantyText";
 import { calculateDiscountedPrice, cn } from "@/lib/utils";
 import { Product } from "@/types/globalTypes";
-import { ChevronLeft, Info, Truck } from "lucide-react";
+import { ArrowLeft, ArrowRight, ChevronLeft, Info, Truck } from "lucide-react";
 import Image from "next/image";
 import * as Lib from "./lib";
 import PDPCarousel from "./lib/components/carousel/Carousel";
@@ -27,22 +27,33 @@ const ProductDetailContainer = ({ product }: ProductDetailProps) => {
   const searchParams = useSearchParams();
 
   return (
-    <>
+    <div className="w-full flex flex-col">
+      <button
+        type="button"
+        onClick={on.routerBack}
+        className="self-end mb-2 p-1 text-neutral-700"
+        aria-label="بازگشت"
+      >
+        <ArrowLeft size={22} />
+      </button>
+
       {/* Desktop */}
-      <main className="md:grid lg:grid-cols-[1fr_2fr] md:grid-cols-1 w-full mt-8 gap-14 hidden">
+      <main className="md:grid lg:grid-cols-[1fr_2fr] md:grid-cols-1 w-full mt-2 md:mt-4 gap-14 hidden">
         {/* image slider */}
         <section className="min-h-[356px]">
           <div className="relative w-full h-full">
-            <Image
-              fill
-              alt={product.enName}
-              src={product.images[0]}
-              style={{ objectFit: "contain" }}
-            />
+            {(product.images?.[0] || product.defaultColorImage) && (
+              <Image
+                fill
+                alt={product.enName}
+                src={product.images?.[0] || product.defaultColorImage}
+                style={{ objectFit: "contain" }}
+              />
+            )}
           </div>
 
           <div className="mt-4 flex gap-5">
-            {product.images.slice(1).map((image) => (
+            {(product.images ?? []).slice(1).map((image) => (
               <Lib.C.ImageVariant
                 alt={product.enName}
                 src={image}
@@ -107,7 +118,7 @@ const ProductDetailContainer = ({ product }: ProductDetailProps) => {
                     <UI_Typography
                       className={cn(
                         "text-neutral-400 reg14",
-                        product.discount && "line-through"
+                        product.discount && "line-through",
                       )}
                     >
                       {product.price.toLocaleString()}
@@ -120,7 +131,7 @@ const ProductDetailContainer = ({ product }: ProductDetailProps) => {
               <div>
                 <Price
                   price={parseFloat(
-                    calculateDiscountedPrice(product.price, product.discount)
+                    calculateDiscountedPrice(product.price, product.discount),
                   )}
                   className="med18"
                 />
@@ -141,8 +152,8 @@ const ProductDetailContainer = ({ product }: ProductDetailProps) => {
       </main>
 
       {/* Mobile */}
-      <main className="md:hidden w-full mt-2 flex flex-col">
-        <div className="mb-2">
+      <main className="md:hidden w-full mt-2 flex flex-col pb-[80px]">
+        <div className="mb-2 min-w-0">
           {/* TODO:BreadCrumb Goes Here */}
 
           {/* Image Slider */}
@@ -163,7 +174,7 @@ const ProductDetailContainer = ({ product }: ProductDetailProps) => {
                   className={cn(
                     "relative p-0.5 transition-all duration-200",
                     !searchParams.get("ci") &&
-                      "ring-2 ring-primary ring-offset-1"
+                      "ring-2 ring-primary ring-offset-1",
                   )}
                 >
                   <Image
@@ -186,7 +197,7 @@ const ProductDetailContainer = ({ product }: ProductDetailProps) => {
                       key={colorImage.id}
                       className={cn(
                         "relative p-0.5 transition-all duration-200",
-                        isSelected && "ring-2 ring-primary ring-offset-1"
+                        isSelected && "ring-2 ring-primary ring-offset-1",
                       )}
                     >
                       <Image
@@ -196,12 +207,12 @@ const ProductDetailContainer = ({ product }: ProductDetailProps) => {
                         alt={product.prName}
                         className={cn(
                           "cursor-pointer transition-transform duration-200",
-                          isSelected && "scale-105"
+                          isSelected && "scale-105",
                         )}
                         onClick={() =>
                           on.handleClickOnColorImage(
                             colorImage.images,
-                            colorImage.id
+                            colorImage.id,
                           )
                         }
                       />
@@ -219,19 +230,19 @@ const ProductDetailContainer = ({ product }: ProductDetailProps) => {
           </div>
 
           {/* Terms */}
-          <div className="bg-neutral-100 flex items-center justify-between py-4 mt-4 rounded-sm">
-            <div className="border-l text-neutral-600 px-2">
-              <UI_Typography>
+          <div className="bg-neutral-100 flex items-stretch justify-between py-4 mt-4 rounded-sm overflow-hidden">
+            <div className="border-l text-neutral-600 px-2 min-w-0 flex-1">
+              <UI_Typography className="text-xs leading-5">
                 بازگشت کالا تا 7 روز طبق شرایط مرجوعی{" "}
               </UI_Typography>
             </div>
-            <div className="border-l text-neutral-600 px-2">
-              <UI_Typography>
+            <div className="border-l text-neutral-600 px-2 min-w-0 flex-1">
+              <UI_Typography className="text-xs leading-5">
                 بازگشت کالا تا 7 روز طبق شرایط مرجوعی{" "}
               </UI_Typography>
             </div>
-            <div className="px-2 text-neutral-600">
-              <UI_Typography>
+            <div className="px-2 text-neutral-600 min-w-0 flex-1">
+              <UI_Typography className="text-xs leading-5">
                 بازگشت کالا تا 7 روز طبق شرایط مرجوعی{" "}
               </UI_Typography>
             </div>
@@ -249,8 +260,8 @@ const ProductDetailContainer = ({ product }: ProductDetailProps) => {
           <CommentSection />
         </div>
 
-        {/* Bottom Sell Button */}
-        <div className="sticky z-10 bottom-0 right-0 bg-white border-t h-[80px] flex items-center justify-between">
+        {/* Bottom Sell Button — fixed so it stays pinned while scrolling */}
+        <div className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t h-[80px] flex items-center justify-between px-4">
           <Button
             loading={get.addToAnonCartIsPending || get.addToCartIsPending}
             onClick={() => on.handleClickOnAddToCartButton(product.id)}
@@ -266,7 +277,7 @@ const ProductDetailContainer = ({ product }: ProductDetailProps) => {
           <AddedToCartModal />
         </div>
       </main>
-    </>
+    </div>
   );
 };
 

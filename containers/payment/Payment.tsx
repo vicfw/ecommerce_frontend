@@ -15,7 +15,7 @@ export const PaymentContainer = () => {
   const { get, on } = usePayment();
 
   return (
-    <section className="flex flex-col gap-4 w-full">
+    <section className="flex flex-col gap-4 w-full pb-16">
       {/* Mobile Design */}
       <div className="md:hidden">
         {/* Shop Timeline */}
@@ -69,7 +69,7 @@ export const PaymentContainer = () => {
 
         {/* Discount Code Section */}
         <div className="border border-neutral-200 px-4 py-4 rounded-lg mb-4">
-          <UI_Typography className="text-neutral-900 font-medium mb-3">
+          <UI_Typography className="text-neutral-900 font-medium" component="p">
             کد تخفیف
           </UI_Typography>
 

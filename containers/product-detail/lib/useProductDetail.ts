@@ -30,9 +30,9 @@ export const useProductDetail = (product: Product) => {
       const selectedColorImage = product.colorImages.find(
         (ci) => ci.id === parseInt(colorImageId)
       );
-      return selectedColorImage?.images || product.images;
+      return selectedColorImage?.images || product.images || [];
     }
-    return product.images;
+    return product.images || [];
   });
 
   const queryClient = useQueryClient();
@@ -172,8 +172,12 @@ export const useProductDetail = (product: Product) => {
     }
   }, [product.id]);
 
+  const routerBack = () => {
+    router.back();
+  };
+
   return {
-    on: { handleClickOnAddToCartButton, handleClickOnColorImage },
+    on: { handleClickOnAddToCartButton, handleClickOnColorImage, routerBack },
     get: { addToAnonCartIsPending, addToCartIsPending, productImages },
   };
 };

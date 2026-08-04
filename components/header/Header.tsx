@@ -17,7 +17,7 @@ const Header = async () => {
   return (
     <Container
       component="header"
-      className="border-b shadow-sm  md:border-none md:shadow-none sticky md:static top-0 z-10 bg-white md-h-auto h-[60px]"
+      className="border-b shadow-sm md:border-none md:shadow-none fixed md:static top-0 left-0 right-0 z-50 bg-white h-[60px] md:h-auto"
     >
       <section className="w-full py-0 md:py-3 flex relative z-2 ">
         <div className="flex flex-1 items-center grow gap-5">

@@ -35,7 +35,7 @@ const TabItem = ({ title, count, engTitle }: TabItemProps) => {
 
   return (
     <div
-      className="flex items-center gap-1 md:gap-2 relative pb-3 cursor-pointer transition-all duration-200 hover:opacity-80"
+      className="flex items-center gap-1 md:gap-2 relative pb-3 cursor-pointer transition-all duration-200 hover:opacity-80 shrink-0"
       onClick={handleRedirect}
     >
       <UI_Typography className="text-neutral-500 reg12 md:reg14 whitespace-nowrap">

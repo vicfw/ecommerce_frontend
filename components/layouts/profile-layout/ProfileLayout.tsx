@@ -1,4 +1,3 @@
-import { Container } from "@/components/container/Container";
 import Loader from "@/components/Loader/Loader";
 import dynamic from "next/dynamic";
 import { PropsWithChildren } from "react";
@@ -14,7 +13,7 @@ const ProfileMenu = dynamic(() => import("./ProfileMenu"), {
 
 const ProfileLayout = ({ children }: PropsWithChildren) => {
   return (
-    <Container component="main">
+    <main className="w-full">
       {/* Mobile Layout - No sidebar, full width content */}
       <div className="md:hidden w-full">{children}</div>
 
@@ -25,7 +24,7 @@ const ProfileLayout = ({ children }: PropsWithChildren) => {
         </div>
         <div className="border rounded-lg">{children}</div>
       </div>
-    </Container>
+    </main>
   );
 };
 

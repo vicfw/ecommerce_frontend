@@ -16,7 +16,7 @@ const OrdersContainer = () => {
       {/* Mobile Layout - Full width without sidebar */}
       <div className="md:hidden">
         <section>
-          <div className="w-full flex items-center gap-7 mt-4 px-4 border-b">
+          <div className="w-full flex items-center gap-7 mt-4 px-4 border-b overflow-x-auto">
             {get.tabs.map((tab) => (
               <TabItem
                 key={tab.engTitle}
@@ -24,7 +24,7 @@ const OrdersContainer = () => {
                 count={
                   get.orderStatusCountData?.find(
                     (orderStatusCount) =>
-                      orderStatusCount.status === tab.engTitle
+                      orderStatusCount.status === tab.engTitle,
                   )?.count || 0
                 }
                 engTitle={tab.engTitle}
@@ -34,7 +34,7 @@ const OrdersContainer = () => {
           <div
             className={cn(
               !get.orderData?.length && "min-h-[286px] justify-center ",
-              "flex items-center flex-col w-full gap-5 px-3 pt-4"
+              "flex items-center flex-col w-full gap-5 px-3 pt-4",
             )}
           >
             {get.orderDataIsPending ? (
@@ -59,7 +59,7 @@ const OrdersContainer = () => {
             </UI_Typography>
           </div>
 
-          <div className="w-full flex items-center gap-7 mt-8 px-4 border-b">
+          <div className="w-full flex items-center gap-7 mt-8 px-4 border-b overflow-x-auto">
             {get.tabs.map((tab) => (
               <TabItem
                 key={tab.engTitle}
@@ -67,7 +67,7 @@ const OrdersContainer = () => {
                 count={
                   get.orderStatusCountData?.find(
                     (orderStatusCount) =>
-                      orderStatusCount.status === tab.engTitle
+                      orderStatusCount.status === tab.engTitle,
                   )?.count || 0
                 }
                 engTitle={tab.engTitle}
@@ -77,7 +77,7 @@ const OrdersContainer = () => {
           <div
             className={cn(
               !get.orderData?.length && "min-h-[286px] justify-center ",
-              "flex items-center flex-col w-full gap-5 px-3 pt-4"
+              "flex items-center flex-col w-full gap-5 px-3 pt-4",
             )}
           >
             {get.orderDataIsPending ? (

@@ -36,23 +36,21 @@ const CreateEditAddressModal = () => {
       onOpenChange={on.handleToggleCreateModal}
       key="create-address"
     >
-      <DialogContent>
-        <DialogHeader className="flex flex-row justify-between items-center">
-          <DialogTitle className="flex text-[16px] font-bold">
+      <DialogContent className="inset-0 flex h-dvh max-w-none translate-x-0 translate-y-0 flex-col gap-0 overflow-hidden border-0 p-0 sm:rounded-none">
+        <DialogHeader className="shrink-0 flex-row items-center justify-between space-y-0 border-b border-neutral-200 px-4 py-4">
+          <DialogTitle className="text-[16px] font-bold">
             انتخاب آدرس
           </DialogTitle>
           <X
             className="cursor-pointer"
-            style={{ margin: 0 }}
             size={20}
             onClick={on.handleToggleCreateModal}
           />
         </DialogHeader>
-        <Separator className="bg-neutral-200 mt-3" />
         <Form {...get.form}>
           <form
             onSubmit={get.form.handleSubmit(on.onSubmit)}
-            className="flex flex-col gap-5"
+            className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto px-4 py-5"
           >
             {/* Address */}
             <FormField
@@ -113,7 +111,7 @@ const CreateEditAddressModal = () => {
                         data={
                           citiesStaticData[
                             get.form.watch(
-                              "province"
+                              "province",
                             ) as keyof typeof citiesStaticData
                           ] || []
                         }

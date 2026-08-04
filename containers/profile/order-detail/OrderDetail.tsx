@@ -13,7 +13,7 @@ import { useOrderDetail } from "./useOrderDetail";
 const OrderDetail = () => {
   const { get, on } = useOrderDetail();
   return (
-    <section className="py-4">
+    <section className="py-4 pb-20">
       <header className="pb-4 px-3 flex items-center border-b gap-2">
         <ArrowRight
           className="text-neutral-700 cursor-pointer"
@@ -52,7 +52,7 @@ const OrderDetail = () => {
                     <UI_Typography className="text-neutral-800 reg12">
                       {format(
                         new Date(get.orderDetailData?.createdAt),
-                        "d LLLL yyyy"
+                        "d LLLL yyyy",
                       )}
                     </UI_Typography>
                   )}
@@ -79,7 +79,7 @@ const OrderDetail = () => {
                   <UI_Typography className="text-neutral-800">
                     {format(
                       new Date(get.orderDetailData?.createdAt),
-                      "d LLLL yyyy"
+                      "d LLLL yyyy",
                     )}
                   </UI_Typography>
                 )}
@@ -224,7 +224,7 @@ const OrderDetail = () => {
               <UI_Typography className="text-neutral-800 reg12 md:reg14">
                 {format(
                   addDays(get.orderDetailData.createdAt, 2),
-                  "d LLLL yyyy"
+                  "d LLLL yyyy",
                 )}
               </UI_Typography>
               <Separator className="my-3" />

@@ -10,6 +10,12 @@ type DefaultScreenProps = {
   handleShowSubCategory: () => void;
 };
 
+const isValidImageSrc = (src?: string | null) =>
+  !!src &&
+  (src.startsWith("/") ||
+    src.startsWith("http://") ||
+    src.startsWith("https://"));
+
 const DefaultScreen = ({
   handleSetShowBrands,
   parentCategories,
@@ -29,12 +35,14 @@ const DefaultScreen = ({
             key={parentCategory.id}
             onClick={handleShowSubCategory}
           >
-            <Image
-              src={parentCategory.parentImage}
-              alt={parentCategory.name}
-              width={30}
-              height={30}
-            />
+            {isValidImageSrc(parentCategory.parentImage) && (
+              <Image
+                src={parentCategory.parentImage}
+                alt={parentCategory.name}
+                width={30}
+                height={30}
+              />
+            )}
             <UI_Typography>{parentCategory.name}</UI_Typography>
           </SidebarBox>
         ))}

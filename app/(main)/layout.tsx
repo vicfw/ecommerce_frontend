@@ -7,8 +7,10 @@ export default function MainLayout({
   children,
 }: Readonly<{ children: ReactNode }>) {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col overflow-x-hidden">
       <Header />
+      {/* Spacer for fixed mobile header */}
+      <div className="h-[60px] md:hidden shrink-0" />
       <div className="h-[10px] hidden md:block" />
       <Container component="section" className="flex-1 py-2 px-4">
         {children}

@@ -23,9 +23,11 @@ const ProductSearch = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [term, setTerm] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  const debouncedTerm = useDebounce(term.trim(), 300);
+  const trimmedTerm = term.trim();
+  const debouncedTerm = useDebounce(trimmedTerm, 300);
+  const isDebouncing = trimmedTerm !== debouncedTerm;
 
-  const { data, isFetching } = useQuery({
+  const { data, isPending } = useQuery({
     queryKey: ["products", "search", debouncedTerm],
     queryFn: () =>
       new ProductService().getProducts({
@@ -36,7 +38,11 @@ const ProductSearch = () => {
   });
 
   const products = data?.data ?? [];
-  const showDropdown = isOpen && debouncedTerm.length >= MIN_SEARCH_LENGTH;
+  const showDropdown = isOpen && trimmedTerm.length >= MIN_SEARCH_LENGTH;
+  const showLoading =
+    showDropdown &&
+    (isDebouncing ||
+      (debouncedTerm.length >= MIN_SEARCH_LENGTH && isPending));
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -53,10 +59,9 @@ const ProductSearch = () => {
   }, []);
 
   const navigateToSearch = () => {
-    const query = term.trim();
-    if (!query) return;
+    if (!trimmedTerm) return;
     setIsOpen(false);
-    router.push(`/search?q=${encodeURIComponent(query)}`);
+    router.push(`/search?q=${encodeURIComponent(trimmedTerm)}`);
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -85,7 +90,7 @@ const ProductSearch = () => {
 
       {showDropdown ? (
         <div className="absolute top-full left-0 right-0 z-50 mt-1 max-h-80 overflow-y-auto rounded-md border bg-white shadow-md">
-          {isFetching ? (
+          {showLoading ? (
             <div className="px-4 py-3">
               <UI_Typography className="reg14 text-neutral-500">
                 در حال جستجو...

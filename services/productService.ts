@@ -14,7 +14,9 @@ export class ProductService {
   async getProducts(params?: GetProductsParams) {
     const searchParams = new URLSearchParams();
 
-    if (params?.search) searchParams.set("search", params.search);
+    if (params?.search?.trim()) {
+      searchParams.set("search", params.search.trim());
+    }
     if (params?.limit != null) searchParams.set("limit", String(params.limit));
     if (params?.page != null) searchParams.set("page", String(params.page));
     if (params?.categoryId != null) {

@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 interface PriceFilterProps {
   minPrice: string;
   maxPrice: string;
+  placeholderMin?: string;
+  placeholderMax?: string;
   onMinPriceChange: (value: string) => void;
   onMaxPriceChange: (value: string) => void;
   onApply: () => void;
@@ -14,6 +16,8 @@ interface PriceFilterProps {
 export const PriceFilter: React.FC<PriceFilterProps> = ({
   minPrice,
   maxPrice,
+  placeholderMin = "0",
+  placeholderMax = "1000000",
   onMinPriceChange,
   onMaxPriceChange,
   onApply,
@@ -28,7 +32,7 @@ export const PriceFilter: React.FC<PriceFilterProps> = ({
           </label>
           <Input
             type="number"
-            placeholder="0"
+            placeholder={placeholderMin}
             value={minPrice}
             onChange={(e) => onMinPriceChange(e.target.value)}
             className="w-full"
@@ -41,7 +45,7 @@ export const PriceFilter: React.FC<PriceFilterProps> = ({
           </label>
           <Input
             type="number"
-            placeholder="1000000"
+            placeholder={placeholderMax}
             value={maxPrice}
             onChange={(e) => onMaxPriceChange(e.target.value)}
             className="w-full"

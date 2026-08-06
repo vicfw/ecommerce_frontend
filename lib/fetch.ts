@@ -1,6 +1,12 @@
 export async function fetchData<T>(
   endpoint: string
-): Promise<{ data: T; message: string; total?: number; page?: number }> {
+): Promise<{
+  data: T;
+  message: string;
+  total?: number;
+  page?: number;
+  hasMore?: boolean;
+}> {
   const url = `${process.env.NEXT_PUBLIC_SERVER_API_URL}${endpoint}`;
 
   console.log(url, "url");

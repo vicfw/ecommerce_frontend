@@ -1,26 +1,33 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { PlpSearchParams } from "@/services/types/productService.types";
 
-export type FilterView = "main" | "price";
+export type FilterView =
+  | "main"
+  | "price"
+  | "category"
+  | "brand"
+  | "color"
+  | "badge";
 
-export const useFilterModal = () => {
-  const [isOpen, setIsOpen] = useState(false);
+type UseFilterModalArgs = {
+  currentFilters: PlpSearchParams;
+  isOpen: boolean;
+};
+
+export const useFilterModal = ({
+  currentFilters,
+  isOpen,
+}: UseFilterModalArgs) => {
   const [currentView, setCurrentView] = useState<FilterView>("main");
-  const [priceFilter, setPriceFilter] = useState({
-    minPrice: "",
-    maxPrice: "",
-  });
+  const [draftFilters, setDraftFilters] =
+    useState<PlpSearchParams>(currentFilters);
 
-  const openModal = () => {
-    setIsOpen(true);
-    setCurrentView("main");
-  };
-
-  const closeModal = () => {
-    setIsOpen(false);
-    setCurrentView("main");
-    // Reset filters when closing
-    setPriceFilter({ minPrice: "", maxPrice: "" });
-  };
+  useEffect(() => {
+    if (isOpen) {
+      setDraftFilters(currentFilters);
+      setCurrentView("main");
+    }
+  }, [isOpen, currentFilters]);
 
   const navigateToView = (view: FilterView) => {
     setCurrentView(view);
@@ -30,34 +37,42 @@ export const useFilterModal = () => {
     setCurrentView("main");
   };
 
-  const updatePriceFilter = (field: "minPrice" | "maxPrice", value: string) => {
-    setPriceFilter((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
+  const updateDraft = (patch: Partial<PlpSearchParams>) => {
+    setDraftFilters((prev) => {
+      const next = { ...prev };
+      (Object.keys(patch) as (keyof PlpSearchParams)[]).forEach((key) => {
+        const value = patch[key];
+        if (value == null || value === "") {
+          delete next[key];
+        } else {
+          next[key] = value;
+        }
+      });
+      return next;
+    });
   };
 
-  const resetPriceFilter = () => {
-    setPriceFilter({ minPrice: "", maxPrice: "" });
-  };
+  const resetDraft = (keys?: (keyof PlpSearchParams)[]) => {
+    if (!keys) {
+      setDraftFilters({});
+      return;
+    }
 
-  const applyPriceFilter = () => {
-    // Here you can implement the logic to apply the price filter
-    console.log("Applying price filter:", priceFilter);
-    // You might want to close the modal or go back to main view
-    goBack();
+    setDraftFilters((prev) => {
+      const next = { ...prev };
+      keys.forEach((key) => {
+        delete next[key];
+      });
+      return next;
+    });
   };
 
   return {
-    isOpen,
     currentView,
-    priceFilter,
-    openModal,
-    closeModal,
+    draftFilters,
     navigateToView,
     goBack,
-    updatePriceFilter,
-    resetPriceFilter,
-    applyPriceFilter,
+    updateDraft,
+    resetDraft,
   };
 };

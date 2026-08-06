@@ -36,8 +36,12 @@ const Sidebar = ({ brands }: SidebarProps) => {
           />
         )}
 
-        {get.showSubCategory && (
-          <SubCategory handleShowSubCategory={on.handleShowSubCategory} />
+        {get.showSubCategory && get.selectedParentCategory && (
+          <SubCategory
+            parentCategory={get.selectedParentCategory}
+            handleShowSubCategory={() => on.handleShowSubCategory()}
+            onNavigate={() => on.handleOpenSidebar(false)}
+          />
         )}
       </SheetContent>
     </Sheet>

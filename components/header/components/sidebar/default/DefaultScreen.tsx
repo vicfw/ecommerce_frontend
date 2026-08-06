@@ -1,13 +1,14 @@
 import { SheetHeader } from "@/components/ui/sheet";
 import UI_Typography from "@/components/ui/typography/UI_Typography";
 import { GetAllCategoriesResponse } from "@/services/types/categoryService.types";
+import { Category } from "@/types/globalTypes";
 import Image from "next/image";
 import SidebarBox from "../SidebarBox";
 
 type DefaultScreenProps = {
   handleSetShowBrands: () => void;
   parentCategories: GetAllCategoriesResponse;
-  handleShowSubCategory: () => void;
+  handleShowSubCategory: (category: Category) => void;
 };
 
 const isValidImageSrc = (src?: string | null) =>
@@ -31,9 +32,8 @@ const DefaultScreen = ({
 
         {parentCategories?.map((parentCategory) => (
           <SidebarBox
-            href="#"
             key={parentCategory.id}
-            onClick={handleShowSubCategory}
+            onClick={() => handleShowSubCategory(parentCategory)}
           >
             {isValidImageSrc(parentCategory.parentImage) && (
               <Image

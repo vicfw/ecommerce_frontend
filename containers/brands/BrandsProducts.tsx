@@ -18,7 +18,7 @@ type BrandsProductsProps = {
 const BrandsProducts = ({ initialData, slug }: BrandsProductsProps) => {
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
 
-  const { data, isLoading, error } = useQuery({
+  const { data } = useQuery({
     queryKey: ["brands", slug],
     queryFn: () => new BrandService().getBrandProducts(slug),
     initialData: initialData,

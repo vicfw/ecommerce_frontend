@@ -1,5 +1,6 @@
 import { CategoryService } from "@/services/categoryService";
 import { useGlobalStore } from "@/store/globalStore";
+import { Category } from "@/types/globalTypes";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useShallow } from "zustand/react/shallow";
@@ -8,6 +9,8 @@ export const useSidebar = () => {
   const [showBrands, setShowBrands] = useState(false);
   const [isDefaultScreen, setIsDefaultScreen] = useState(true);
   const [showSubCategory, setShowSubCategory] = useState(false);
+  const [selectedParentCategory, setSelectedParentCategory] =
+    useState<Category | null>(null);
 
   const { handleOpenSidebar, openSidebar } = useGlobalStore(
     useShallow((state) => ({
@@ -27,9 +30,17 @@ export const useSidebar = () => {
     setIsDefaultScreen((prev) => !prev);
   };
 
-  const handleShowSubCategory = () => {
-    setShowSubCategory((prev) => !prev);
-    setIsDefaultScreen((prev) => !prev);
+  const handleShowSubCategory = (category?: Category) => {
+    if (category) {
+      setSelectedParentCategory(category);
+      setShowSubCategory(true);
+      setIsDefaultScreen(false);
+      return;
+    }
+
+    setShowSubCategory(false);
+    setSelectedParentCategory(null);
+    setIsDefaultScreen(true);
   };
 
   useEffect(() => {
@@ -37,6 +48,7 @@ export const useSidebar = () => {
       setShowBrands(false);
       setShowSubCategory(false);
       setIsDefaultScreen(true);
+      setSelectedParentCategory(null);
     }
   }, [openSidebar]);
 
@@ -47,7 +59,12 @@ export const useSidebar = () => {
       showBrands,
       isDefaultScreen,
       showSubCategory,
+      selectedParentCategory,
     },
-    on: { handleOpenSidebar, handleSetShowBrands, handleShowSubCategory },
+    on: {
+      handleOpenSidebar,
+      handleSetShowBrands,
+      handleShowSubCategory,
+    },
   };
 };

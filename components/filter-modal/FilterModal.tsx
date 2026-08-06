@@ -1,6 +1,5 @@
 import * as React from "react";
-import { X, ChevronRight, ChevronDown, ChevronLeft } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { X, ChevronRight, ChevronLeft } from "lucide-react";
 
 interface FilterModalProps {
   isOpen: boolean;
@@ -10,9 +9,7 @@ interface FilterModalProps {
 
 interface FilterItemProps {
   title: string;
-  isExpanded?: boolean;
   onClick: () => void;
-  children?: React.ReactNode;
 }
 
 export const FilterModal: React.FC<FilterModalProps> = ({
@@ -23,7 +20,7 @@ export const FilterModal: React.FC<FilterModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-white">
+    <div className="fixed inset-0 z-[60] bg-white">
       <div className="flex flex-col h-full">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b">
@@ -38,18 +35,13 @@ export const FilterModal: React.FC<FilterModalProps> = ({
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto">{children}</div>
+        <div className="flex-1 overflow-y-auto min-h-0">{children}</div>
       </div>
     </div>
   );
 };
 
-export const FilterItem: React.FC<FilterItemProps> = ({
-  title,
-  isExpanded = false,
-  onClick,
-  children,
-}) => {
+export const FilterItem: React.FC<FilterItemProps> = ({ title, onClick }) => {
   return (
     <div className="border-b">
       <button
@@ -57,13 +49,8 @@ export const FilterItem: React.FC<FilterItemProps> = ({
         className="w-full flex items-center justify-between p-4 hover:bg-gray-50"
       >
         <span className="text-base">{title}</span>
-        {isExpanded ? (
-          <ChevronDown className="h-5 w-5" />
-        ) : (
-          <ChevronLeft className="h-5 w-5" />
-        )}
+        <ChevronLeft className="h-5 w-5" />
       </button>
-      {isExpanded && <div className="px-4 pb-4">{children}</div>}
     </div>
   );
 };

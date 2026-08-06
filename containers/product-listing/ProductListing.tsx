@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { Filter, ArrowUpDown } from "lucide-react";
 import UI_Typography from "@/components/ui/typography/UI_Typography";
@@ -13,20 +15,18 @@ import {
 } from "@/services/types/productService.types";
 import { FetchDataPaginatedResponse } from "@/services/types/config";
 import { Product } from "@/types/globalTypes";
+import { CATALOG_TTL_SECONDS } from "@/lib/catalogCache";
 import {
   buildPlpQueryString,
   mergePlpFilters,
   toGetProductsParams,
 } from "@/lib/plp";
-import { CATALOG_TTL_SECONDS } from "@/lib/catalogCache";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useEffect, useRef, useState } from "react";
-import { useRouter, usePathname } from "next/navigation";
 
 const SORT_OPTIONS = [
   { value: "default", label: "پیش‌فرض" },

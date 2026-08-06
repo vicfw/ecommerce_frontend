@@ -18,8 +18,6 @@ export async function fetchData<T>(
   const url = `${process.env.NEXT_PUBLIC_SERVER_API_URL}${endpoint}`;
   const revalidate = options.revalidate ?? CATALOG_TTL_SECONDS;
 
-  console.log(url, "url");
-
   try {
     const response = await fetch(url, {
       next: {

@@ -1,15 +1,15 @@
 import { CART_PAGE_LINK } from "@/constants";
+import { BrandService } from "@/services/brandService";
 import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { Container } from "../container/Container";
-import { SearchInput } from "../ui/search-input";
 import AuthMenu from "./components/AuthMenu";
 import CartLength from "./components/CartLength";
 import CategoriesMenu from "./components/CategoriesMenu";
 import HamburgerMenu from "./components/HamburgerMenu";
 import { NavigationMenu } from "./components/NavigationMenu";
+import ProductSearch from "./components/ProductSearch";
 import Sidebar from "./components/sidebar/Sidebar";
-import { BrandService } from "@/services/brandService";
 
 const Header = async () => {
   const brands = await new BrandService().getBrands();
@@ -38,7 +38,7 @@ const Header = async () => {
           <CategoriesMenu />
           <div className="grow ml-auto hidden md:flex">
             <div className="md:w-[600px]">
-              <SearchInput />
+              <ProductSearch />
             </div>
           </div>
         </div>

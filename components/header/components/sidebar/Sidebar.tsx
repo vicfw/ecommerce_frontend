@@ -17,7 +17,10 @@ const Sidebar = ({ brands }: SidebarProps) => {
 
   return (
     <Sheet open={get.openSidebar} onOpenChange={on.handleOpenSidebar}>
-      <SheetContent className="md:hidden w-[80%]" side="left">
+      <SheetContent
+        className="w-[80%] sm:max-w-md md:w-[400px] md:max-w-[400px]"
+        side="left"
+      >
         {get.isDefaultScreen && (
           <DefaultScreen
             handleSetShowBrands={on.handleSetShowBrands}
@@ -27,17 +30,14 @@ const Sidebar = ({ brands }: SidebarProps) => {
         )}
         {get.showBrands && (
           <Brands
-            handleBrandClick={on.handleOpenSidebar}
+            handleBrandClick={() => on.handleOpenSidebar(false)}
             handleSetShowBrands={on.handleSetShowBrands}
             initialBrands={brands}
           />
         )}
 
         {get.showSubCategory && (
-          <SubCategory
-            handleShowSubCategory={on.handleShowSubCategory}
-            // initialSubCategories={subCategories}
-          />
+          <SubCategory handleShowSubCategory={on.handleShowSubCategory} />
         )}
       </SheetContent>
     </Sheet>

@@ -5,8 +5,8 @@ import { Container } from "../container/Container";
 import { SearchInput } from "../ui/search-input";
 import AuthMenu from "./components/AuthMenu";
 import CartLength from "./components/CartLength";
+import CategoriesMenu from "./components/CategoriesMenu";
 import HamburgerMenu from "./components/HamburgerMenu";
-import LoginButton from "./components/LoginButton";
 import { NavigationMenu } from "./components/NavigationMenu";
 import Sidebar from "./components/sidebar/Sidebar";
 import { BrandService } from "@/services/brandService";
@@ -35,6 +35,7 @@ const Header = async () => {
               <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
             </svg>
           </Link>
+          <CategoriesMenu />
           <div className="grow ml-auto hidden md:flex">
             <div className="md:w-[600px]">
               <SearchInput />
@@ -53,11 +54,6 @@ const Header = async () => {
             <ShoppingCart className="text-main md:w-7 md:h-7 h-7 w-7" />
             <CartLength />
           </Link>
-
-          {/* Desktop: Show LoginButton, Mobile: Show ProfileMenu if logged in */}
-          <div className="hidden md:block">
-            <LoginButton />
-          </div>
 
           {/* Mobile Profile Menu */}
           <AuthMenu />

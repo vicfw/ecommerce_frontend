@@ -34,7 +34,9 @@ export const useSidebar = () => {
 
   useEffect(() => {
     if (!openSidebar) {
-      if (showBrands) setShowBrands(false);
+      setShowBrands(false);
+      setShowSubCategory(false);
+      setIsDefaultScreen(true);
     }
   }, [openSidebar]);
 

@@ -113,6 +113,7 @@ export const PaymentContainer = () => {
       {/* Desktop Design */}
       <div className="hidden md:flex gap-4 w-full items-start">
         <div className="w-full flex flex-col gap-5 flex-grow flex-1">
+          <ShopTimeline currentStep="checkout" />
           <div className="border border-neutral-200 px-[30px] py-[18px]  rounded-md">
             <div className="p-3">
               <UI_Typography className="text-neutral-900 med16">

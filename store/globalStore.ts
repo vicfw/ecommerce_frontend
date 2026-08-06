@@ -21,19 +21,19 @@ interface GlobalState {
     open: boolean;
     data: CartItemType | undefined;
   };
-  handleOpenSidebar: () => void;
+  handleOpenSidebar: (open?: boolean) => void;
   handleUpdateUser: (user: User) => void;
   handleUpdateToken: (token: string) => void;
   handleUpdateCartLength: (cartLength: number) => void;
   handleUpdateGoToCartModal: (
     state: boolean,
-    data: CartItemType | undefined
+    data: CartItemType | undefined,
   ) => void;
   handleUpdateAlertModal: (state: boolean, text: string) => void;
   handleUpdateAddCommentModal: (state: boolean) => void;
   handleUpdateAddedToCartModal: (
     state: boolean,
-    data: CartItemType | undefined
+    data: CartItemType | undefined,
   ) => void;
   // Address
   address: {
@@ -58,8 +58,10 @@ export const useGlobalStore = create<GlobalState>()((set) => ({
   alertModal: { open: false, text: "" },
   addCommentModal: { open: false },
   addedToCartModal: { open: false, data: undefined },
-  handleOpenSidebar: () =>
-    set((state) => ({ openSidebar: !state.openSidebar })),
+  handleOpenSidebar: (open) =>
+    set((state) => ({
+      openSidebar: typeof open === "boolean" ? open : !state.openSidebar,
+    })),
   handleUpdateUser: (user) => set(() => ({ user })),
   handleUpdateToken: (token) => set(() => ({ token })),
   handleUpdateCartLength: (cartLength) => set(() => ({ cartLength })),

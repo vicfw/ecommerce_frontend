@@ -15,6 +15,7 @@ const CartContainer = () => {
       {/* Desktop */}
       <section className="md:flex gap-4 w-full items-start h-[calc(100dvh-118px)] md:h-auto hidden">
         <div className="w-full flex flex-col flex-grow flex-1">
+          <ShopTimeline currentStep="cart" />
           {get.cartData && get.cartData?.cartItems.length ? (
             get.cartData?.cartItems.map((cartItem, index) => (
               <CartItem
@@ -39,19 +40,18 @@ const CartContainer = () => {
       </section>
 
       {/* Mobile */}
-      <div className="h-[calc(100dvh-118px)] w-full overflow-scroll pb-20">
+      <div className="md:hidden h-[calc(100dvh-118px)] w-full overflow-scroll pb-20">
         <ShopTimeline currentStep="cart" />
         <div className="flex flex-col gap-2 mt-2">
           {get.cartData && get.cartData.cartItems.length ? (
-            get.cartData?.cartItems.map((cartItem, index) => (
-              <MobileCartItem cartItem={cartItem} />
+            get.cartData?.cartItems.map((cartItem) => (
+              <MobileCartItem key={cartItem.id} cartItem={cartItem} />
             ))
           ) : (
             <EmptyCart />
           )}
         </div>
 
-        {/* Mobile Price Detail */}
         {get.cartData && get.cartData.cartItems.length ? (
           <MobilePriceDetail
             cartPrice={get.cartData.price}

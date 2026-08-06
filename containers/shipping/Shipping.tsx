@@ -109,6 +109,7 @@ const Shipping = () => {
       {/* Desktop Design */}
       <div className="hidden md:flex gap-4 w-full items-start">
         <div className="w-full flex flex-col gap-5 flex-grow flex-1">
+          <ShopTimeline currentStep="shipping" />
           <div className="border border-neutral-200 px-[20px] py-[10px]  rounded-md">
             {/* Selected Address */}
             {get.addressLoading ? (

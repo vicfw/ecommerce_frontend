@@ -1,9 +1,9 @@
+import { catalogTags } from "@/lib/catalogCache";
 import { fetchData } from "@/lib/fetch";
 import {
   GetAllBrandsResponse,
   GetBrandProductsResponse,
 } from "./types/brandService.types";
-import { Brand, Product } from "@/types/globalTypes";
 import { FetchDataPaginatedResponse } from "./types/config";
 
 export class BrandService {
@@ -13,7 +13,10 @@ export class BrandService {
     search?: string
   ): Promise<FetchDataPaginatedResponse<GetAllBrandsResponse[]>> {
     const queryString = search ? `?search=${search}` : "";
-    return fetchData<GetAllBrandsResponse[]>(`${this.endpoint}${queryString}`);
+    return fetchData<GetAllBrandsResponse[]>(
+      `${this.endpoint}${queryString}`,
+      { tags: [catalogTags.brands] }
+    );
   }
 
   getBrandProducts(
@@ -28,7 +31,8 @@ export class BrandService {
     const queryString =
       queryParams.length > 0 ? `?${queryParams.join("&")}` : "";
     return fetchData<GetBrandProductsResponse>(
-      `${this.endpoint}/${slug}/products${queryString}`
+      `${this.endpoint}/${slug}/products${queryString}`,
+      { tags: [catalogTags.brands, catalogTags.products] }
     );
   }
 }

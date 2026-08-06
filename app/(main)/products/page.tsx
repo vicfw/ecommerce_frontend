@@ -1,4 +1,5 @@
 import { ProductListing } from "@/containers/product-listing/ProductListing";
+import { CATALOG_TTL_SECONDS } from "@/lib/catalogCache";
 import {
   EMPTY_PRODUCT_FILTERS,
   parsePlpSearchParams,
@@ -7,7 +8,7 @@ import {
 import { ProductService } from "@/services/productService";
 import { PLP_PAGE_SIZE } from "@/services/types/productService.types";
 
-export const revalidate = 60;
+export const revalidate = CATALOG_TTL_SECONDS;
 
 type PageProps = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;

@@ -1,0 +1,64 @@
+---
+description: Always use the shadcn/ui design system from components/ui
+alwaysApply: true
+---
+
+# shadcn/ui Design System
+
+Always build UI with the existing shadcn/ui components in `components/ui/`.
+
+## Rules
+
+- **Prefer `components/ui/*` first** for buttons, inputs, dialogs, badges, selects, sheets, forms, etc.
+- **Import from `@/components/ui/...`** — never reimplement primitives that already exist there.
+- **Do not invent parallel UI kits** (custom Button/Input/Modal/Badge) when a shadcn equivalent exists.
+- **Compose with existing primitives** — wrap or extend `components/ui` components instead of copying their markup.
+- **If a needed primitive is missing**, add it via shadcn into `components/ui/` rather than a one-off custom control.
+- **Keep styling consistent** with shadcn patterns: `cn()`, CVA variants, and existing design tokens / Tailwind theme classes.
+- **Typography**: use `components/ui/typography/UI_Typography` for text when matching existing pages.
+
+## Colors — theme only (mandatory)
+
+- **Never hardcode colors.** Do not use raw palette classes like `bg-blue-600`, `text-gray-700`, `bg-white`, `hover:bg-black/10`, hex/rgb values, or arbitrary color utilities.
+- **Always use shadcn theme tokens** from the project CSS variables / Tailwind theme:
+  - Surfaces: `bg-background`, `bg-card`, `bg-popover`, `bg-muted`, `bg-accent`
+  - Text: `text-foreground`, `text-muted-foreground`, `text-card-foreground`, `text-accent-foreground`
+  - Borders: `border-border`, `border-input`
+  - Interactive: `bg-primary`, `text-primary`, `text-primary-foreground`, `bg-secondary`, `bg-destructive`
+  - Rings/focus: `ring-ring`, `outline-ring`
+- Prefer **component variants** (`variant="default" | "secondary" | "outline" | "destructive" | "ghost"`) over overriding colors with className.
+- Only change the theme itself in `app/globals.css` / Tailwind config — never paint one-off UI with custom colors.
+
+```tsx
+// ❌ BAD — hardcoded colors
+<Button className="bg-blue-600 hover:bg-blue-700">اعمال</Button>
+<label className="text-gray-700">قیمت</label>
+<div className="bg-white hover:bg-gray-50" />
+
+// ✅ GOOD — shadcn theme + variants
+<Button>اعمال</Button>
+<label className="text-foreground">قیمت</label>
+<div className="bg-background hover:bg-accent" />
+<Badge variant="secondary">فیلتر</Badge>
+```
+
+## Examples
+
+```tsx
+// ❌ BAD — custom button / ad-hoc modal
+<button className="bg-blue-500 rounded px-4 py-2">اعمال</button>
+<div className="fixed inset-0 bg-black/50">...</div>
+
+// ✅ GOOD — shadcn primitives
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Sheet, SheetContent } from "@/components/ui/sheet";
+
+<Button>اعمال</Button>
+<Badge variant="secondary">فیلتر</Badge>
+```
+
+## Available primitives (non-exhaustive)
+
+`accordion`, `alert`, `alert-dialog`, `avatar`, `badge`, `breadcrumb`, `button`, `calendar`, `card`, `carousel`, `checkbox`, `command`, `dialog`, `drawer`, `dropdown-menu`, `form`, `input`, `label`, `pagination`, `popover`, `select`, `separator`, `sheet`, `skeleton`, `slider`, `switch`, `table`, `tabs`, `textarea`, `toast`/`sonner`, `tooltip`, `typography`

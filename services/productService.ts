@@ -1,4 +1,5 @@
 import { Product } from "@/types/globalTypes";
+import { catalogTags } from "@/lib/catalogCache";
 import { fetchData } from "@/lib/fetch";
 import {
   GetProductsParams,
@@ -43,7 +44,7 @@ export class ProductService {
       ? `${this.endpoint}?${queryString}`
       : this.endpoint;
 
-    return fetchData<Product[]>(url);
+    return fetchData<Product[]>(url, { tags: [catalogTags.products] });
   }
 
   async getProductFilters(params?: {
@@ -63,10 +64,14 @@ export class ProductService {
       ? `${this.endpoint}/filters?${queryString}`
       : `${this.endpoint}/filters`;
 
-    return fetchData<ProductFiltersResponse>(url);
+    return fetchData<ProductFiltersResponse>(url, {
+      tags: [catalogTags.products],
+    });
   }
 
   async getProduct(slug: string) {
-    return fetchData<Product>(`${this.endpoint}/${slug}`);
+    return fetchData<Product>(`${this.endpoint}/${slug}`, {
+      tags: [catalogTags.products, catalogTags.product(slug)],
+    });
   }
 }

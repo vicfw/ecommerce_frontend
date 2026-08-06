@@ -1,5 +1,13 @@
+import { CATALOG_TTL_SECONDS } from "@/lib/catalogCache";
+
+type FetchDataOptions = {
+  tags: string[];
+  revalidate?: number;
+};
+
 export async function fetchData<T>(
-  endpoint: string
+  endpoint: string,
+  options: FetchDataOptions
 ): Promise<{
   data: T;
   message: string;
@@ -8,12 +16,16 @@ export async function fetchData<T>(
   hasMore?: boolean;
 }> {
   const url = `${process.env.NEXT_PUBLIC_SERVER_API_URL}${endpoint}`;
+  const revalidate = options.revalidate ?? CATALOG_TTL_SECONDS;
 
   console.log(url, "url");
 
   try {
     const response = await fetch(url, {
-      next: { revalidate: 10 },
+      next: {
+        revalidate,
+        tags: options.tags,
+      },
     });
 
     if (!response.ok) {

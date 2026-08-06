@@ -1,4 +1,5 @@
 import React from "react";
+import { X } from "lucide-react";
 import { FilterModal, FilterItem, FilterSection } from "./FilterModal";
 import { PriceFilter } from "./PriceFilter";
 import { useFilterModal } from "@/hooks/use-filter-modal";
@@ -8,6 +9,7 @@ import {
 } from "@/services/types/productService.types";
 import { EMPTY_PRODUCT_FILTERS } from "@/lib/plp";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import UI_Typography from "@/components/ui/typography/UI_Typography";
 
@@ -19,6 +21,12 @@ interface FilterModalContainerProps {
   lockedFilterKeys?: (keyof PlpSearchParams)[];
   onApply?: (filters: PlpSearchParams) => void;
 }
+
+type ActiveFilterBadge = {
+  key: string;
+  label: string;
+  onRemove: () => void;
+};
 
 export const FilterModalContainer: React.FC<FilterModalContainerProps> = ({
   isOpen,
@@ -40,9 +48,94 @@ export const FilterModalContainer: React.FC<FilterModalContainerProps> = ({
   const isLocked = (key: keyof PlpSearchParams) =>
     lockedFilterKeys.includes(key);
 
+  const getActiveFilterBadges = (): ActiveFilterBadge[] => {
+    const badges: ActiveFilterBadge[] = [];
+
+    if (!isLocked("category") && draftFilters.category) {
+      const category = filterOptions.categories.find(
+        (item) => item.slug === draftFilters.category
+      );
+      badges.push({
+        key: "category",
+        label: category?.name || draftFilters.category,
+        onRemove: () => updateDraft({ category: undefined }),
+      });
+    }
+
+    if (draftFilters.brand) {
+      const brand = filterOptions.brands.find(
+        (item) => item.slug === draftFilters.brand
+      );
+      badges.push({
+        key: "brand",
+        label: brand ? brand.name : draftFilters.brand,
+        onRemove: () => updateDraft({ brand: undefined }),
+      });
+    }
+
+    if (draftFilters.color) {
+      badges.push({
+        key: "color",
+        label: draftFilters.color,
+        onRemove: () => updateDraft({ color: undefined }),
+      });
+    }
+
+    if (draftFilters.badge) {
+      const badge = filterOptions.badges.find(
+        (item) => String(item.id) === draftFilters.badge
+      );
+      badges.push({
+        key: "badge",
+        label: badge?.title || draftFilters.badge,
+        onRemove: () => updateDraft({ badge: undefined }),
+      });
+    }
+
+    if (draftFilters.minPrice || draftFilters.maxPrice) {
+      const min = draftFilters.minPrice
+        ? Number(draftFilters.minPrice).toLocaleString("fa-IR")
+        : null;
+      const max = draftFilters.maxPrice
+        ? Number(draftFilters.maxPrice).toLocaleString("fa-IR")
+        : null;
+      const label =
+        min && max
+          ? `${min} - ${max}`
+          : min
+            ? `از ${min}`
+            : `تا ${max}`;
+
+      badges.push({
+        key: "price",
+        label,
+        onRemove: () => resetDraft(["minPrice", "maxPrice"]),
+      });
+    }
+
+    return badges;
+  };
+
   const handleApplyAll = () => {
     onApply?.(draftFilters);
     onClose();
+  };
+
+  const handleRemoveAllFilters = () => {
+    const removableKeys = (
+      [
+        "brand",
+        "minPrice",
+        "maxPrice",
+        "color",
+        "badge",
+        "category",
+        "sort",
+        "q",
+      ] as (keyof PlpSearchParams)[]
+    ).filter((key) => !isLocked(key));
+
+    resetDraft(removableKeys);
   };
 
   const handleClearAll = () => {
@@ -67,8 +160,8 @@ export const FilterModalContainer: React.FC<FilterModalContainerProps> = ({
           type="button"
           onClick={() => onSelect(String(item.id))}
           className={cn(
-            "w-full text-right px-4 py-3 border-b hover:bg-gray-50",
-            item.selected && "bg-primary/5 text-primary"
+            "w-full text-right px-4 py-3 border-b hover:bg-accent",
+            item.selected && "bg-accent text-accent-foreground"
           )}
         >
           <UI_Typography className="reg14">{item.label}</UI_Typography>
@@ -76,7 +169,7 @@ export const FilterModalContainer: React.FC<FilterModalContainerProps> = ({
       ))}
       {items.length === 0 && (
         <div className="p-4">
-          <UI_Typography className="reg14 text-neutral-500">
+          <UI_Typography className="reg14 text-muted-foreground">
             موردی یافت نشد
           </UI_Typography>
         </div>
@@ -84,9 +177,53 @@ export const FilterModalContainer: React.FC<FilterModalContainerProps> = ({
     </div>
   );
 
+  const renderActiveFilters = () => {
+    const activeFilterBadges = getActiveFilterBadges();
+    if (activeFilterBadges.length === 0) return null;
+
+    return (
+      <div className="px-4 py-3 border-b space-y-3">
+        <div className="flex items-center justify-between gap-2">
+          <UI_Typography className="reg14 text-muted-foreground">
+            فیلترهای فعال
+          </UI_Typography>
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            onClick={handleRemoveAllFilters}
+            className="h-auto px-2 py-1 text-destructive hover:text-destructive"
+          >
+            حذف همه
+          </Button>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {activeFilterBadges.map((filter) => (
+            <Badge
+              key={filter.key}
+              variant="outline"
+              className="gap-1 pl-2 pr-1 py-1 font-normal"
+            >
+              <span>{filter.label}</span>
+              <button
+                type="button"
+                onClick={filter.onRemove}
+                className="rounded-full p-0.5 hover:bg-accent"
+                aria-label={`حذف فیلتر ${filter.label}`}
+              >
+                <X className="h-3 w-3" />
+              </button>
+            </Badge>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
   const renderMainView = () => (
     <div className="flex flex-col min-h-full">
       <div className="flex-1">
+        {renderActiveFilters()}
         <FilterItem title="قیمت" onClick={() => navigateToView("price")} />
         {!isLocked("category") && (
           <FilterItem
@@ -98,12 +235,12 @@ export const FilterModalContainer: React.FC<FilterModalContainerProps> = ({
         <FilterItem title="رنگ" onClick={() => navigateToView("color")} />
         <FilterItem title="برچسب" onClick={() => navigateToView("badge")} />
       </div>
-      <div className="sticky bottom-0 p-4 border-t flex gap-3 bg-white">
+      <div className="sticky bottom-0 p-4 border-t flex gap-3 bg-background">
         <Button onClick={handleApplyAll} className="flex-1">
           اعمال فیلترها
         </Button>
         <Button onClick={handleClearAll} variant="outline" className="flex-1">
-          پاک کردن
+          پاک کردن همه
         </Button>
       </div>
     </div>

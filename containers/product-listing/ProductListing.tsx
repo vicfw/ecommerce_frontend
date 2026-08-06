@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { useRouter, usePathname } from "next/navigation";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { Filter, ArrowUpDown } from "lucide-react";
 import UI_Typography from "@/components/ui/typography/UI_Typography";
@@ -20,12 +18,15 @@ import {
   mergePlpFilters,
   toGetProductsParams,
 } from "@/lib/plp";
+import { CATALOG_TTL_SECONDS } from "@/lib/catalogCache";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useEffect, useRef, useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
 
 const SORT_OPTIONS = [
   { value: "default", label: "پیش‌فرض" },
@@ -70,6 +71,8 @@ export const ProductListing = ({
         pages: [initialData],
         pageParams: [1],
       },
+      staleTime: CATALOG_TTL_SECONDS * 1000,
+      refetchOnWindowFocus: true,
       getNextPageParam: (lastPage) =>
         lastPage.hasMore ? (lastPage.page ?? 1) + 1 : undefined,
     });

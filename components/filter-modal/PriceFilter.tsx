@@ -27,7 +27,7 @@ export const PriceFilter: React.FC<PriceFilterProps> = ({
     <div className="space-y-4">
       <div className="space-y-3">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-foreground mb-2">
             حداقل قیمت
           </label>
           <Input
@@ -40,7 +40,7 @@ export const PriceFilter: React.FC<PriceFilterProps> = ({
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-foreground mb-2">
             حداکثر قیمت
           </label>
           <Input
@@ -54,10 +54,7 @@ export const PriceFilter: React.FC<PriceFilterProps> = ({
       </div>
 
       <div className="flex gap-3 pt-4">
-        <Button
-          onClick={onApply}
-          className="flex-1 bg-blue-600 hover:bg-blue-700"
-        >
+        <Button onClick={onApply} className="flex-1">
           اعمال
         </Button>
         <Button onClick={onReset} variant="outline" className="flex-1">

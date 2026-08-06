@@ -2,6 +2,7 @@ import axiosInstance from "./axios";
 import { Category } from "@/types/globalTypes";
 import { GetAllCategoriesResponse } from "./types/categoryService.types";
 import { Response } from "./types/config";
+import { catalogTags } from "@/lib/catalogCache";
 import { fetchData } from "@/lib/fetch";
 
 export class CategoryService {
@@ -18,11 +19,15 @@ export class CategoryService {
   }
 
   getCategoryBySlug(slug: string) {
-    return fetchData<Category>(`${this.endpoint}/slug/${slug}`);
+    return fetchData<Category>(`${this.endpoint}/slug/${slug}`, {
+      tags: [catalogTags.categories],
+    });
   }
 
   getAllCategories() {
-    return fetchData<Category[]>(this.endpoint);
+    return fetchData<Category[]>(this.endpoint, {
+      tags: [catalogTags.categories],
+    });
   }
 
   getCategoryPath(id: number): Promise<Response<Category & { children?: Category[] }>> {

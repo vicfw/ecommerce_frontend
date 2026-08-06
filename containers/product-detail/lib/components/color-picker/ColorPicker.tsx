@@ -2,7 +2,6 @@
 
 import { cn } from "@/lib/utils";
 import { Product } from "@/types/globalTypes";
-import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import UI_Typography from "@/components/ui/typography/UI_Typography";
 
@@ -33,12 +32,14 @@ const ColorPicker = ({ product, onColorSelect }: ColorPickerProps) => {
             )}
             onClick={() => onColorSelect(product.images ?? [], 0)}
           >
-            <Image
+            {/* Native img: color swatches may use arbitrary external URLs */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
               width={28}
               height={28}
               src={product.defaultColorImage}
               alt={product.prName}
-              className="h-[28px] w-[28px]"
+              className="h-[28px] w-[28px] object-cover"
             />
           </button>
         ) : null}
@@ -55,13 +56,14 @@ const ColorPicker = ({ product, onColorSelect }: ColorPickerProps) => {
               )}
               onClick={() => onColorSelect(colorImage.images, colorImage.id)}
             >
-              <Image
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
                 width={28}
                 height={28}
                 src={colorImage.colorImage}
                 alt={product.prName}
                 className={cn(
-                  "cursor-pointer transition-transform duration-200",
+                  "h-[28px] w-[28px] object-cover cursor-pointer transition-transform duration-200",
                   isSelected && "scale-105",
                 )}
               />

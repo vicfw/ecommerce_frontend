@@ -38,6 +38,9 @@ export class ProductService {
     if (params?.sort && params.sort !== "default") {
       searchParams.set("sort", params.sort);
     }
+    if (params?.ids?.length) {
+      searchParams.set("ids", params.ids.join(","));
+    }
 
     const queryString = searchParams.toString();
     const url = queryString

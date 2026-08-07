@@ -17,6 +17,7 @@ export type GetProductsParams = {
   color?: string;
   badgeId?: number | string;
   sort?: ProductSort | string;
+  ids?: number[];
 };
 
 export type ProductFiltersResponse = {

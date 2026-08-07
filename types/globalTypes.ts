@@ -97,10 +97,10 @@ export type OrderItem = {
 };
 
 export enum OrderStatus {
-  PROCESSING = "PROCESSING",
-  DELIVERED = "DELIVERED",
-  RETURNED = "RETURNED",
-  CANCELLED = "CANCELLED",
+  PROCESSING = "processing",
+  DELIVERED = "delivered",
+  RETURNED = "returned",
+  CANCELLED = "cancelled",
 }
 
 export type DeliveryCost = {

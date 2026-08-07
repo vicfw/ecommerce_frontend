@@ -56,7 +56,7 @@ const PaymentSuccess = () => {
 
         <div className="flex flex-col md:flex-row gap-3 md:gap-4 w-full md:w-auto">
           <Link
-            href="/profile/orders?activeTab=PROCESSING"
+            href="/profile/orders?activeTab=processing"
             className="w-full md:w-auto"
           >
             <Button className="w-full md:px-8" size="lg">

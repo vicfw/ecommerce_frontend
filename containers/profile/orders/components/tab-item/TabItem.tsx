@@ -17,11 +17,11 @@ const orderService = new OrderService();
 
 const TabItem = ({ title, count, engTitle }: TabItemProps) => {
   const searchParams = useSearchParams();
-  const activeTab = searchParams.get("activeTab");
+  const activeTab = (searchParams.get("activeTab") ?? "").toLowerCase();
   const router = useRouter();
   const pathname = usePathname();
 
-  const isActive = useMemo(() => activeTab === engTitle, [activeTab]);
+  const isActive = useMemo(() => activeTab === engTitle, [activeTab, engTitle]);
 
   const handleRedirect = () => {
     router.push(`${pathname}?activeTab=${engTitle}`);

@@ -21,8 +21,9 @@ type OrderItemProps = {
 const OrderItem = ({ order }: OrderItemProps) => {
   const router = useRouter();
 
-  const activeTab =
-    useSearchParams().get("activeTab") || OrderStatus.PROCESSING;
+  const activeTab = (
+    useSearchParams().get("activeTab") || OrderStatus.PROCESSING
+  ).toLowerCase();
 
   const mapper = {
     [OrderStatus.PROCESSING]: "جاری",

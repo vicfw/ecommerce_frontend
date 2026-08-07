@@ -1,4 +1,5 @@
 import { OrderService } from "@/services/oderService";
+import { OrderStatus } from "@/types/globalTypes";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
@@ -7,25 +8,28 @@ const orderService = new OrderService();
 
 export const useOrder = () => {
   const searchParams = useSearchParams();
-  const activeTab = searchParams.get("activeTab");
+  const activeTabParam = searchParams.get("activeTab");
+  const activeTab = (
+    activeTabParam ?? OrderStatus.PROCESSING
+  ).toLowerCase();
 
   const tabs = useMemo(
     () => [
       {
         title: "جاری",
-        engTitle: "PROCESSING",
+        engTitle: OrderStatus.PROCESSING,
       },
       {
         title: "تحویل شده",
-        engTitle: "DELIVERED",
+        engTitle: OrderStatus.DELIVERED,
       },
       {
         title: "مرجوع شده",
-        engTitle: "RETURNED",
+        engTitle: OrderStatus.RETURNED,
       },
       {
         title: "لغو شده",
-        engTitle: "CANCELLED",
+        engTitle: OrderStatus.CANCELLED,
       },
     ],
     []

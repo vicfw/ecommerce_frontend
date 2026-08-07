@@ -29,7 +29,7 @@ export function NavigationMenu() {
     return [
       {
         name: "سفارش ها",
-        href: "/profile/orders?activeTab=PROCESSING",
+        href: "/profile/orders?activeTab=processing",
         icon: Captions,
       },
     ];

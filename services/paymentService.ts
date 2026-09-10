@@ -15,11 +15,17 @@ export class PaymentService {
     return axiosInstance().post(this.baseUrl, { amount, orderId });
   }
 
-  async paymentVerify(
-    trackId: string
-  ): Promise<Response<PaymentVerifyResponse>> {
+  async paymentVerify(payload: {
+    trackId: string;
+    orderId?: string | null;
+    callbackSuccess?: string | null;
+    callbackStatus?: string | null;
+  }): Promise<Response<PaymentVerifyResponse>> {
     return axiosInstance().post(`${this.baseUrl}/verify`, {
-      trackId,
+      trackId: payload.trackId,
+      orderId: payload.orderId,
+      callbackSuccess: payload.callbackSuccess,
+      callbackStatus: payload.callbackStatus,
     });
   }
 }

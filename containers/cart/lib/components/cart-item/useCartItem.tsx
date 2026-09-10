@@ -14,12 +14,27 @@ import {
 import { AxiosError } from "axios";
 import { useMemo } from "react";
 
-export const useCartItem = (cartItemQuantity: number) => {
+export const useCartItem = (
+  cartItemQuantity: number,
+  availableQuantity?: number
+) => {
   const token = getClientSideCookie("jwt");
   const queryClient = useQueryClient();
   const cartService = new CartService();
   const { handleUpdateAlertModal, handleUpdateCartLength, cartLength } =
     useGlobalStore();
+
+  const handleQuantityLimitError = (error: unknown) => {
+    if (error instanceof AxiosError) {
+      const { cause } = error.response?.data;
+      if (cause === "quantity limit") {
+        handleUpdateAlertModal(
+          true,
+          `موجودی از این محصول ${availableQuantity ?? cartItemQuantity} عدد میباشد. `
+        );
+      }
+    }
+  };
 
   const { mutate: updateAnonCartMutation, isPending: updateAnonCartLoading } =
     useMutation({
@@ -32,17 +47,7 @@ export const useCartItem = (cartItemQuantity: number) => {
           variables.increment ? cartLength + 1 : cartLength - 1
         );
       },
-      onError: (error: unknown) => {
-        if (error instanceof AxiosError) {
-          const { cause } = error.response?.data;
-          if (cause === "quantity limit") {
-            handleUpdateAlertModal(
-              true,
-              `موجودی از این محصول ${cartItemQuantity} عدد میباشد. `
-            );
-          }
-        }
-      },
+      onError: handleQuantityLimitError,
     });
 
   const { mutate: updateCartMutation, isPending: updateCartLoading } =
@@ -56,17 +61,7 @@ export const useCartItem = (cartItemQuantity: number) => {
           variables.increment ? cartLength + 1 : cartLength - 1
         );
       },
-      onError: (error: unknown) => {
-        if (error instanceof AxiosError) {
-          const { cause } = error.response?.data;
-          if (cause === "quantity limit") {
-            handleUpdateAlertModal(
-              true,
-              `موجودی از این محصول ${cartItemQuantity} عدد میباشد. `
-            );
-          }
-        }
-      },
+      onError: handleQuantityLimitError,
     });
 
   const { mutate: deleteAnonCartItem, isPending: deleteAnonCartItemLoading } =

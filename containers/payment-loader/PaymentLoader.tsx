@@ -13,12 +13,20 @@ const PaymentLoader = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const trackId = searchParams.get("trackId") || "";
+  const orderId = searchParams.get("orderId");
+  const callbackSuccess = searchParams.get("success");
+  const callbackStatus = searchParams.get("status");
   const [hasError, setHasError] = useState(false);
 
   const { mutate: paymentVerify } = useMutation({
     mutationFn: () => {
       const paymentService = new PaymentService();
-      return paymentService.paymentVerify(trackId);
+      return paymentService.paymentVerify({
+        trackId,
+        orderId,
+        callbackSuccess,
+        callbackStatus,
+      });
     },
     onSuccess: (res) => {
       const data = res.data;

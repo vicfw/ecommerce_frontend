@@ -13,7 +13,10 @@ type Props = {
 };
 
 export const MobileCartItem = ({ cartItem }: Props) => {
-  const { get, on } = useCartItem(cartItem.quantity);
+  const { get, on } = useCartItem(
+    cartItem.quantity,
+    cartItem.product.availableQuantity ?? cartItem.product.quantity
+  );
 
   return (
     <Suspense>

@@ -1,9 +1,11 @@
 import { getClientSideCookie } from "@/lib/utils";
+import { toast } from "@/hooks/use-toast";
 import { CartService } from "@/services/cartService";
 import { OrderService } from "@/services/oderService";
 import { PaymentService } from "@/services/paymentService";
 import { Order } from "@/types/globalTypes";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import { addDays, parseISO } from "date-fns";
 import { format } from "date-fns-jalali";
 import { useMemo, useEffect } from "react";
@@ -45,11 +47,32 @@ export const usePayment = () => {
   });
 
   const handleCreateOrder = async () => {
-    const orderResponse = await createOrder();
-    const order = orderResponse.data.data;
+    try {
+      const orderResponse = await createOrder();
+      const order = orderResponse.data.data;
 
-    if (order.id && order.totalAmount) {
-      handlePayment(order);
+      if (order.id && order.totalAmount) {
+        await handlePayment(order);
+      }
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        const cause = error.response?.data?.cause;
+        if (cause === "quantity limit") {
+          toast({
+            title: "موجودی کافی نیست",
+            description:
+              "موجودی یکی از محصولات سبد خرید کافی نیست. لطفاً سبد را بررسی کنید.",
+            variant: "destructive",
+          });
+          return;
+        }
+      }
+
+      toast({
+        title: "خطا در ثبت سفارش",
+        description: "لطفاً دوباره تلاش کنید.",
+        variant: "destructive",
+      });
     }
   };
 

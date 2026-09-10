@@ -13,6 +13,8 @@ export type Product = {
   weight: number;
   description: string;
   quantity: number;
+  reservedQuantity?: number;
+  availableQuantity?: number;
   images: string[];
   point: number;
   createdAt: string;

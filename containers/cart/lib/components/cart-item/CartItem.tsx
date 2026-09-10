@@ -18,7 +18,10 @@ type TCartItem = {
 export const CartItem = (props: TCartItem) => {
   const { isFirstItem, cartItem } = props;
   const { cartLength } = useGlobalStore();
-  const { get, on } = useCartItem(cartItem.quantity);
+  const { get, on } = useCartItem(
+    cartItem.quantity,
+    cartItem.product.availableQuantity ?? cartItem.product.quantity
+  );
 
   return (
     <Suspense>

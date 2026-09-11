@@ -226,7 +226,7 @@ const ProductDetailContainer = ({ product }: ProductDetailProps) => {
           <ProductDescription description={product.description} />
         </div>
 
-        <div className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t h-[80px] flex items-center justify-between px-4">
+        <div className="fixed bottom-0 left-0 right-0 z-50 bg-background border-t h-[80px] flex items-center justify-between px-4">
           <Button
             loading={isAddingToCart}
             onClick={() => on.handleClickOnAddToCartButton(product.id)}

@@ -27,40 +27,29 @@ export const ShopTimeline = ({ currentStep = "cart" }: CartTimelineProps) => {
     },
   ];
 
-  // Determine line color based on completion status
-  const getLineColor = () => {
-    if (currentStep === "checkout") return "bg-black";
-    if (currentStep === "shipping") return "bg-black";
-    return "bg-gray-200";
-  };
-
   return (
     <div className="w-full relative mb-2">
-      {/* Steps with icons positioned on the line */}
       <div className="relative flex justify-between items-center px-4">
-        {steps.map((step, index) => (
+        {steps.map((step) => (
           <div key={step.id} className="relative z-10">
-            <div className="w-10 h-10 flex items-center justify-center bg-white rounded-full">
+            <div className="w-10 h-10 flex items-center justify-center bg-background rounded-full">
               <step.icon
                 size={20}
                 className={cn(
                   "transition-colors duration-200",
-                  step.isActive
+                  step.isActive || step.isCompleted
                     ? "text-primary"
-                    : step.isCompleted
-                    ? "text-primary"
-                    : "text-gray-400"
+                    : "text-muted-foreground"
                 )}
               />
             </div>
           </div>
         ))}
 
-        {/* Single line connecting all icons */}
         <div
           className={cn(
             "absolute top-5 left-1/2 transform -translate-x-1/2 w-[calc(100%-8rem)] h-0.5 transition-colors duration-200",
-            getLineColor()
+            currentStep === "cart" ? "bg-border" : "bg-primary"
           )}
         />
       </div>

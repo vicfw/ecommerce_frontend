@@ -7,14 +7,8 @@ import {
   normalizeHomepageLayout,
 } from "@/services/types/homepageService.types";
 import { Product } from "@/types/globalTypes";
-import type { Metadata } from "next";
 
 export const revalidate = CATALOG_TTL_SECONDS;
-
-export const metadata: Metadata = {
-  title: "فروشگاه",
-  description: "صفحه اصلی فروشگاه",
-};
 
 const HomePage = async () => {
   const homepageService = new HomepageService();

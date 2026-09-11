@@ -24,7 +24,7 @@ const MobileBottomMenu = () => {
   }
 
   return (
-    <div className="md:hidden fixed bottom-0 left-0 right-0 w-full bg-white border-t border-neutral-200 shadow-lg z-50">
+    <div className="md:hidden fixed bottom-0 left-0 right-0 w-full bg-background border-t border-border shadow-lg z-50">
       <div className="flex justify-between items-center px-6 py-3">
         {/* Home */}
         <Link
@@ -37,7 +37,7 @@ const MobileBottomMenu = () => {
               className={`transition-colors duration-200 ${
                 pathname === "/"
                   ? "text-primary"
-                  : "text-neutral-400 group-hover:text-neutral-600"
+                  : "text-muted-foreground group-hover:text-foreground"
               }`}
             />
           </div>
@@ -45,7 +45,7 @@ const MobileBottomMenu = () => {
             className={`text-xs transition-colors duration-200 ${
               pathname === "/"
                 ? "text-primary font-medium"
-                : "text-neutral-500 group-hover:text-neutral-600"
+                : "text-muted-foreground group-hover:text-foreground"
             }`}
           >
             خانه
@@ -63,7 +63,7 @@ const MobileBottomMenu = () => {
               className={`transition-colors duration-200 ${
                 pathname === "/cart"
                   ? "text-primary"
-                  : "text-neutral-400 group-hover:text-neutral-600"
+                  : "text-muted-foreground group-hover:text-foreground"
               }`}
             />
           </div>
@@ -71,7 +71,7 @@ const MobileBottomMenu = () => {
             className={`text-xs transition-colors duration-200 ${
               pathname === "/cart"
                 ? "text-primary font-medium"
-                : "text-neutral-500 group-hover:text-neutral-600"
+                : "text-muted-foreground group-hover:text-foreground"
             }`}
           >
             سبد خرید
@@ -89,7 +89,7 @@ const MobileBottomMenu = () => {
               className={`transition-colors duration-200 ${
                 pathname.startsWith("/profile")
                   ? "text-primary"
-                  : "text-neutral-400 group-hover:text-neutral-600"
+                  : "text-muted-foreground group-hover:text-foreground"
               }`}
             />
           </div>
@@ -97,7 +97,7 @@ const MobileBottomMenu = () => {
             className={`text-xs transition-colors duration-200 ${
               pathname.startsWith("/profile")
                 ? "text-primary font-medium"
-                : "text-neutral-500 group-hover:text-neutral-600"
+                : "text-muted-foreground group-hover:text-foreground"
             }`}
           >
             پروفایل

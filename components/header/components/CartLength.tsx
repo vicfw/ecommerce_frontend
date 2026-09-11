@@ -13,7 +13,7 @@ const CartLength = () => {
 
   return (
     <div className="absolute bottom-[-1px] bg-destructive rounded-md md:w-[17px] md:h-[17px] w-2 h-2 flex justify-center items-center p-2">
-      <span className="text-[11px] text-white">{cartLength}</span>
+      <span className="text-[11px] text-destructive-foreground">{cartLength}</span>
     </div>
   );
 };

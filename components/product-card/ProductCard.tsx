@@ -11,7 +11,6 @@ import { Price } from "../price/Price";
 type ProductCardProps = Product;
 
 export const ProductCard = ({
-  id,
   prName,
   images,
   price,
@@ -27,7 +26,7 @@ export const ProductCard = ({
             {images?.[0] ? (
               <Image src={images[0]} alt={prName} width={200} height={200} />
             ) : (
-              <div className="w-[200px] h-[200px] bg-neutral-100" />
+              <div className="w-[200px] h-[200px] bg-muted" />
             )}
           </div>
           <div>
@@ -55,7 +54,7 @@ export const ProductCard = ({
             {discount ? (
               <UI_Typography
                 className={cn(
-                  "text-neutral-400 reg12 reg14",
+                  "text-muted-foreground reg12 reg14",
                   discount && "line-through"
                 )}
               >
@@ -65,7 +64,7 @@ export const ProductCard = ({
               <div className="h-[26.03px]"></div>
             )}
             {colorImages?.length ? (
-              <UI_Typography className="text-neutral-400 reg12 md:reg14">
+              <UI_Typography className="text-muted-foreground reg12 md:reg14">
                 {colorImages.length} رنگ
               </UI_Typography>
             ) : null}

@@ -72,10 +72,10 @@ const config = {
   				foreground: 'hsl(var(--card-foreground))'
   			},
   			main: {
-  				DEFAULT: '#3f4064'
+  				DEFAULT: 'hsl(var(--main))'
   			},
   			minor: {
-  				DEFAULT: '#81858b'
+  				DEFAULT: 'hsl(var(--minor))'
   			},
   			sidebar: {
   				DEFAULT: 'hsl(var(--sidebar-background))',

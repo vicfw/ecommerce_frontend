@@ -1,8 +1,10 @@
 import { CART_PAGE_LINK } from "@/constants";
+import { getSiteSettingsSafe } from "@/lib/siteSettings";
 import { BrandService } from "@/services/brandService";
 import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { Container } from "../container/Container";
+import { SiteLogo } from "../site-logo/SiteLogo";
 import AuthMenu from "./components/AuthMenu";
 import CartLength from "./components/CartLength";
 import CategoriesMenu from "./components/CategoriesMenu";
@@ -12,29 +14,22 @@ import ProductSearch from "./components/ProductSearch";
 import Sidebar from "./components/sidebar/Sidebar";
 
 const Header = async () => {
-  const brands = await new BrandService().getBrands();
+  const [brands, siteSettings] = await Promise.all([
+    new BrandService().getBrands(),
+    getSiteSettingsSafe(),
+  ]);
 
   return (
     <Container
       component="header"
-      className="border-b shadow-sm md:border-none md:shadow-none fixed md:static top-0 left-0 right-0 z-50 bg-white h-[60px] md:h-auto"
+      className="border-b shadow-sm md:border-none md:shadow-none fixed md:static top-0 left-0 right-0 z-50 bg-background h-[60px] md:h-auto"
     >
       <section className="w-full py-0 md:py-3 flex relative z-2 ">
         <div className="flex flex-1 items-center grow gap-5">
-          <Link href="/">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="mr-2 h-6 w-6"
-            >
-              <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
-            </svg>
-          </Link>
+          <SiteLogo
+            settings={siteSettings}
+            className="h-12 md:h-16 w-auto object-contain"
+          />
           <CategoriesMenu />
           <div className="grow ml-auto hidden md:flex">
             <div className="md:w-[600px]">
@@ -55,7 +50,6 @@ const Header = async () => {
             <CartLength />
           </Link>
 
-          {/* Mobile Profile Menu */}
           <AuthMenu />
 
           <HamburgerMenu />

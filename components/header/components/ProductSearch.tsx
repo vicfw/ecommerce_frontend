@@ -89,16 +89,16 @@ const ProductSearch = () => {
       />
 
       {showDropdown ? (
-        <div className="absolute top-full left-0 right-0 z-50 mt-1 max-h-80 overflow-y-auto rounded-md border bg-white shadow-md">
+        <div className="absolute top-full left-0 right-0 z-50 mt-1 max-h-80 overflow-y-auto rounded-md border bg-popover shadow-md">
           {showLoading ? (
             <div className="px-4 py-3">
-              <UI_Typography className="reg14 text-neutral-500">
+              <UI_Typography className="reg14 text-muted-foreground">
                 در حال جستجو...
               </UI_Typography>
             </div>
           ) : products.length === 0 ? (
             <div className="px-4 py-3">
-              <UI_Typography className="reg14 text-neutral-500">
+              <UI_Typography className="reg14 text-muted-foreground">
                 محصولی یافت نشد
               </UI_Typography>
             </div>
@@ -109,7 +109,7 @@ const ProductSearch = () => {
                   <Link
                     href={`/products/${product.slug}`}
                     onClick={() => setIsOpen(false)}
-                    className="flex items-center gap-3 px-3 py-2 hover:bg-neutral-50"
+                    className="flex items-center gap-3 px-3 py-2 hover:bg-accent"
                   >
                     {product.images?.[0] ? (
                       <Image
@@ -120,14 +120,14 @@ const ProductSearch = () => {
                         className="h-10 w-10 object-contain"
                       />
                     ) : (
-                      <div className="h-10 w-10 bg-neutral-100" />
+                      <div className="h-10 w-10 bg-muted" />
                     )}
                     <div className="min-w-0 flex-1">
                       <UI_Typography className="med14 text-main truncate">
                         {product.prName}
                       </UI_Typography>
                       {product.enName ? (
-                        <UI_Typography className="reg12 text-neutral-500 truncate">
+                        <UI_Typography className="reg12 text-muted-foreground truncate">
                           {product.enName}
                         </UI_Typography>
                       ) : null}

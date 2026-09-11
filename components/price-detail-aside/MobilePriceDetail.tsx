@@ -35,32 +35,32 @@ export const MobilePriceDetail = ({
   return (
     <>
       {/* Price Details Section */}
-      <div className="bg-white p-4 space-y-3 border-t">
+      <div className="bg-background p-4 space-y-3 border-t">
         <div className="flex justify-between items-center">
-          <UI_Typography className="text-neutral-600 reg12">
+          <UI_Typography className="text-muted-foreground reg12">
             قیمت کالاها ({cartLength})
           </UI_Typography>
-          <UI_Typography className="text-neutral-600 med14">
+          <UI_Typography className="text-muted-foreground med14">
             {cartPrice.toLocaleString()} تومان
           </UI_Typography>
         </div>
 
         {deliveryCost ? (
           <div className="flex justify-between items-center">
-            <UI_Typography className="text-neutral-600 reg12">
+            <UI_Typography className="text-muted-foreground reg12">
               هزینه ارسال
             </UI_Typography>
-            <UI_Typography className="text-neutral-600 med14">
+            <UI_Typography className="text-muted-foreground med14">
               {deliveryCost.toLocaleString()} تومان
             </UI_Typography>
           </div>
         ) : null}
 
         <div className="flex justify-between items-center">
-          <UI_Typography className="text-neutral-600 reg12">
+          <UI_Typography className="text-muted-foreground reg12">
             قابل پرداخت
           </UI_Typography>
-          <UI_Typography className="text-neutral-600 med14">
+          <UI_Typography className="text-muted-foreground med14">
             {(discountPrice + (deliveryCost || 0)).toLocaleString()} تومان
           </UI_Typography>
         </div>
@@ -75,18 +75,10 @@ export const MobilePriceDetail = ({
             </UI_Typography>
           </div>
         ) : null}
-
-        {/* {deliveryCost ? (
-          <div className="flex justify-center items-center">
-            <UI_Typography className="text-destructive med14">
-              ارسال در 2 روز کاری
-            </UI_Typography>
-          </div>
-        ) : null} */}
       </div>
 
       {/* Sticky Submit Button */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t p-4 z-50">
+      <div className="fixed bottom-0 left-0 right-0 bg-background border-t p-4 z-50">
         {href ? <Link href={href}>{buttonContent}</Link> : buttonContent}
       </div>
     </>

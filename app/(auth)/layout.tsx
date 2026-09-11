@@ -1,4 +1,6 @@
+import { SiteLogo } from "@/components/site-logo/SiteLogo";
 import UI_Typography from "@/components/ui/typography/UI_Typography";
+import { getSiteSettingsSafe } from "@/lib/siteSettings";
 import Link from "next/link";
 import { ReactNode } from "react";
 import { cookies } from "next/headers";
@@ -8,31 +10,24 @@ type AuthLayoutProps = {
   children: ReactNode;
 };
 
-const AuthLayout = ({ children }: AuthLayoutProps) => {
+const AuthLayout = async ({ children }: AuthLayoutProps) => {
   const jwtCookie = cookies().get("jwt");
   if (jwtCookie) {
     redirect("/");
   }
 
+  const siteSettings = await getSiteSettingsSafe();
+
   return (
     <>
       <div className="container relative grid  h-[100dvh] flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
-        <div className="relative hidden h-full flex-col bg-muted p-10 text-white lg:flex dark:border-r">
-          <div className="absolute inset-0 bg-black" />
+        <div className="relative hidden h-full flex-col bg-secondary p-10 text-secondary-foreground lg:flex dark:border-r">
           <div className="relative z-20 flex items-center text-lg font-medium">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="mr-2 h-6 w-6"
-            >
-              <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
-            </svg>
-            <UI_Typography variant="Medium/Med18">زعفران گل سرخ</UI_Typography>
+            <SiteLogo
+              settings={siteSettings}
+              showName
+              className="h-20 w-auto object-contain"
+            />
           </div>
         </div>
         <div className="lg:p-8">

@@ -106,6 +106,7 @@ export const PaymentContainer = () => {
             deliveryCost={get.cartData.deliveryCost.cost}
             submitButtonText="پرداخت"
             onSubmit={on.handleCreateOrder}
+            disabled={get.isPending}
           />
         )}
       </div>
@@ -194,6 +195,7 @@ export const PaymentContainer = () => {
             deliveryCost={get.cartData.deliveryCost?.cost}
             submitButtonText="پرداخت"
             onSubmit={on.handleCreateOrder}
+            disabled={get.isPending}
           />
         )}
       </div>

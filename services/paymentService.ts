@@ -8,11 +8,8 @@ import {
 export class PaymentService {
   baseUrl = "/payment";
 
-  async paymentRequest(
-    amount: number,
-    orderId: number
-  ): Promise<Response<PaymentRequestResponse>> {
-    return axiosInstance().post(this.baseUrl, { amount, orderId });
+  async paymentRequest(): Promise<Response<PaymentRequestResponse>> {
+    return axiosInstance().post(this.baseUrl, {});
   }
 
   async paymentVerify(payload: {

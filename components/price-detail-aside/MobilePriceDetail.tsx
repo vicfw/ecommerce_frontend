@@ -13,6 +13,7 @@ type MobilePriceDetailProps = {
   href?: string;
   onSubmit?: () => void;
   submitButtonText: string;
+  disabled?: boolean;
 };
 
 export const MobilePriceDetail = ({
@@ -23,11 +24,12 @@ export const MobilePriceDetail = ({
   onSubmit,
   href,
   submitButtonText,
+  disabled,
 }: MobilePriceDetailProps) => {
   const { cartLength } = useGlobalStore();
 
   const buttonContent = (
-    <Button onClick={onSubmit} className="w-full">
+    <Button onClick={onSubmit} className="w-full" disabled={disabled}>
       <UI_Typography className="med14">{submitButtonText}</UI_Typography>
     </Button>
   );

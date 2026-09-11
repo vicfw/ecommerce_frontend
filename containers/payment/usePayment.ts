@@ -1,19 +1,18 @@
 import { getClientSideCookie } from "@/lib/utils";
 import { toast } from "@/hooks/use-toast";
 import { CartService } from "@/services/cartService";
-import { OrderService } from "@/services/oderService";
 import { PaymentService } from "@/services/paymentService";
-import { Order } from "@/types/globalTypes";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { addDays, parseISO } from "date-fns";
 import { format } from "date-fns-jalali";
-import { useMemo, useEffect } from "react";
+import { useMemo, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 
 export const usePayment = () => {
   const token = getClientSideCookie("jwt");
   const router = useRouter();
+  const inFlightRef = useRef(false);
 
   const { data: cartData } = useQuery({
     queryKey: ["get-cart"],
@@ -32,28 +31,33 @@ export const usePayment = () => {
     }
   }, [cartData, token, router]);
 
-  const { mutateAsync: createOrder } = useMutation({
+  const { mutateAsync: paymentRequest, isPending } = useMutation({
     mutationFn: () => {
-      const orderService = new OrderService();
-      return orderService.createOrder();
-    },
-  });
-
-  const { mutateAsync: paymentRequest } = useMutation({
-    mutationFn: ({ amount, orderId }: { orderId: number; amount: number }) => {
       const paymentService = new PaymentService();
-      return paymentService.paymentRequest(amount, orderId);
+      return paymentService.paymentRequest();
     },
   });
 
   const handleCreateOrder = async () => {
-    try {
-      const orderResponse = await createOrder();
-      const order = orderResponse.data.data;
+    if (isPending || inFlightRef.current) return;
+    inFlightRef.current = true;
+    let redirected = false;
 
-      if (order.id && order.totalAmount) {
-        await handlePayment(order);
+    try {
+      const paymentRequestResult = await paymentRequest();
+      const payment = paymentRequestResult.data.data;
+
+      if (payment.message === "success" && payment.result === 100) {
+        redirected = true;
+        window.location.href = `https://gateway.zibal.ir/start/${payment.trackId}`;
+        return;
       }
+
+      toast({
+        title: "خطا در پرداخت",
+        description: "درخواست پرداخت ناموفق بود. لطفاً دوباره تلاش کنید.",
+        variant: "destructive",
+      });
     } catch (error) {
       if (error instanceof AxiosError) {
         const cause = error.response?.data?.cause;
@@ -69,23 +73,14 @@ export const usePayment = () => {
       }
 
       toast({
-        title: "خطا در ثبت سفارش",
+        title: "خطا در پرداخت",
         description: "لطفاً دوباره تلاش کنید.",
         variant: "destructive",
       });
-    }
-  };
-
-  const handlePayment = async (order: Order) => {
-    const paymentRequestResult = await paymentRequest({
-      amount: order.totalAmount,
-      orderId: order.id,
-    });
-
-    const payment = paymentRequestResult.data.data;
-
-    if (payment.message === "success" && payment.result === 100) {
-      window.location.href = `https://gateway.zibal.ir/start/${payment.trackId}`;
+    } finally {
+      if (!redirected) {
+        inFlightRef.current = false;
+      }
     }
   };
 
@@ -97,7 +92,7 @@ export const usePayment = () => {
   }, [cartData]);
 
   return {
-    get: { cartData, formattedDeliveryDate },
+    get: { cartData, formattedDeliveryDate, isPending },
     on: { handleCreateOrder },
   };
 };

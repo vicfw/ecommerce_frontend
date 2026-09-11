@@ -21,10 +21,13 @@ const axiosInstance = () => {
     (error) => {
       if (error instanceof AxiosError) {
         if (error.response?.status === 403) {
-          removeClientSideCookie("jwt");
-          removeClientSideCookie("userInfo");
+          const requestUrl = error.config?.url ?? "";
+          if (!requestUrl.includes("/logout")) {
+            removeClientSideCookie("jwt");
+            removeClientSideCookie("userInfo");
 
-          window.location.href = "/register";
+            window.location.href = "/register";
+          }
         }
       }
       return Promise.reject(error);

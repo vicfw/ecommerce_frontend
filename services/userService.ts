@@ -27,6 +27,10 @@ export class UserService {
     return axiosInstance().get(this.endpoint.concat(this.me));
   }
 
+  logout(): Promise<Response<null>> {
+    return axiosInstance().post(`${this.endpoint}/logout`);
+  }
+
   updateUser(body: UpdateUserBody): Promise<Response<User>> {
     return axiosInstance().patch(this.endpoint, body);
   }

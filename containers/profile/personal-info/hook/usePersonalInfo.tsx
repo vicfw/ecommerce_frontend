@@ -1,10 +1,12 @@
 import { getUserInfoFromCookies } from "@/lib/utils";
+import { useLogout } from "@/hooks/use-logout";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState, useLayoutEffect } from "react";
 
 export const usePersonalInfo = () => {
   const searchParams = useSearchParams();
   const identificationForm = searchParams.get("identificationForm");
+  const { logout } = useLogout();
 
   const [userInfo, setUserInfo] = useState<any>(null);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -27,6 +29,6 @@ export const usePersonalInfo = () => {
 
   return {
     get: { openUserInfoForm, userInfo, isLoaded },
-    on: { handleToggleOpenUserInfoForm },
+    on: { handleToggleOpenUserInfoForm, logout },
   };
 };

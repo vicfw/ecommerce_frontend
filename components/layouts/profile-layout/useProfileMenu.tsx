@@ -1,4 +1,5 @@
 import { getUserInfoFromCookies } from "@/lib/utils";
+import { useLogout } from "@/hooks/use-logout";
 import { ShoppingBag, User2 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
@@ -6,6 +7,7 @@ import { useMemo } from "react";
 export const useProfileMenu = () => {
   const userInfo = getUserInfoFromCookies();
   const pathname = usePathname();
+  const { logout } = useLogout();
 
   const menuItems = useMemo(
     () => [
@@ -23,5 +25,5 @@ export const useProfileMenu = () => {
     []
   );
 
-  return { get: { userInfo, menuItems, pathname }, on: {} };
+  return { get: { userInfo, menuItems, pathname }, on: { logout } };
 };

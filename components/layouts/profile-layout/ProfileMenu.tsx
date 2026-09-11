@@ -1,13 +1,13 @@
 "use client";
 
 import UI_Typography from "@/components/ui/typography/UI_Typography";
-import { Edit3 } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Edit3, LogOut } from "lucide-react";
 import Link from "next/link";
 import { useProfileMenu } from "./useProfileMenu";
-import { cn } from "@/lib/utils";
 
 const Menu = () => {
-  const { get } = useProfileMenu();
+  const { get, on } = useProfileMenu();
 
   return (
     <div>
@@ -51,6 +51,16 @@ const Menu = () => {
             </li>
           </Link>
         ))}
+        <li>
+          <button
+            type="button"
+            onClick={on.logout}
+            className="relative flex w-full items-center gap-4 border-t px-3 py-[12px] text-right hover:bg-accent"
+          >
+            <LogOut size={20} className="text-destructive" />
+            <UI_Typography className="text-destructive">خروج</UI_Typography>
+          </button>
+        </li>
       </ul>
     </div>
   );

@@ -4,6 +4,8 @@ import { EditProfileCol } from "./components/EditProfileCol";
 import { UserInfoModal } from "./components/UserInfoModal";
 import { usePersonalInfo } from "./hook/usePersonalInfo";
 import Loader from "@/components/Loader/Loader";
+import { Button } from "@/components/ui/button";
+import UI_Typography from "@/components/ui/typography/UI_Typography";
 
 export const PersonalInfo = () => {
   const { get, on } = usePersonalInfo();
@@ -56,6 +58,19 @@ export const PersonalInfo = () => {
           className="border-b-[1px] border-neutral-100 pr-4 pl-0"
           onClick={() => {}}
         />
+      </div>
+
+      <div className="md:hidden px-4 pt-6 pb-2">
+        <Button
+          type="button"
+          variant="outline"
+          className="w-full text-destructive hover:text-destructive"
+          onClick={on.logout}
+        >
+          <UI_Typography className="text-destructive">
+            خروج از حساب
+          </UI_Typography>
+        </Button>
       </div>
 
       <UserInfoModal

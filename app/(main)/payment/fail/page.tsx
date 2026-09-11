@@ -1,7 +1,12 @@
 import PaymentFailContainer from "@/containers/payment-fail/PaymentFail";
+import { Suspense } from "react";
 
 const PaymentFailPage = () => {
-  return <PaymentFailContainer />;
+  return (
+    <Suspense>
+      <PaymentFailContainer />
+    </Suspense>
+  );
 };
 
 export default PaymentFailPage;

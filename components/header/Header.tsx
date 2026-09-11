@@ -9,6 +9,7 @@ import AuthMenu from "./components/AuthMenu";
 import CartLength from "./components/CartLength";
 import CategoriesMenu from "./components/CategoriesMenu";
 import HamburgerMenu from "./components/HamburgerMenu";
+import MobileProductSearch from "./components/MobileProductSearch";
 import { NavigationMenu } from "./components/NavigationMenu";
 import ProductSearch from "./components/ProductSearch";
 import Sidebar from "./components/sidebar/Sidebar";
@@ -51,6 +52,8 @@ const Header = async () => {
           </Link>
 
           <AuthMenu />
+
+          <MobileProductSearch />
 
           <HamburgerMenu />
         </div>

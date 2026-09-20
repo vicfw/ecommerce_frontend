@@ -6,13 +6,14 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { addDays, parseISO } from "date-fns";
 import { format } from "date-fns-jalali";
-import { useMemo, useEffect, useRef } from "react";
+import { useMemo, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useSubmitLock } from "@/hooks/use-submit-lock";
 
 export const usePayment = () => {
   const token = getClientSideCookie("jwt");
   const router = useRouter();
-  const inFlightRef = useRef(false);
+  const { isSubmitting, tryLock, unlock } = useSubmitLock();
 
   const { data: cartData } = useQuery({
     queryKey: ["get-cart"],
@@ -39,8 +40,7 @@ export const usePayment = () => {
   });
 
   const handleCreateOrder = async () => {
-    if (isPending || inFlightRef.current) return;
-    inFlightRef.current = true;
+    if (isPending || !tryLock()) return;
     let redirected = false;
 
     try {
@@ -60,6 +60,14 @@ export const usePayment = () => {
       });
     } catch (error) {
       if (error instanceof AxiosError) {
+        if (error.response?.status === 409) {
+          toast({
+            title: "در حال انتقال به درگاه",
+            description: "درخواست پرداخت شما در حال پردازش است.",
+          });
+          return;
+        }
+
         const cause = error.response?.data?.cause;
         if (cause === "quantity limit") {
           toast({
@@ -79,7 +87,7 @@ export const usePayment = () => {
       });
     } finally {
       if (!redirected) {
-        inFlightRef.current = false;
+        unlock();
       }
     }
   };
@@ -92,7 +100,7 @@ export const usePayment = () => {
   }, [cartData]);
 
   return {
-    get: { cartData, formattedDeliveryDate, isPending },
+    get: { cartData, formattedDeliveryDate, isPending: isPending || isSubmitting },
     on: { handleCreateOrder },
   };
 };

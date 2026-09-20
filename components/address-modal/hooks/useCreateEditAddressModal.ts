@@ -12,6 +12,7 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { useShallow } from "zustand/react/shallow";
+import { useSubmitLock } from "@/hooks/use-submit-lock";
 
 type CreateAddressSchemaType = z.infer<typeof createAddressSchema>;
 
@@ -31,6 +32,7 @@ export const useCreateEditAddressModal = () => {
   );
 
   const [isForHimSelf, setIsForHimSelf] = useState<CheckedState>(true);
+  const { isSubmitting, run } = useSubmitLock();
 
   const form = useForm<CreateAddressSchemaType>({
     resolver: zodResolver(createAddressSchema),
@@ -49,28 +51,31 @@ export const useCreateEditAddressModal = () => {
     },
   });
 
-  const { mutateAsync: createAddress } = useMutation({
-    mutationFn: (data: CreateAddressBody) => {
-      const addressService = new AddressService();
-      return addressService.createAddress(data);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["address"] });
-    },
-  });
+  const { mutateAsync: createAddress, isPending: createAddressLoading } =
+    useMutation({
+      mutationFn: (data: CreateAddressBody) => {
+        const addressService = new AddressService();
+        return addressService.createAddress(data);
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["address"] });
+      },
+    });
 
   const onSubmit: SubmitHandler<CreateAddressSchemaType> = async (data) => {
-    try {
-      await createAddress(data);
-      handleOpenCreateAddressModal({ openCreateModal: false });
-      toast({
-        title: "آدرس جدید با موفقیت ایجاد شد",
-        variant: "default",
-        duration: 2000,
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    await run(async () => {
+      try {
+        await createAddress(data);
+        handleOpenCreateAddressModal({ openCreateModal: false });
+        toast({
+          title: "آدرس جدید با موفقیت ایجاد شد",
+          variant: "default",
+          duration: 2000,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    });
   };
 
   const handleToggleCreateModal = () => {
@@ -143,7 +148,12 @@ export const useCreateEditAddressModal = () => {
   };
 
   return {
-    get: { openCreateModal, form, isForHimSelf },
+    get: {
+      openCreateModal,
+      form,
+      isForHimSelf,
+      isSubmitting: isSubmitting || createAddressLoading,
+    },
     on: { handleToggleCreateModal, onSubmit, handleChangeIsForHimSelf },
   };
 };

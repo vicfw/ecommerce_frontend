@@ -1,6 +1,7 @@
 "use client";
 
 import Loader from "@/components/Loader/Loader";
+import ProfileBackHeader from "@/components/layouts/profile-layout/ProfileBackHeader";
 import UI_Typography from "@/components/ui/typography/UI_Typography";
 import { cn } from "@/lib/utils";
 import EmptyOrder from "./components/empty-order/EmptyOrder";
@@ -12,7 +13,8 @@ const OrdersContainer = () => {
   const { get } = useOrder();
 
   return (
-    <section className="py-0 md:py-4">
+    <section className="py-0 pb-20 md:py-4">
+      <ProfileBackHeader title="سفارش‌ها" />
       <div className="px-4 hidden md:block">
         <UI_Typography className="text-neutral-900 med16">
           تاریخچه سفارشات

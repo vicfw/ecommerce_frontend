@@ -19,6 +19,8 @@ const failPath = (
   return `/payment/fail?${params.toString()}`;
 };
 
+const startedVerifyKeys = new Set<string>();
+
 const reasonFromMessage = (message?: string) => {
   if (!message) return "failed" as const;
   if (message.toLowerCase().includes("cancel")) return "cancelled" as const;
@@ -33,6 +35,8 @@ const PaymentLoader = () => {
   const orderId = searchParams.get("orderId");
   const callbackSuccess = searchParams.get("success");
   const callbackStatus = searchParams.get("status");
+
+  const verifyKey = `${trackId}:${orderId ?? ""}:${callbackSuccess ?? ""}:${callbackStatus ?? ""}`;
 
   const { mutate: paymentVerify } = useMutation({
     mutationFn: () => {
@@ -61,9 +65,16 @@ const PaymentLoader = () => {
     onError: () => {
       router.replace(failPath("error", orderId));
     },
+    onSettled: () => {
+      startedVerifyKeys.delete(verifyKey);
+    },
   });
 
   useEffect(() => {
+    if (startedVerifyKeys.has(verifyKey)) {
+      return;
+    }
+    startedVerifyKeys.add(verifyKey);
     paymentVerify();
   }, []);
 

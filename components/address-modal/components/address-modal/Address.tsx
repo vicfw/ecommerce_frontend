@@ -36,6 +36,7 @@ const Address = (props: AddressProps) => {
             <Checkbox
               id={address.id.toString()}
               checked={address.isDefault}
+              disabled={get.isUpdatingDefault}
               onCheckedChange={(checked) =>
                 on.handleChangeDefaultAddress(address.id, checked)
               }
@@ -86,6 +87,7 @@ const Address = (props: AddressProps) => {
             variant="ghost"
             size="sm"
             className="text-destructive hover:text-destructive hover:bg-destructive/10"
+            loading={get.isDeleting}
             onClick={(e) => {
               e.preventDefault();
               on.handleDeleteAddress(address.id);

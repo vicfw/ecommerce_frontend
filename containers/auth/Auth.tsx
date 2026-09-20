@@ -85,7 +85,10 @@ const AuthContainer = () => {
                   className={cn(
                     "text-center text-main cursor-pointer med14",
                     get.counterFinishedMessage.status === "pending" &&
-                      "underline"
+                      "underline",
+                    (get.registerUserLoading ||
+                      get.counterFinishedMessage.status !== "pending") &&
+                      "pointer-events-none opacity-50"
                   )}
                 >
                   {get.counterFinishedMessage.message}

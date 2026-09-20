@@ -277,7 +277,7 @@ const CreateEditAddressModal = () => {
               <div className="w-full" />
             </div>
 
-            <Button type="submit">
+            <Button type="submit" loading={get.isSubmitting}>
               <UI_Typography className="reg16">ثبت آدرس</UI_Typography>
             </Button>
           </form>

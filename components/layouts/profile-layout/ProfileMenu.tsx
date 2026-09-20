@@ -30,7 +30,7 @@ const Menu = () => {
           <Link href={menuItem.link} key={menuItem.name}>
             <li
               className={cn(
-                "relative flex gap-4 items-center border-t   py-[12px] w-full hover:bg-[#f2f2f2] px-3"
+                "relative flex gap-4 items-center border-t border-border py-[12px] w-full hover:bg-accent px-3"
               )}
             >
               <menuItem.icon size={20} className="text-neutral-700" />
@@ -46,7 +46,7 @@ const Menu = () => {
               </UI_Typography>
               {get.pathname.split("/")[2] ===
               menuItem.link.split("/")[2].split("?")[0] ? (
-                <div className="absolute right-0 w-[4px] bg-red-600 h-[36px] rounded-sm" />
+                <div className="absolute right-0 w-[4px] bg-primary h-[36px] rounded-sm" />
               ) : null}
             </li>
           </Link>
@@ -55,7 +55,7 @@ const Menu = () => {
           <button
             type="button"
             onClick={on.logout}
-            className="relative flex w-full items-center gap-4 border-t px-3 py-[12px] text-right hover:bg-accent"
+            className="relative flex w-full items-center gap-4 border-t border-border px-3 py-[12px] text-right hover:bg-accent"
           >
             <LogOut size={20} className="text-destructive" />
             <UI_Typography className="text-destructive">خروج</UI_Typography>

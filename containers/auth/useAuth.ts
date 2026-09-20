@@ -18,6 +18,7 @@ import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useSubmitLock } from "@/hooks/use-submit-lock";
 
 export const useAuth = () => {
   const anonCartId = getClientSideCookie("anonCartId");
@@ -31,6 +32,7 @@ export const useAuth = () => {
   });
 
   const router = useRouter();
+  const { run: runResend } = useSubmitLock();
 
   const registerForm = useForm<RegisterFormData>({
     resolver: zodResolver(registerFormSchema),
@@ -115,13 +117,21 @@ export const useAuth = () => {
   };
 
   const onCodeResend = async () => {
-    await registerOnSubmit({ phoneNumber: registerForm.watch("phoneNumber") });
-    loginForm.reset();
-    setCounterFinishedMessage({
-      message: "کد با موفقیت ارسال شد",
-      status: "success",
+    if (registerUserLoading || counterFinishedMessage.status !== "pending") {
+      return;
+    }
+
+    await runResend(async () => {
+      await registerOnSubmit({
+        phoneNumber: registerForm.watch("phoneNumber"),
+      });
+      loginForm.reset();
+      setCounterFinishedMessage({
+        message: "کد با موفقیت ارسال شد",
+        status: "success",
+      });
+      setCounterKey((prev) => prev + 1);
     });
-    setCounterKey((prev) => prev + 1);
   };
 
   const countDownChildren = ({ remainingTime }: { remainingTime: number }) => {

@@ -13,7 +13,7 @@ type PriceDetailAsideProps = {
   href?: string;
   onSubmit?: () => void;
   submitButtonText: string;
-  disabled?: boolean;
+  loading?: boolean;
 };
 
 export const PriceDetailAside = ({
@@ -24,12 +24,12 @@ export const PriceDetailAside = ({
   onSubmit,
   href,
   submitButtonText,
-  disabled,
+  loading,
 }: PriceDetailAsideProps) => {
   const { cartLength } = useGlobalStore();
 
   const buttonContent = (
-    <Button onClick={onSubmit} disabled={disabled}>
+    <Button onClick={onSubmit} loading={loading}>
       <UI_Typography variant="Medium/Med14">{submitButtonText}</UI_Typography>
     </Button>
   );

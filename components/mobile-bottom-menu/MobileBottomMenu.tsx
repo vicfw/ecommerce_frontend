@@ -80,7 +80,7 @@ const MobileBottomMenu = () => {
 
         {/* User Profile */}
         <Link
-          href="/profile/personal-info"
+          href="/profile"
           className="flex flex-col justify-center items-center min-w-[60px] group"
         >
           <div className="flex justify-center items-center">

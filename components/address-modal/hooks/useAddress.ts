@@ -5,7 +5,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 export const useAddress = () => {
   const queryClient = useQueryClient();
 
-  const { mutateAsync } = useMutation({
+  const { mutateAsync, isPending: isUpdatingDefault } = useMutation({
     mutationFn: ({
       addressId,
       checked,
@@ -23,26 +23,29 @@ export const useAddress = () => {
     },
   });
 
-  const { mutateAsync: deleteAddressMutation } = useMutation({
-    mutationFn: (addressId: number) => {
-      const addressService = new AddressService();
-      return addressService.deleteAddress(addressId);
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["address"] });
-    },
-  });
+  const { mutateAsync: deleteAddressMutation, isPending: isDeleting } =
+    useMutation({
+      mutationFn: (addressId: number) => {
+        const addressService = new AddressService();
+        return addressService.deleteAddress(addressId);
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries({ queryKey: ["address"] });
+      },
+    });
 
   const handleChangeDefaultAddress = async (
     addressId: number,
     checked: CheckedState
   ) => {
-    if (!checked) return;
+    if (!checked || isUpdatingDefault) return;
 
     await mutateAsync({ addressId, checked });
   };
 
   const handleDeleteAddress = async (addressId: number) => {
+    if (isDeleting) return;
+
     try {
       await deleteAddressMutation(addressId);
     } catch (error) {
@@ -51,7 +54,7 @@ export const useAddress = () => {
   };
 
   return {
-    get: {},
+    get: { isUpdatingDefault, isDeleting },
     on: {
       handleChangeDefaultAddress,
       handleDeleteAddress,

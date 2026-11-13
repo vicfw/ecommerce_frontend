@@ -1,0 +1,50 @@
+---
+description: Expose stable names and test ids on storefront UI for Playwright and real accessibility
+alwaysApply: true
+---
+
+# Playwright-ready accessibility (storefront)
+
+When you **add or refactor** interactive UI in this app, make elements easy to target with Playwright’s **locator API** (`getByRole`, `getByLabel`, `getByTestId`) without brittle CSS or duplicate-text hacks.
+
+## Priority (use the first option that works)
+
+1. **Semantic role + accessible name** — `button`, `link`, `textbox`, `combobox`, `dialog` with a visible label, `aria-label`, or associated `<Label htmlFor="…">` / `DialogTitle`.
+2. **`data-testid`** — when the control has no stable name (icon-only, repeated Persian copy, link-wrapped button, desktop + mobile duplicates).
+
+Playwright prefers real accessibility first; `data-testid` is for gaps, not a substitute for form labels.
+
+## `data-testid` convention
+
+- kebab-case, flow-scoped: `auth-phone`, `cart-confirm`, `shipping-create-address`, `payment-submit`.
+- Put on the **element Playwright clicks** (often the `<a>` or `<button>`, not an inner `<span>`).
+- One id per logical control per viewport when mobile/desktop markup diverges (e.g. `cart-confirm-mobile` / `cart-confirm-desktop`) only if both stay in the DOM; otherwise one id on the visible control is enough.
+
+```tsx
+<Button data-testid="payment-submit" type="button" onClick={on.handleCreateOrder}>
+  <UI_Typography className="reg16">پرداخت</UI_Typography>
+</Button>
+```
+
+```tsx
+<Link href={href} data-testid="cart-confirm" aria-label="ثبت سفارش">
+  {buttonContent}
+</Link>
+```
+
+## Forms and dialogs
+
+- Inputs: keep `id` + `FieldLabel` / `htmlFor` (matches `getByLabel`).
+- Modals: keep a clear `DialogTitle` so `getByRole("dialog", { name: "…" })` works (`انتخاب آدرس`, `ثبت اطلاعات شناسایی`, etc.).
+- Combobox triggers: ensure an accessible name (label text or `aria-label` on the trigger).
+
+## Do not
+
+- Add `data-testid` to every wrapper `div`.
+- Rely on placeholder-only identification for required fields.
+- Break shadcn/theme rules for test hooks (no extra color classes; attributes only).
+- Remove visible text users need just to simplify tests.
+
+## When touching checkout/auth/profile/shipping/payment/cart
+
+Add or preserve **either** a stable accessible name **or** a `data-testid` on primary actions (submit, pay, add to cart, address save, OTP submit). Update matching specs in `../ecommerce_e2e` in the same change when you rename or split controls.

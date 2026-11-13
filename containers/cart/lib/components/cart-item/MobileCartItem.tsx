@@ -56,6 +56,7 @@ export const MobileCartItem = ({ cartItem }: Props) => {
               <div className="flex items-center gap-2 px-2 py-1 border border-neutral-200 rounded-md">
                 <Plus
                   size={16}
+                  data-testid="cart-qty-inc"
                   className={cn(
                     "text-destructive cursor-pointer",
                     (get.updateCartLoading || get.updateAnonCartLoading) &&
@@ -85,6 +86,7 @@ export const MobileCartItem = ({ cartItem }: Props) => {
                 ) : (
                   <Minus
                     size={16}
+                    data-testid="cart-qty-dec"
                     className={cn(
                       "text-destructive cursor-pointer",
                       (get.updateCartLoading || get.updateAnonCartLoading) &&
@@ -106,6 +108,7 @@ export const MobileCartItem = ({ cartItem }: Props) => {
                 </UI_Typography>
                 <Trash2
                   size={16}
+                  data-testid="cart-line-remove"
                   className="text-destructive cursor-pointer"
                   onClick={() => on.deleteCartItemHandler(cartItem.id)}
                 />

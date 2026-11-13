@@ -7,7 +7,7 @@ type FetchDataOptions = {
 
 export async function fetchData<T>(
   endpoint: string,
-  options: FetchDataOptions
+  options: FetchDataOptions,
 ): Promise<{
   data: T;
   message: string;

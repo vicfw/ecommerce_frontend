@@ -65,4 +65,12 @@ export class CartService {
       { userId }
     );
   }
+
+  applyCoupon(code: string): Promise<Response<GetCartResponse>> {
+    return axiosInstance().post(this.endpoint.concat("/coupon"), { code });
+  }
+
+  removeCoupon(): Promise<Response<GetCartResponse>> {
+    return axiosInstance().delete(this.endpoint.concat("/coupon"));
+  }
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import { ChangePhoneModal } from "./components/ChangePhoneModal";
 import { EditProfileCol } from "./components/EditProfileCol";
 import { UserInfoModal } from "./components/UserInfoModal";
 import { usePersonalInfo } from "./hook/usePersonalInfo";
@@ -31,15 +32,16 @@ export const PersonalInfo = () => {
             value={`${get.userInfo?.name ?? ""} ${
               get.userInfo?.lastName ?? ""
             }`}
-            className="border-b border-neutral-100"
+            className="border-b border-border"
             onClick={on.handleToggleOpenUserInfoForm}
           />
           <EditProfileCol
             label="شماره موبایل"
             value={get.userInfo?.phoneNumber}
-            // todo : open change number mobile
-            className="border-b border-neutral-100"
-            onClick={() => {}}
+            className="border-b border-border"
+            onClick={on.handleToggleOpenChangePhoneForm}
+            editTestId="change-phone-edit"
+            editAriaLabel="ویرایش شماره موبایل"
           />
         </div>
         <div className="px-4 pt-6 pb-2">
@@ -62,21 +64,26 @@ export const PersonalInfo = () => {
         <EditProfileCol
           label="نام و نام خانوادگی"
           value={`${get.userInfo?.name ?? ""} ${get.userInfo?.lastName ?? ""}`}
-          className="border-l-[1px] border-b-[1px] border-neutral-100"
+          className="border-l-[1px] border-b-[1px] border-border"
           onClick={on.handleToggleOpenUserInfoForm}
         />
         <EditProfileCol
           label="شماره موبایل"
           value={get.userInfo?.phoneNumber}
-          // todo : open change number mobile
-          className="border-b-[1px] border-neutral-100 pr-4 pl-0"
-          onClick={() => {}}
+          className="border-b-[1px] border-border pr-4 pl-0"
+          onClick={on.handleToggleOpenChangePhoneForm}
+          editAriaLabel="ویرایش شماره موبایل"
         />
       </div>
 
       <UserInfoModal
         handleToggleDialog={on.handleToggleOpenUserInfoForm}
         openDialog={get.openUserInfoForm}
+      />
+      <ChangePhoneModal
+        handleToggleDialog={on.handleToggleOpenChangePhoneForm}
+        openDialog={get.openChangePhoneForm}
+        onSuccess={on.refreshUserInfo}
       />
     </>
   );

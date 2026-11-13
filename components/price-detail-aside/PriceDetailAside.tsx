@@ -9,6 +9,7 @@ type PriceDetailAsideProps = {
   cartPrice: number;
   discountPrice: number;
   profitFromDiscount?: number;
+  couponAmount?: number;
   deliveryCost?: number;
   href?: string;
   onSubmit?: () => void;
@@ -20,6 +21,7 @@ export const PriceDetailAside = ({
   cartPrice,
   discountPrice,
   profitFromDiscount,
+  couponAmount,
   deliveryCost,
   onSubmit,
   href,
@@ -27,6 +29,8 @@ export const PriceDetailAside = ({
   loading,
 }: PriceDetailAsideProps) => {
   const { cartLength } = useGlobalStore();
+  const payable =
+    Math.max(0, discountPrice - (couponAmount || 0)) + (deliveryCost || 0);
 
   const buttonContent = (
     <Button onClick={onSubmit} loading={loading}>
@@ -35,35 +39,37 @@ export const PriceDetailAside = ({
   );
 
   return (
-    <aside className="border border-neutral-200 rounded-md w-[300px] px-[20px] py-[10px] flex flex-col gap-6">
+    <aside className="border border-border rounded-md w-[300px] px-[20px] py-[10px] flex flex-col gap-6">
       <div className="flex justify-between items-center">
-        <UI_Typography className="text-neutral-600" variant="Regular/Reg12">
+        <UI_Typography className="text-muted-foreground" variant="Regular/Reg12">
           قیمت کالاها ({cartLength})
         </UI_Typography>
-        <UI_Typography variant="Medium/Med14" className="text-neutral-600">
+        <UI_Typography variant="Medium/Med14" className="text-muted-foreground">
           {cartPrice.toLocaleString()} تومان
         </UI_Typography>
       </div>
 
       {deliveryCost ? (
         <div className="flex justify-between items-center">
-          <UI_Typography className="text-neutral-600" variant="Regular/Reg12">
+          <UI_Typography className="text-muted-foreground" variant="Regular/Reg12">
             هزینه ارسال
           </UI_Typography>
-          <UI_Typography variant="Medium/Med14" className="text-neutral-600">
+          <UI_Typography variant="Medium/Med14" className="text-muted-foreground">
             {deliveryCost.toLocaleString()} تومان
           </UI_Typography>
         </div>
       ) : null}
 
-      <div className="flex justify-between items-center">
-        <UI_Typography className="text-neutral-600" variant="Regular/Reg12">
-          قابل پرداخت
-        </UI_Typography>
-        <UI_Typography variant="Medium/Med14" className="text-neutral-600">
-          {(discountPrice + (deliveryCost || 0)).toLocaleString()} تومان
-        </UI_Typography>
-      </div>
+      {couponAmount ? (
+        <div className="flex justify-between items-center">
+          <UI_Typography className="text-destructive" variant="Regular/Reg12">
+            کد تخفیف
+          </UI_Typography>
+          <UI_Typography variant="Medium/Med14" className="text-destructive">
+            {couponAmount.toLocaleString()}- تومان
+          </UI_Typography>
+        </div>
+      ) : null}
 
       {profitFromDiscount ? (
         <div className="flex justify-between items-center">
@@ -71,10 +77,19 @@ export const PriceDetailAside = ({
             سود شما از خرید
           </UI_Typography>
           <UI_Typography variant="Medium/Med14" className="text-destructive">
-            {/* (28%) */} {profitFromDiscount.toLocaleString()} تومان
+            {profitFromDiscount.toLocaleString()}- تومان
           </UI_Typography>
         </div>
       ) : null}
+
+      <div className="flex justify-between items-center">
+        <UI_Typography className="text-muted-foreground" variant="Regular/Reg12">
+          قابل پرداخت
+        </UI_Typography>
+        <UI_Typography variant="Medium/Med14" className="text-muted-foreground">
+          {payable.toLocaleString()} تومان
+        </UI_Typography>
+      </div>
 
       {deliveryCost ? (
         <div className="flex justify-center items-center">

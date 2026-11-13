@@ -9,6 +9,7 @@ type MobilePriceDetailProps = {
   cartPrice: number;
   discountPrice: number;
   profitFromDiscount?: number;
+  couponAmount?: number;
   deliveryCost?: number;
   href?: string;
   onSubmit?: () => void;
@@ -20,6 +21,7 @@ export const MobilePriceDetail = ({
   cartPrice,
   discountPrice,
   profitFromDiscount,
+  couponAmount,
   deliveryCost,
   onSubmit,
   href,
@@ -27,6 +29,8 @@ export const MobilePriceDetail = ({
   loading,
 }: MobilePriceDetailProps) => {
   const { cartLength } = useGlobalStore();
+  const payable =
+    Math.max(0, discountPrice - (couponAmount || 0)) + (deliveryCost || 0);
 
   const buttonContent = (
     <Button onClick={onSubmit} className="w-full" loading={loading}>
@@ -58,14 +62,16 @@ export const MobilePriceDetail = ({
           </div>
         ) : null}
 
-        <div className="flex justify-between items-center">
-          <UI_Typography className="text-muted-foreground reg12">
-            قابل پرداخت
-          </UI_Typography>
-          <UI_Typography className="text-muted-foreground med14">
-            {(discountPrice + (deliveryCost || 0)).toLocaleString()} تومان
-          </UI_Typography>
-        </div>
+        {couponAmount ? (
+          <div className="flex justify-between items-center">
+            <UI_Typography className="text-destructive reg12">
+              کد تخفیف
+            </UI_Typography>
+            <UI_Typography className="text-destructive med14">
+              {couponAmount.toLocaleString()}- تومان
+            </UI_Typography>
+          </div>
+        ) : null}
 
         {profitFromDiscount ? (
           <div className="flex justify-between items-center">
@@ -73,10 +79,19 @@ export const MobilePriceDetail = ({
               سود شما از خرید
             </UI_Typography>
             <UI_Typography className="text-destructive med14">
-              {profitFromDiscount.toLocaleString()} تومان
+              {profitFromDiscount.toLocaleString()}- تومان
             </UI_Typography>
           </div>
         ) : null}
+
+        <div className="flex justify-between items-center">
+          <UI_Typography className="text-muted-foreground reg12">
+            قابل پرداخت
+          </UI_Typography>
+          <UI_Typography className="text-muted-foreground med14">
+            {payable.toLocaleString()} تومان
+          </UI_Typography>
+        </div>
       </div>
 
       {/* Sticky Submit Button */}

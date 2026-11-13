@@ -1,8 +1,8 @@
 export type CreateCommentBody = {
   body: string;
   productId: number;
-  userId: number;
   image: string;
+  rating: number;
 };
 export type GetCommentsParams = {
   productId: number;

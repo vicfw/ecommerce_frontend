@@ -28,4 +28,29 @@ export class OrderService {
   async getOrderStatusCount(): Promise<Response<getOrderStatusCountResponse>> {
     return axiosInstance().get("/order/statusCount");
   }
+
+  async getReturnRequest(orderId: number): Promise<
+    Response<{
+      id: number;
+      orderId: number;
+      reason: string;
+      status: "pending" | "approved" | "rejected";
+    } | null>
+  > {
+    return axiosInstance().get(`/return-request/order/${orderId}`);
+  }
+
+  async createReturnRequest(
+    orderId: number,
+    reason: string
+  ): Promise<
+    Response<{
+      id: number;
+      orderId: number;
+      reason: string;
+      status: string;
+    }>
+  > {
+    return axiosInstance().post("/return-request", { orderId, reason });
+  }
 }

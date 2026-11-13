@@ -50,7 +50,7 @@ export default async function CategoryPlpPage({
         toGetProductsParams(filters, {
           page: 1,
           limit: PLP_PAGE_SIZE,
-        })
+        }),
       ),
       productService.getProductFilters({ categorySlug: slug }),
     ]);

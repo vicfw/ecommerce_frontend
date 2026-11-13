@@ -25,10 +25,10 @@ export default async function ProductsPlpPage({ searchParams }: PageProps) {
       toGetProductsParams(filters, {
         page: 1,
         limit: PLP_PAGE_SIZE,
-      })
+      }),
     ),
     productService.getProductFilters(
-      filters.category ? { categorySlug: filters.category } : undefined
+      filters.category ? { categorySlug: filters.category } : undefined,
     ),
   ]);
 

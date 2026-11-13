@@ -42,9 +42,7 @@ export const createUserInfo = z.object({
 
 export const createCommentSchema = z.object({
   body: z.string().min(1, "دیدگاه نمی‌تواند خالی باشد"),
-  productId: z.number(),
-  userId: z.number(),
-  image: z.string(),
+  rating: z.number().int().min(1, "امتیاز را انتخاب کنید").max(5),
 });
 
 export type CreateCommentSchema = z.infer<typeof createCommentSchema>;

@@ -15,6 +15,7 @@ export type Product = {
   quantity: number;
   reservedQuantity?: number;
   availableQuantity?: number;
+  averageRating?: number;
   images: string[];
   point: number;
   createdAt: string;
@@ -44,6 +45,8 @@ export type CartType = {
   updatedAt: string;
   profitFromDiscount: number;
   discountPrice: number;
+  couponCode?: string | null;
+  couponAmount?: number | null;
   cartItems: CartItemType[];
 };
 
@@ -84,6 +87,8 @@ export type Order = {
   totalAmount: number;
   status: string;
   profitFromDiscount: number;
+  couponCode?: string | null;
+  couponAmount?: number | null;
   createdAt: string;
   updatedAt: string;
   deliveryAmount: number;
@@ -147,6 +152,7 @@ export type Comment = {
   id: number;
   body: string;
   image: string;
+  rating: number;
   user: User;
   createdAt: string;
   updatedAt: string;

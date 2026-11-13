@@ -2,18 +2,21 @@ import { getClientSideCookie } from "@/lib/utils";
 import { toast } from "@/hooks/use-toast";
 import { CartService } from "@/services/cartService";
 import { PaymentService } from "@/services/paymentService";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { addDays, parseISO } from "date-fns";
 import { format } from "date-fns-jalali";
-import { useMemo, useEffect } from "react";
+import { useMemo, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSubmitLock } from "@/hooks/use-submit-lock";
 
 export const usePayment = () => {
   const token = getClientSideCookie("jwt");
   const router = useRouter();
+  const queryClient = useQueryClient();
   const { isSubmitting, tryLock, unlock } = useSubmitLock();
+  const [couponInput, setCouponInput] = useState("");
+  const [couponError, setCouponError] = useState<string | null>(null);
 
   const { data: cartData } = useQuery({
     queryKey: ["get-cart"],
@@ -25,12 +28,18 @@ export const usePayment = () => {
     select: (data) => data.data.data,
   });
 
-  // Redirect to main page if no cart data
   useEffect(() => {
     if (token && cartData === null) {
       router.replace("/");
     }
   }, [cartData, token, router]);
+
+  useEffect(() => {
+    if (cartData?.couponCode) {
+      setCouponInput(cartData.couponCode);
+      setCouponError(null);
+    }
+  }, [cartData?.couponCode]);
 
   const { mutateAsync: paymentRequest, isPending } = useMutation({
     mutationFn: () => {
@@ -38,6 +47,55 @@ export const usePayment = () => {
       return paymentService.paymentRequest();
     },
   });
+
+  const { mutateAsync: applyCoupon, isPending: isApplyingCoupon } = useMutation({
+    mutationFn: (code: string) => {
+      const cartService = new CartService();
+      return cartService.applyCoupon(code);
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["get-cart"] });
+      setCouponError(null);
+    },
+  });
+
+  const { mutateAsync: removeCoupon, isPending: isRemovingCoupon } = useMutation({
+    mutationFn: () => {
+      const cartService = new CartService();
+      return cartService.removeCoupon();
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["get-cart"] });
+      setCouponInput("");
+      setCouponError(null);
+    },
+  });
+
+  const handleApplyCoupon = async () => {
+    const code = couponInput.trim();
+    if (!code) return;
+    try {
+      await applyCoupon(code);
+    } catch (error) {
+      const message =
+        error instanceof AxiosError
+          ? error.response?.data?.message || "کد تخفیف معتبر نیست"
+          : "کد تخفیف معتبر نیست";
+      setCouponError(String(message));
+    }
+  };
+
+  const handleRemoveCoupon = async () => {
+    try {
+      await removeCoupon();
+    } catch {
+      toast({
+        title: "خطا",
+        description: "حذف کد تخفیف ناموفق بود.",
+        variant: "destructive",
+      });
+    }
+  };
 
   const handleCreateOrder = async () => {
     if (isPending || !tryLock()) return;
@@ -100,7 +158,19 @@ export const usePayment = () => {
   }, [cartData]);
 
   return {
-    get: { cartData, formattedDeliveryDate, isPending: isPending || isSubmitting },
-    on: { handleCreateOrder },
+    get: {
+      cartData,
+      formattedDeliveryDate,
+      isPending: isPending || isSubmitting,
+      couponInput,
+      couponError,
+      isCouponBusy: isApplyingCoupon || isRemovingCoupon,
+    },
+    on: {
+      handleCreateOrder,
+      handleApplyCoupon,
+      handleRemoveCoupon,
+      setCouponInput,
+    },
   };
 };

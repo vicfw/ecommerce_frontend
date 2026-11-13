@@ -26,7 +26,7 @@ import { UploadService } from "@/services/uploadService";
 import { useGlobalStore } from "@/store/globalStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Loader2, Upload, X } from "lucide-react";
+import { Loader2, Star, Upload, X } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useProductDetailStore } from "../../store/ProductDetailStore";
@@ -49,9 +49,7 @@ export function AddCommentModal() {
     resolver: zodResolver(createCommentSchema),
     defaultValues: {
       body: "",
-      productId: productId || 0,
-      userId: 0,
-      image: "",
+      rating: 0,
     },
     mode: "onChange", // Enable real-time validation
   });
@@ -173,8 +171,8 @@ export function AddCommentModal() {
     createComment({
       body: values.body,
       productId,
-      userId: +user.id,
       image: uploadedImageUrl,
+      rating: values.rating,
     });
   };
 
@@ -185,23 +183,63 @@ export function AddCommentModal() {
     >
       <DialogContent
         className={cn(
-          "sm:max-w-[425px] h-[100dvh]",
+          "sm:max-w-[425px] h-[100dvh] overflow-hidden",
           "data-[state=open]:animate-in data-[state=closed]:animate-out",
           "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
           "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
           "data-[state=closed]:slide-out-to-top-[2%] data-[state=open]:slide-in-from-top-[2%]",
-          "flex flex-col justify-start"
+          "flex flex-col justify-start",
         )}
       >
-        <DialogHeader className="flex justify-end mt-10">
+        <DialogHeader className="mt-2 flex shrink-0 justify-end">
           <DialogTitle className="text-right">افزودن دیدگاه</DialogTitle>
         </DialogHeader>
 
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="flex flex-col justify-start gap-4 mt-4"
+            className="mt-4 flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto"
           >
+            <FormField
+              control={form.control}
+              name="rating"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-right">امتیاز</FormLabel>
+                  <FormControl>
+                    <div
+                      className="flex items-center justify-end gap-1"
+                      role="radiogroup"
+                      aria-label="امتیاز"
+                    >
+                      {[1, 2, 3, 4, 5].map((value) => (
+                        <button
+                          key={value}
+                          type="button"
+                          role="radio"
+                          aria-checked={field.value === value}
+                          aria-label={`امتیاز ${value}`}
+                          data-testid={`comment-rating-${value}`}
+                          className="p-1"
+                          onClick={() => field.onChange(value)}
+                        >
+                          <Star
+                            size={22}
+                            className={cn(
+                              field.value >= value
+                                ? "fill-yellow-400 text-yellow-400"
+                                : "text-muted-foreground",
+                            )}
+                          />
+                        </button>
+                      ))}
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             {/* Comment Text Area */}
             <FormField
               control={form.control}
@@ -213,6 +251,7 @@ export function AddCommentModal() {
                     <Textarea
                       placeholder="دیدگاه خود را بنویسید..."
                       className="min-h-[120px] resize-none"
+                      data-testid="comment-body"
                       {...field}
                     />
                   </FormControl>
@@ -241,7 +280,7 @@ export function AddCommentModal() {
                       htmlFor="file-upload"
                       className={cn(
                         "flex flex-col items-center gap-2 cursor-pointer",
-                        isUploading && "opacity-50 cursor-not-allowed"
+                        isUploading && "opacity-50 cursor-not-allowed",
                       )}
                     >
                       <Upload className="h-8 w-8 text-muted-foreground" />
@@ -253,7 +292,7 @@ export function AddCommentModal() {
                     </label>
                   </div>
                 ) : (
-                  <div className="relative aspect-square rounded-lg overflow-hidden border">
+                  <div className="relative mx-auto aspect-square max-h-[200px] w-full max-w-[200px] overflow-hidden rounded-lg border">
                     {isUploading ? (
                       <div className="absolute inset-0 flex items-center justify-center bg-background/80">
                         <Loader2 className="h-8 w-8 animate-spin text-primary" />
@@ -264,7 +303,7 @@ export function AddCommentModal() {
                       alt="Preview"
                       className={cn(
                         "w-full h-full object-cover",
-                        isUploading && "opacity-50"
+                        isUploading && "opacity-50",
                       )}
                     />
                     <button
@@ -283,6 +322,7 @@ export function AddCommentModal() {
             {/* Submit Button */}
             <Button
               type="submit"
+              data-testid="comment-submit"
               className="mt-4"
               disabled={
                 isUploading ||

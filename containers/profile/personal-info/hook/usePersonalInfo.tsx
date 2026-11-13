@@ -11,6 +11,7 @@ export const usePersonalInfo = () => {
   const [userInfo, setUserInfo] = useState<any>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [openUserInfoForm, setOpenUserInfoForm] = useState(false);
+  const [openChangePhoneForm, setOpenChangePhoneForm] = useState(false);
 
   // Handle hydration error by loading user info on client side
   useLayoutEffect(() => {
@@ -19,8 +20,16 @@ export const usePersonalInfo = () => {
     setIsLoaded(true);
   }, []);
 
+  const refreshUserInfo = () => {
+    setUserInfo(getUserInfoFromCookies());
+  };
+
   const handleToggleOpenUserInfoForm = () => {
     setOpenUserInfoForm((prev) => !prev);
+  };
+
+  const handleToggleOpenChangePhoneForm = () => {
+    setOpenChangePhoneForm((prev) => !prev);
   };
 
   useEffect(() => {
@@ -28,7 +37,12 @@ export const usePersonalInfo = () => {
   }, [identificationForm]);
 
   return {
-    get: { openUserInfoForm, userInfo, isLoaded },
-    on: { handleToggleOpenUserInfoForm, logout },
+    get: { openUserInfoForm, openChangePhoneForm, userInfo, isLoaded },
+    on: {
+      handleToggleOpenUserInfoForm,
+      handleToggleOpenChangePhoneForm,
+      refreshUserInfo,
+      logout,
+    },
   };
 };

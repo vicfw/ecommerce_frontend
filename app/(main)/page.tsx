@@ -25,7 +25,7 @@ const HomePage = async () => {
       ids: productIds,
     });
     productsById = Object.fromEntries(
-      (productsResult.data ?? []).map((product) => [product.id, product])
+      (productsResult.data ?? []).map((product) => [product.id, product]),
     );
   }
 

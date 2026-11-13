@@ -4,7 +4,6 @@ import BottomSheet from "@/components/bottom-sheet/BottomSheet"; // Assuming thi
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { MessageCircle, Star } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 // Assuming AddCommentModal and Comment are in the same directory or adjust path
 import { AddCommentModal } from "./AddCommentModal";
@@ -22,7 +21,11 @@ import { cn } from "@/lib/utils";
 import { useCommentSection } from "./useCommentSection";
 import CommentSkeleton from "./CommentSkeletion";
 
-const CommentSection = () => {
+type CommentSectionProps = {
+  averageRating: number;
+};
+
+const CommentSection = ({ averageRating }: CommentSectionProps) => {
   const { get, on } = useCommentSection();
 
   const renderPaginationItems = () => {
@@ -96,7 +99,10 @@ const CommentSection = () => {
         {/* Reviews */}
         <div className="flex items-center justify-center gap-1">
           <Star className="fill-yellow-400 text-yellow-400" size={16} />
-          <span className="mt-0.5"> امتیاز 4.2</span>
+          <span className="mt-0.5" data-testid="product-average-rating">
+            {" "}
+            امتیاز {Number(averageRating).toFixed(1)}
+          </span>
         </div>
         <Separator orientation="vertical" className="h-4" />
         {/* Comments count */}
@@ -119,8 +125,8 @@ const CommentSection = () => {
         {/* Comment Images */}
         <div className="flex items-center justify-start gap-2 w-full overflow-x-auto pb-2">
           {get.commentsImages?.map((image, index) => (
-            <Image
-              key={image + index} // Ensure unique key if images can be duplicated
+            <img
+              key={image + index}
               src={image || "/placeholder.svg"}
               alt={`comment-image-${index + 1}`}
               width={70}

@@ -262,3 +262,21 @@
     @apply bg-background text-foreground;
   }
 }
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #order-invoice,
+  #order-invoice * {
+    visibility: visible;
+  }
+  #order-invoice {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+  }
+  .no-print {
+    display: none !important;
+  }
+}

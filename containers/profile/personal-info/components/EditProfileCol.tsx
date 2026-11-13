@@ -7,9 +7,18 @@ type Props = {
   value: string | undefined;
   onClick: () => void;
   className?: string;
+  editTestId?: string;
+  editAriaLabel?: string;
 };
 
-export const EditProfileCol = ({ label, value, className, onClick }: Props) => {
+export const EditProfileCol = ({
+  label,
+  value,
+  className,
+  onClick,
+  editTestId,
+  editAriaLabel,
+}: Props) => {
   return (
     <div
       className={cn(
@@ -27,7 +36,15 @@ export const EditProfileCol = ({ label, value, className, onClick }: Props) => {
           </UI_Typography>
         </div>
       </div>
-      <Edit className="cursor-pointer text-[#424750]" onClick={onClick} />
+      <button
+        type="button"
+        className="cursor-pointer text-muted-foreground"
+        onClick={onClick}
+        aria-label={editAriaLabel ?? `ویرایش ${label}`}
+        {...(editTestId ? { "data-testid": editTestId } : {})}
+      >
+        <Edit aria-hidden />
+      </button>
     </div>
   );
 };

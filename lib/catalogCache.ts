@@ -12,3 +12,6 @@ export const catalogTags = {
   siteSettings: "site-settings",
   product: (slug: string) => `product:${slug}`,
 } as const;
+
+/** Shared with backend + cache-handler.js — bump on catalog writes. */
+export const nextTagVersionKey = (tag: string) => `next:tagver:${tag}`;

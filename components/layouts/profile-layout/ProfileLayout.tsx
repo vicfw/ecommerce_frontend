@@ -14,15 +14,11 @@ const ProfileMenu = dynamic(() => import("./ProfileMenu"), {
 const ProfileLayout = ({ children }: PropsWithChildren) => {
   return (
     <main className="w-full">
-      {/* Mobile Layout - No sidebar, full width content */}
-      <div className="md:hidden w-full">{children}</div>
-
-      {/* Desktop Layout - With sidebar */}
-      <div className="hidden md:grid md:grid-cols-[1fr_3fr] gap-5 w-full items-start">
-        <div className="border rounded-lg py-4">
+      <div className="md:grid md:grid-cols-[1fr_3fr] gap-5 w-full items-start">
+        <div className="hidden md:block border rounded-lg py-4">
           <ProfileMenu />
         </div>
-        <div className="border rounded-lg">{children}</div>
+        <div className="w-full md:border md:rounded-lg">{children}</div>
       </div>
     </main>
   );

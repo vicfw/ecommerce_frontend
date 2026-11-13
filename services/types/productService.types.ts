@@ -34,6 +34,12 @@ export type ProductFiltersResponse = {
   };
 };
 
+export type ProductSuggestionsResponse = {
+  products: Product[];
+  brands: Brand[];
+  categories: Pick<Category, "id" | "name" | "slug">[];
+};
+
 export type PlpSearchParams = {
   brand?: string;
   minPrice?: string;

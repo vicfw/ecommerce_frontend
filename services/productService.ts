@@ -1,13 +1,23 @@
 import { Product } from "@/types/globalTypes";
 import { catalogTags } from "@/lib/catalogCache";
 import { fetchData } from "@/lib/fetch";
+import axiosInstance from "./axios";
 import {
   GetProductsParams,
   ProductFiltersResponse,
+  ProductSuggestionsResponse,
 } from "./types/productService.types";
 
 export class ProductService {
   private endpoint = "/product";
+
+  async getSuggestions(q: string) {
+    return axiosInstance().get<{
+      success: boolean;
+      data: ProductSuggestionsResponse;
+      message: string;
+    }>(`${this.endpoint}/suggest`, { params: { q } });
+  }
 
   async getProducts(params?: GetProductsParams) {
     const searchParams = new URLSearchParams();

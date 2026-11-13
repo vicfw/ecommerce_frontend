@@ -2,6 +2,9 @@ import { LoginFormBody, RegisterFormData } from "@/lib/formSchemas";
 import axiosInstance from "./axios";
 import { Response } from "./types/config";
 import {
+  ChangePhoneRequestBody,
+  ChangePhoneRequestResponse,
+  ChangePhoneVerifyBody,
   LoginUserResponse,
   registerUserResponse,
   UpdateUserBody,
@@ -33,5 +36,15 @@ export class UserService {
 
   updateUser(body: UpdateUserBody): Promise<Response<User>> {
     return axiosInstance().patch(this.endpoint, body);
+  }
+
+  requestChangePhone(
+    body: ChangePhoneRequestBody
+  ): Promise<Response<ChangePhoneRequestResponse>> {
+    return axiosInstance().post(`${this.endpoint}/change-phone/request`, body);
+  }
+
+  verifyChangePhone(body: ChangePhoneVerifyBody): Promise<Response<User>> {
+    return axiosInstance().post(`${this.endpoint}/change-phone/verify`, body);
   }
 }

@@ -33,6 +33,7 @@ const CartContainer = () => {
             cartPrice={get.cartData.price}
             discountPrice={get.cartData.discountPrice}
             profitFromDiscount={get.cartData.profitFromDiscount}
+            couponAmount={get.cartData.couponAmount || 0}
             href={get.confirmCartHref}
             submitButtonText="ثبت"
           />
@@ -57,6 +58,7 @@ const CartContainer = () => {
             cartPrice={get.cartData.price}
             discountPrice={get.cartData.discountPrice}
             profitFromDiscount={get.cartData.profitFromDiscount}
+            couponAmount={get.cartData.couponAmount || 0}
             href={get.confirmCartHref}
             submitButtonText="ثبت"
           />

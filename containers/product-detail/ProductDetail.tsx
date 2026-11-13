@@ -244,7 +244,7 @@ const ProductDetailContainer = ({ product }: ProductDetailProps) => {
 
       {/* Single mount — avoids double comment fetches / login sheets */}
       <div className="w-full mt-5 pb-[100px] md:pb-8 md:mt-8">
-        <CommentSection />
+        <CommentSection averageRating={Number(product.averageRating ?? 0)} />
       </div>
 
       <AddedToCartModal />

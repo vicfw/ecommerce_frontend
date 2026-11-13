@@ -5,6 +5,7 @@ import { useProductSearch } from "@/hooks/use-product-search";
 import {
   type KeyboardEvent,
   useEffect,
+  useId,
   useRef,
   useState,
 } from "react";
@@ -12,11 +13,14 @@ import ProductSearchSuggestions from "./ProductSearchSuggestions";
 
 const ProductSearch = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const listboxId = useId();
   const [isOpen, setIsOpen] = useState(false);
   const {
     term,
     setTerm,
     products,
+    brands,
+    categories,
     showSuggestions,
     showLoading,
     navigateToSearch,
@@ -61,14 +65,23 @@ const ProductSearch = () => {
         onKeyDown={handleKeyDown}
         onFocus={() => setIsOpen(true)}
         placeholder="جستجو در محصولات"
+        aria-label="جستجو در محصولات"
+        role="combobox"
+        aria-expanded={showDropdown}
+        aria-controls={listboxId}
+        aria-autocomplete="list"
+        data-testid="product-search-desktop"
         className="w-full"
       />
 
       {showDropdown ? (
         <ProductSearchSuggestions
           products={products}
+          brands={brands}
+          categories={categories}
           showLoading={showLoading}
           onSelect={() => setIsOpen(false)}
+          listboxId={listboxId}
           className="absolute top-full left-0 right-0 z-50 mt-1 max-h-80 overflow-y-auto rounded-md border bg-popover shadow-md"
         />
       ) : null}

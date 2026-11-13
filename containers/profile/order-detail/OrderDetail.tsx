@@ -2,16 +2,22 @@
 
 import Loader from "@/components/Loader/Loader";
 import { Price } from "@/components/price/Price";
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import UI_Typography from "@/components/ui/typography/UI_Typography";
 import { addDays } from "date-fns";
 import { format } from "date-fns-jalali";
 import { ArrowRight, Dot } from "lucide-react";
 import Image from "next/image";
+import { useState } from "react";
+import { OrderInvoice } from "./OrderInvoice";
+import { ReturnRequestSection } from "./ReturnRequestSection";
 import { useOrderDetail } from "./useOrderDetail";
 
 const OrderDetail = () => {
   const { get, on } = useOrderDetail();
+  const [showInvoice, setShowInvoice] = useState(false);
+
   return (
     <section className="py-4 pb-20">
       <header className="pb-4 px-3 flex items-center border-b gap-2">
@@ -23,7 +29,26 @@ const OrderDetail = () => {
         <UI_Typography className="text-neutral-900 reg14 md:reg16">
           جزئیات سفارش
         </UI_Typography>
+        {get.orderDetailData && get.orderDetailData.status !== "pending" ? (
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="ms-auto"
+            data-testid="order-invoice-open"
+            onClick={() => setShowInvoice(true)}
+          >
+            چاپ فاکتور
+          </Button>
+        ) : null}
       </header>
+
+      {showInvoice && get.orderDetailData ? (
+        <OrderInvoice
+          order={get.orderDetailData}
+          onClose={() => setShowInvoice(false)}
+        />
+      ) : null}
 
       {get.orderDetailIsPending ? (
         <div className="min-h-[200px] flex items-center justify-center">
@@ -215,6 +240,13 @@ const OrderDetail = () => {
               )}
             </div>
           </div>
+
+          {get.orderDetailData ? (
+            <ReturnRequestSection
+              orderId={get.orderDetailData.id}
+              orderStatus={get.orderDetailData.status}
+            />
+          ) : null}
 
           {get.orderDetailData && (
             <div className="border rounded-lg py-4 mt-4 mx-3 md:mx-4 px-3 md:px-4">

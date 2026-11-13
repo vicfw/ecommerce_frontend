@@ -10,16 +10,19 @@ import {
 } from "@/components/ui/sheet";
 import { useProductSearch } from "@/hooks/use-product-search";
 import { Search, X } from "lucide-react";
-import { type KeyboardEvent, useEffect, useRef, useState } from "react";
+import { type KeyboardEvent, useEffect, useId, useRef, useState } from "react";
 import ProductSearchSuggestions from "./ProductSearchSuggestions";
 
 const MobileProductSearch = () => {
   const [open, setOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const listboxId = useId();
   const {
     term,
     setTerm,
     products,
+    brands,
+    categories,
     showSuggestions,
     showLoading,
     navigateToSearch,
@@ -91,6 +94,12 @@ const MobileProductSearch = () => {
               onSearch={setTerm}
               onKeyDown={handleKeyDown}
               placeholder="جستجو در محصولات"
+              aria-label="جستجو در محصولات"
+              role="combobox"
+              aria-expanded={showSuggestions}
+              aria-controls={listboxId}
+              aria-autocomplete="list"
+              data-testid="product-search-mobile"
               className="w-full"
             />
           </div>
@@ -99,8 +108,11 @@ const MobileProductSearch = () => {
         {showSuggestions ? (
           <ProductSearchSuggestions
             products={products}
+            brands={brands}
+            categories={categories}
             showLoading={showLoading}
             onSelect={() => setOpen(false)}
+            listboxId={listboxId}
             showEnglishName={false}
             className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto"
           />

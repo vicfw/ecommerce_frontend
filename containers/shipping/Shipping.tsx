@@ -99,6 +99,7 @@ const Shipping = () => {
             cartPrice={get.cartData.price}
             discountPrice={get.cartData.discountPrice}
             profitFromDiscount={get.cartData.profitFromDiscount}
+            couponAmount={get.cartData.couponAmount || 0}
             deliveryCost={get.cartData.deliveryCost.cost}
             href="/payment"
             submitButtonText="تایید و تکمیل سفارش"
@@ -184,6 +185,7 @@ const Shipping = () => {
             cartPrice={get.cartData.price}
             discountPrice={get.cartData.discountPrice}
             profitFromDiscount={get.cartData.profitFromDiscount}
+            couponAmount={get.cartData.couponAmount || 0}
             deliveryCost={get.cartData.deliveryCost.cost}
             href="/payment"
             submitButtonText="تایید و تکمیل سفارش"

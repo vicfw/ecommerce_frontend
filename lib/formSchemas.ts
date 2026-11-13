@@ -23,3 +23,11 @@ export type LoginFormData = z.infer<typeof loginFormSchema>;
 export type LoginFormBody = z.infer<typeof loginFormSchema> & {
   phoneNumber: string;
 };
+
+export const changePhoneFormSchema = registerFormSchema;
+
+export type ChangePhoneFormData = z.infer<typeof changePhoneFormSchema>;
+
+export const changePhoneCodeFormSchema = loginFormSchema;
+
+export type ChangePhoneCodeFormData = z.infer<typeof changePhoneCodeFormSchema>;

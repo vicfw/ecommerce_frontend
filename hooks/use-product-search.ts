@@ -2,13 +2,12 @@
 
 import { useDebounce } from "@/hooks/use-debounce";
 import { ProductService } from "@/services/productService";
-import { Product } from "@/types/globalTypes";
+import { Brand, Category, Product } from "@/types/globalTypes";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export const MIN_SEARCH_LENGTH = 1;
-export const SUGGESTION_LIMIT = 8;
 
 type UseProductSearchOptions = {
   onNavigate?: () => void;
@@ -22,16 +21,18 @@ export const useProductSearch = (options?: UseProductSearchOptions) => {
   const isDebouncing = trimmedTerm !== debouncedTerm;
 
   const { data, isPending } = useQuery({
-    queryKey: ["products", "search", debouncedTerm],
-    queryFn: () =>
-      new ProductService().getProducts({
-        search: debouncedTerm,
-        limit: SUGGESTION_LIMIT,
-      }),
+    queryKey: ["products", "suggest", debouncedTerm],
+    queryFn: async () => {
+      const response = await new ProductService().getSuggestions(debouncedTerm);
+      return response.data.data;
+    },
     enabled: debouncedTerm.length >= MIN_SEARCH_LENGTH,
   });
 
-  const products: Product[] = data?.data ?? [];
+  const products: Product[] = data?.products ?? [];
+  const brands: Brand[] = data?.brands ?? [];
+  const categories: Pick<Category, "id" | "name" | "slug">[] =
+    data?.categories ?? [];
   const showSuggestions = trimmedTerm.length >= MIN_SEARCH_LENGTH;
   const showLoading =
     showSuggestions &&
@@ -48,6 +49,8 @@ export const useProductSearch = (options?: UseProductSearchOptions) => {
     term,
     setTerm,
     products,
+    brands,
+    categories,
     showSuggestions,
     showLoading,
     navigateToSearch,
